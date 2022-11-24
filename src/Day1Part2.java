@@ -1,7 +1,7 @@
 import static utils.ResourceLoader.*;
 
 public class Day1Part2 {
-	public static void main (String... args) throws Exception {
+	public static void main(String... args) throws Exception {
 		Integer[] numbers = readInts("Day1Part2_input.txt").toArray(new Integer[]{});
 
 		int numberOfIncreases = 0;
