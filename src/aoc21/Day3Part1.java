@@ -1,10 +1,12 @@
+package aoc21;
+
 import utils.ResourceLoader;
 
 import java.util.List;
 
 public class Day3Part1 {
     public static void main(String... args) throws Exception {
-        List<String> lines = ResourceLoader.readStrings("Day3Part1_input.txt");
+        List<String> lines = ResourceLoader.readStrings("aoc21/Day3Part1_input.txt");
 
         int EXPECTED_LINE_LENGTH = 12;
         int[] bitCounters = new int[EXPECTED_LINE_LENGTH]; //increment each counter for 1s and decrement for 0s

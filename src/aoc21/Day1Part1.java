@@ -1,10 +1,12 @@
+package aoc21;
+
 import utils.ResourceLoader;
 import java.util.List;
 
 public class Day1Part1 {
 
 	public static void main(String[] args) throws Exception {
-		List<Integer> numbers = ResourceLoader.readInts("Day1Part1_input.txt");
+		List<Integer> numbers = ResourceLoader.readInts("aoc21/Day1Part1_input.txt");
 
 		int numberOfIncreases = 0;
 		boolean first = true;

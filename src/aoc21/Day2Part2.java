@@ -1,10 +1,12 @@
+package aoc21;
+
 import utils.ResourceLoader;
 
 import java.util.List;
 
 public class Day2Part2 {
     public static void main(String... args) throws Exception {
-        List<String> lines = ResourceLoader.readStrings("Day2Part2_input.txt");
+        List<String> lines = ResourceLoader.readStrings("aoc21/Day2Part2_input.txt");
 
         int vertical = 0;
         int horizontal = 0;
