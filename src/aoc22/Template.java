@@ -18,6 +18,8 @@ public class Template {
 //
 //			}
 
+//			String[] ary = line.split(" ");
+
 //			int value = Integer.parseInt(line);
 
 		}

@@ -21,7 +21,7 @@ public class Day2Part2 {
 			}
 
 			switch (ary[1]) {
-				case "X" ->  myHand = losingResponse(opponentHand); //make sure to lose
+				case "X" -> myHand = losingResponse(opponentHand);  //make sure to lose
 				case "Y" -> myHand = opponentHand; 					//make sure to draw
 				case "Z" -> myHand = winningResponse(opponentHand); //make sure to win
 			}
