@@ -61,6 +61,7 @@ public class Day2Part2 {
 		if (hand.equals("rock")) return 1;
 		if (hand.equals("paper")) return 2;
 		if (hand.equals("scissors")) return 3;
+
 		return 0;
 	}
 }

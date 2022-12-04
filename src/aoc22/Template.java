@@ -19,6 +19,8 @@ public class Template {
 //			}
 
 //			String[] ary = line.split(" ");
+//			List<Character> list = Helper.charArrayToList(line.toCharArray());
+//			list.forEach(c -> System.out.println(c));
 
 //			int value = Integer.parseInt(line);
 
