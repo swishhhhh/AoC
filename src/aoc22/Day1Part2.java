@@ -9,7 +9,7 @@ public class Day1Part2 {
 	private static int highestSum1 = 0, highestSum2 = 0, highestSum3 = 0;
 
 	public static void main(String[] args) throws Exception {
-		List<String> lines = ResourceLoader.readStrings("aoc22/Day1Part2_input.txt");
+		List<String> lines = ResourceLoader.readStrings("aoc22/Day1_input.txt");
 
 		int currentSum = 0;
 //		int highestSum1 = 0, highestSum2 = 0, highestSum3 = 0;

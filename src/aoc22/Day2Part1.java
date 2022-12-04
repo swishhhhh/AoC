@@ -7,7 +7,7 @@ import java.util.List;
 public class Day2Part1 {
 
 	public static void main(String[] args) throws Exception {
-		List<String> lines = ResourceLoader.readStrings("aoc22/Day2Part1_input.txt");
+		List<String> lines = ResourceLoader.readStrings("aoc22/Day2_input.txt");
 
 		int score = 0;
 		String opponentHand = "", myHand = "";

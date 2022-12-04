@@ -7,7 +7,7 @@ import java.util.List;
 public class Day1Part1 {
 
 	public static void main(String[] args) throws Exception {
-		List<String> lines = ResourceLoader.readStrings("aoc22/Day1Part1_input.txt");
+		List<String> lines = ResourceLoader.readStrings("aoc22/Day1_input.txt");
 
 		int currentSum = 0;
 		int highestSum = 0;
