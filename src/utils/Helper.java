@@ -63,14 +63,14 @@ public class Helper {
     /**
      * example usage:
      *      String text = "Hello, my name is Joe, I'm 25 years old. I live at 123 Main st, Lakewood NJ, 08701.";
-     * 		List<Integer> ints = Helper.exractIntsFromText(text);
+     * 		List<Integer> ints = Helper.extractIntsFromText(text);
      * 		ints.forEach(i -> System.out.println(i));
      * 	// prints
      * 	    25
      *      17
      *      8701
      */
-    public static List<Integer> exractIntsFromText(String text) {
+    public static List<Integer> extractIntsFromText(String text) {
         Pattern p = Pattern.compile("\\d+");
         Matcher m = p.matcher(text);
         List<Integer> list = new ArrayList<>();
