@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Day2Part1 {
     public static void main(String... args) throws Exception {
-        List<String> lines = ResourceLoader.readStrings("aoc21/Day2Part1_input.txt");
+        List<String> lines = ResourceLoader.readStrings("aoc21/Day2_input.txt");
 
         int vertical = 0;
         int horizontal = 0;

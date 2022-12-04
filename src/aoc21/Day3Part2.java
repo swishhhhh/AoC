@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Day3Part2 {
     public static void main(String... args) throws Exception {
-        String resourceName = "aoc21/Day3Part2_input.txt";
+        String resourceName = "aoc21/Day3_input.txt";
         List<String> lines = ResourceLoader.readStrings(resourceName);
 
         int EXPECTED_LINE_LENGTH = 12;

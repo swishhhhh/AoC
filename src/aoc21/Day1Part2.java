@@ -4,7 +4,7 @@ import static utils.ResourceLoader.*;
 
 public class Day1Part2 {
 	public static void main(String... args) throws Exception {
-		Integer[] numbers = readInts("aoc21/Day1Part2_input.txt").toArray(new Integer[]{});
+		Integer[] numbers = readInts("aoc21/Day1_input.txt").toArray(new Integer[]{});
 
 		int numberOfIncreases = 0;
 		int prevSum = getSumOfLast3Numbers(numbers, 2);
