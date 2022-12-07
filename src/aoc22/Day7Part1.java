@@ -13,22 +13,25 @@ public class Day7Part1 {
 	static class Directory {
 		Directory parent = null;
 		String path;
+		private long totalSize;
 		List<Directory> subDirs = new ArrayList<>();
 		Map<String, Directory> dirMap = new HashMap<>();
 		List<File> files = new ArrayList<>();
 
-		public long getSize() {
-			long totalSize = 0L;
+		public void calculateTotalSize() {
+			this.totalSize = 0L;
 			for (File f: files) {
-				totalSize+= f.size;
+				this.totalSize+= f.size;
 			}
 
 			for (Directory d: subDirs) {
-				long dirSize = d.getSize();
-				totalSize+= dirSize;
+				d.calculateTotalSize();
+				this.totalSize+= d.getSize();
 			}
+		}
 
-			return totalSize;
+		public long getSize() {
+			return this.totalSize;
 		}
 	}
 
@@ -86,6 +89,7 @@ public class Day7Part1 {
 		}
 
 		long totalSelectedSize = 0L;
+		root.calculateTotalSize();
 		for (Directory dir: allDirs) {
 			long size = dir.getSize();
 			if (size <= 100000L) {
