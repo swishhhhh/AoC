@@ -9,99 +9,67 @@ public class Day9Part2 {
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day9_input_part2.txt");
-//		List<Integer> numbers = ResourceLoader.readInts("aoc22/Day9_input.txt");
 
 		int[] xAry = new int[10];
 		int[] yAry = new int[xAry.length];
 		int head = 0, tail = xAry.length - 1;
-//		int hx = 0, hy = 0, tx = 0, ty = 0;
 		HashSet<String> tailSet = new HashSet<>();
 		addToTailSet(xAry[tail], yAry[tail], tailSet);
-		int ctr = 0;
 
 		for (String line: lines) {
 			String[] ary = line.split(" ");
 			String direction = ary[0];
 			int steps = Integer.parseInt(ary[1]);
 
-			for (int i = 0; i < steps; i++) {
-				ctr++;
-//				if (ctr == 12) {
-//					String x = "";
-//				}
-//				boolean isDiagonal = hx != tx && hy != ty;
+			for (int step = 0; step < steps; step++) {
 				switch (direction) {
-					case "R" -> {
-//						hx++;
-						xAry[head]++;
-						for (int j = 0; j < tail; j++) {
-							if (xAry[j+1] + 1 < xAry[j]) {
-								xAry[j+1]++;
-								if (yAry[j+1] + 1 < yAry[j]) yAry[j+1]++;
-								if (yAry[j+1] - 1 > yAry[j]) yAry[j+1]--;
-							}
+					case "R" -> xAry[head]++;
+					case "L" -> xAry[head]--;
+					case "U" -> yAry[head]++;
+					case "D" -> yAry[head]--;
+				}
 
-							addToTailSet(xAry[tail], yAry[tail], tailSet);
-						}
-					}
-					case "L" -> {
-//						hx--;
-//						if (tx - 1 > hx) tx--;
-//						if (isDiagonal&& hx != tx) ty = hy;
-//						addToTailSet(xAry[tail], yAry[tail], tailSet);
-						xAry[head]--;
-						for (int j = 0; j < tail; j++) {
-//							boolean wasDiagonal = xAry[j] + 1 != xAry[j+1] && yAry[j] != yAry[j+1];
-							if (xAry[j+1] - 1 > xAry[j]) {
-								xAry[j+1]--;
-//								yAry[j+1] = yAry[j];
-								if (yAry[j+1] + 1 < yAry[j]) yAry[j+1]++;
-								if (yAry[j+1] - 1 > yAry[j]) yAry[j+1]--;
-							}
-//							if (wasDiagonal && xAry[j] != xAry[j+1]) yAry[j+1] = yAry[j];
-							addToTailSet(xAry[tail], yAry[tail], tailSet);
-						}
-					}
-					case "U" -> {
-						yAry[head]++;
-						for (int j = 0; j < tail; j++) {
-							if (yAry[j+1] + 1 < yAry[j]) {
-								yAry[j+1]++;
-								if (xAry[j+1] + 1 < xAry[j]) xAry[j+1]++;
-								if (xAry[j+1] - 1 > xAry[j]) xAry[j+1]--;
-							}
-							addToTailSet(xAry[tail], yAry[tail], tailSet);
-						}
-					}
-					case "D" -> {
-//						hy--;
-//						if (ty - 1 > hy) ty--;
-//						if (isDiagonal && hy != ty) tx = hx;
-//						addToTailSet(xAry[tail], yAry[tail], tailSet);
-						yAry[head]--;
-						for (int j = 0; j < tail; j++) {
-							if (yAry[j+1] - 1 > yAry[j]) {
-								yAry[j+1]--;
-//								xAry[j+1] = xAry[j];
-								if (xAry[j+1] + 1 < xAry[j]) xAry[j+1]++;
-								if (xAry[j+1] - 1 > xAry[j]) xAry[j+1]--;
-							}
-//							if (wasDiagonal && yAry[j] != yAry[j+1]) xAry[j+1] = xAry[j];
-							addToTailSet(xAry[tail], yAry[tail], tailSet);
-						}
+				for (int j = 1; j <= tail; j++) {
+					int leaderX = xAry[j-1];
+					int followerX = xAry[j];
+					int leaderY = yAry[j-1];
+					int followerY = yAry[j];
+
+					if (leaderX - 1 > followerX && leaderY - 1 > followerY) { //2 NE, move 1 NE
+						xAry[j]++;
+						yAry[j]++;
+					} else if (leaderX - 1 > followerX && leaderY + 1 < followerY) { //2 SE
+						xAry[j]++;
+						yAry[j]--;
+					} else if (leaderX + 1 < followerX && leaderY - 1 > followerY) { //2 NW
+						xAry[j]--;
+						yAry[j]++;
+					} else if (leaderX + 1 < followerX && leaderY + 1 < followerY) { //2 SW
+						xAry[j]--;
+						yAry[j]--;
+					} else if (leaderX - 1 > followerX) { //follower is 2 over to the left, move 1 step to the right and align yAry
+						xAry[j]++;
+						yAry[j] = yAry[j-1];
+					} else if (leaderX + 1 < followerX) { //follower is 2 over to the right, move 1 step to the left..
+						xAry[j]--;
+						yAry[j] = yAry[j-1];
+					} else if (leaderY - 1 > followerY) { //follower is 2 over to the bottom, move 1 step up and align xAry
+						yAry[j]++;
+						xAry[j] = xAry[j-1];
+					} else if (leaderY + 1 < followerY) { //follower is 2 over to the top, move 1 step down..
+						yAry[j]--;
+						xAry[j] = xAry[j-1];
 					}
 				}
-//				System.out.println(String.valueOf(tx) + "," + String.valueOf(ty));
-			}
 
+				addToTailSet(xAry[tail], yAry[tail], tailSet);
+			}
 		}
 
 		System.out.printf("Total = %s%n", tailSet.size());
 	}
 
 	private static void addToTailSet(int tx, int ty, HashSet<String> tailSet) {
-		tailSet.add(String.valueOf(tx) + "," + String.valueOf(ty));
+		tailSet.add(tx + "," + ty);
 	}
-
-
 }
