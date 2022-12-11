@@ -4,6 +4,7 @@ import utils.Helper;
 import utils.ResourceLoader;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
@@ -16,7 +17,8 @@ public class Day11Part2 {
 		}
 
 		public String name;
-		public Queue<BigDecimal> items = new LinkedBlockingQueue<>();
+//		public Queue<BigDecimal> items = new LinkedBlockingQueue<>();
+		public Queue<BigInteger> items = new LinkedBlockingQueue<>();
 //		public Queue<Double> items = new LinkedBlockingQueue<>();
 		public long inspectedCtr = 0;
 		public String operator1;
@@ -58,7 +60,8 @@ public class Day11Part2 {
 			} else if (line.startsWith("Starting items:")) {
 				List<Integer> nums = Helper.extractIntsFromText(line);
 				for (Integer n: nums) {
-					m.items.add(new BigDecimal(n));
+//					m.items.add(new BigDecimal(n));
+					m.items.add(new BigInteger(String.valueOf(n)));
 //					m.items.add((double)n);
 				}
 			} else if (line.trim().startsWith("Operation:")) {
@@ -90,16 +93,20 @@ public class Day11Part2 {
 				int size = monkey.items.size();
 				for (int i = 0; i < size; i++) {
 					monkey.inspectedCtr++;
-					BigDecimal itemLevel = monkey.items.poll();
+//					BigDecimal itemLevel = monkey.items.poll();
+					BigInteger itemLevel = monkey.items.poll();
 //					Double itemLevel = monkey.items.poll();
 //					if (Double.isInfinite(itemLevel) || Double.isNaN(itemLevel)) {
 //						System.out.println(itemLevel);
 //					}
-					BigDecimal op1 = Helper.isNumeric(monkey.operator1) ? new BigDecimal(monkey.operator1) : itemLevel;
-					BigDecimal op2 = Helper.isNumeric(monkey.operator2) ? new BigDecimal(monkey.operator2) : itemLevel;
+//					BigDecimal op1 = Helper.isNumeric(monkey.operator1) ? new BigDecimal(monkey.operator1) : itemLevel;
+					BigInteger op1 = Helper.isNumeric(monkey.operator1) ? new BigInteger(monkey.operator1) : itemLevel;
+//					BigDecimal op2 = Helper.isNumeric(monkey.operator2) ? new BigDecimal(monkey.operator2) : itemLevel;
+					BigInteger op2 = Helper.isNumeric(monkey.operator2) ? new BigInteger(monkey.operator2) : itemLevel;
 //					double op1 = Helper.isNumeric(monkey.operator1) ? Integer.parseInt(monkey.operator1) : itemLevel;
 //					double op2 = Helper.isNumeric(monkey.operator2) ? Integer.parseInt(monkey.operator2) : itemLevel;
-					BigDecimal newLevel = monkey.operand.equals("+") ? op1.add(op2) : op1.multiply(op2);
+//					BigDecimal newLevel = monkey.operand.equals("+") ? op1.add(op2) : op1.multiply(op2);
+					BigInteger newLevel = monkey.operand.equals("+") ? op1.add(op2) : op1.multiply(op2);
 //					BigDecimal newLevel = monkey.operand.equals("+") ?
 //							new BigDecimal(op1.doubleValue() + op2.doubleValue()) :
 //							new BigDecimal(op1.doubleValue() * op2.doubleValue()) ;
@@ -125,7 +132,8 @@ public class Day11Part2 {
 //						throwToMonkeyNum = remainder < 0.5d ? monkey.throwToMonkeyNumIfTrue : monkey.throwToMonkeyNumIfFalse;
 //					}
 					throwToMonkeyNum =
-							newLevel.remainder(new BigDecimal(monkey.divisibleNum)).intValue() == 0
+//							newLevel.remainder(new BigDecimal(monkey.divisibleNum)).intValue() == 0
+							newLevel.remainder(new BigInteger(String.valueOf(monkey.divisibleNum))).intValue() == 0
 									? monkey.throwToMonkeyNumIfTrue : monkey.throwToMonkeyNumIfFalse;
 //					double remainder = newLevel % monkey.divisibleNum;
 //					int throwToMonkeyNum = remainder < 0.5d ? monkey.throwToMonkeyNumIfTrue : monkey.throwToMonkeyNumIfFalse;
