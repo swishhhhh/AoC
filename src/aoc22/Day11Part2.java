@@ -43,11 +43,10 @@ public class Day11Part2 {
 
 	static List<Monkey> monkeys = new ArrayList<>();
 
-
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day11_input.txt");
 		Monkey m = null;
-		long primeReducer = 1;
+		long commonMultiplier = 1;
 
 		for (String line: lines) {
 			//parse input
@@ -67,7 +66,7 @@ public class Day11Part2 {
 				m.operator2 = ary[ary.length - 1];
 			} else if (line.startsWith("Test:")) {
 				m.divisibleNum = Helper.extractIntsFromText(line).get(0);
-				primeReducer*= m.divisibleNum;
+				commonMultiplier*= m.divisibleNum;
 			} else if (line.startsWith("If true:")) {
 				m.throwToMonkeyNumIfTrue = Helper.extractIntsFromText(line).get(0);
 			} else if (line.startsWith("If false:")) {
@@ -86,7 +85,7 @@ public class Day11Part2 {
 					long op2 = Helper.isNumeric(monkey.operator2) ? Long.parseLong(monkey.operator2) : itemLevel;
 					long newLevel = monkey.operand.equals("+") ? op1 + op2 : op1 * op2;
 
-					newLevel = newLevel % primeReducer;
+					newLevel = newLevel % commonMultiplier; //keeps the number from getting too large without messing up the modulo operations
 					long remainder = newLevel % monkey.divisibleNum;
 					int throwToMonkeyNum = remainder == 0L ? monkey.throwToMonkeyNumIfTrue : monkey.throwToMonkeyNumIfFalse;
 
