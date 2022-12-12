@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Day12Part1 {
+public class Day12Part2 {
 
 	static class Coordinates {
 		int row;
@@ -49,7 +49,7 @@ public class Day12Part1 {
 
 	static char[][] grid;
 	static boolean[][] visitedGrid;
-	static Coordinates startCoords;
+//	static Coordinates startCoords;
 	static Coordinates targetCoords;
 
 	public static void main(String[] args) throws Exception {
@@ -60,6 +60,8 @@ public class Day12Part1 {
 		grid = new char[lines.size()][firstLine.length()];
 		visitedGrid = new boolean[lines.size()][firstLine.length()];
 
+		List<Coordinates> startCoordsA = new ArrayList<>();
+
 		for (int row = 0; row < lines.size(); row++) {
 			String line = lines.get(row);
 
@@ -68,9 +70,10 @@ public class Day12Part1 {
 				char cell = list.get(col);
 
 				switch (cell) {
-					case 'S' -> {
-						startCoords = new Coordinates(row, col);
-						startCoords.label = 'S';
+					case 'S', 'a' -> {
+						Coordinates c = new Coordinates(row, col);
+						c.label = 'S';
+						startCoordsA.add(c);
 						grid[row][col] = 'a';
 					}
 					case 'E' -> {
@@ -84,10 +87,23 @@ public class Day12Part1 {
 		}
 
 		//-----------
+		int lowestCount = Integer.MAX_VALUE;
+		for (Coordinates startCoords: startCoordsA) {
+			int stepsFromStart = bfsSearchGrid(startCoords);
+			if (stepsFromStart < lowestCount) {
+				lowestCount = stepsFromStart;
+			}
+		}
+
+		System.out.println("Lowest number of steps: " + lowestCount);
+	}
+
+	private static int bfsSearchGrid(Coordinates startCoords) {
 		// Create a queue for BFS
 		LinkedList<Coordinates> queue = new LinkedList<>();
 
 		startCoords.stepsFromStartCnt = 0;
+		visitedGrid = new boolean[grid.length][grid[0].length];
 		visitedGrid[startCoords.row][startCoords.col] = true;
 		queue.add(startCoords);
 
@@ -96,7 +112,7 @@ public class Day12Part1 {
 
 			if (node.equals(targetCoords)) {
 				System.out.println("Successful path found, node = " + node);
-				break;
+				return node.stepsFromStartCnt;
 			}
 
 			List<Coordinates> neighbors = getEligibleNeighbors(node);
@@ -107,6 +123,8 @@ public class Day12Part1 {
 				}
 			}
 		}
+
+		return Integer.MAX_VALUE;
 	}
 
 	private static List<Coordinates> getEligibleNeighbors(Coordinates node) {
