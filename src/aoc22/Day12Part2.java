@@ -111,7 +111,8 @@ public class Day12Part2 {
 			Coordinates node = queue.poll();
 
 			if (node.equals(targetCoords)) {
-				System.out.println("Successful path found, node = " + node);
+				System.out.printf("Successful path found in %s steps, start-coords: %s%n",
+								node.stepsFromStartCnt, startCoords);
 				return node.stepsFromStartCnt;
 			}
 
