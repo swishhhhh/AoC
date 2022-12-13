@@ -49,7 +49,6 @@ public class Day12Part2 {
 
 	static char[][] grid;
 	static boolean[][] visitedGrid;
-//	static Coordinates startCoords;
 	static Coordinates targetCoords;
 
 	public static void main(String[] args) throws Exception {
@@ -125,6 +124,7 @@ public class Day12Part2 {
 			}
 		}
 
+		//no path found
 		return Integer.MAX_VALUE;
 	}
 
