@@ -42,8 +42,8 @@ public class Day14Part2 {
 
 		//add one more trace for the "floor" at + 2 from the lowest trace
 		maxYcoord = maxYcoord + 2;
-		maxXcoord = maxXcoord + maxYcoord + 1; //the farthest right it can fall
-		minXcoord = minXcoord - maxYcoord - 1; //the farthest left it can fall
+		maxXcoord = entryXCoord + maxYcoord; //the farthest right it can fall
+		minXcoord = entryXCoord - maxYcoord; //the farthest left it can fall
 		List<Coordinates> rockTrace = new ArrayList<>();
 		for (int i = minXcoord; i <= maxXcoord; i++) {
 			Coordinates coord = new Coordinates(i, maxYcoord);
