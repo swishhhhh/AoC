@@ -30,11 +30,9 @@ public class Day15Part2 {
 			sensorY = ints.get(1);
 			beaconX = ints.get(2);
 			beaconY = ints.get(3);
-			Coordinates beacon = new Coordinates(beaconX, beaconY);
-			beacons.add(beacon);
+			beacons.add(new Coordinates(beaconX, beaconY));
 			int distance = Math.abs(sensorX - beaconX) + Math.abs(sensorY - beaconY);
-			Diamond diamond = new Diamond(sensorX, sensorY, distance + 1);
-			diamonds.add(diamond);
+			diamonds.add(new Diamond(sensorX, sensorY, distance + 1));
 			minX = Math.min(minX, sensorX - distance);
 			maxX = Math.max(maxX, sensorX + distance);
 
