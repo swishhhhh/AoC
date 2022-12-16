@@ -70,14 +70,19 @@ public class Helper {
      *      17
      *      8701
      */
-    public static List<Integer> extractIntsFromText(String text) {
-        Pattern p = Pattern.compile("\\d+");
+    public static List<Integer> extractIntsFromText(String text, boolean withMinusSign) {
+        String pattern = withMinusSign ? "-?\\d+" : "\\d+";
+        Pattern p = Pattern.compile(pattern);
         Matcher m = p.matcher(text);
         List<Integer> list = new ArrayList<>();
         while(m.find()) {
             list.add(Integer.parseInt(m.group()));
         }
         return list;
+    }
+
+    public static List<Integer> extractIntsFromText(String text) {
+        return extractIntsFromText(text, false);
     }
 
     public static boolean isNumeric(String strNum) {
