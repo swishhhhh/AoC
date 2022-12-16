@@ -1,7 +1,7 @@
 package aoc22.datastructs;
 
 /**
- *   For a diamond with a radius of 5 the center coordinate is at 4,4
+ *   Shown below is a diamond with a radius of 5 and a center coordinate at 4,4
  *        e.g.: Diamond d = new Diamond(4, 4, 5)
  * <p>
  *      0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
