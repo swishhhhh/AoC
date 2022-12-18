@@ -1,5 +1,6 @@
 package aoc22;
 
+import utils.Helper;
 import utils.ResourceLoader;
 
 import java.util.List;
@@ -7,8 +8,8 @@ import java.util.List;
 public class Template {
 
 	public static void main(String[] args) throws Exception {
-		List<String> lines = ResourceLoader.readStrings("aoc22/DayXPartX_input.txt");
-//		List<Integer> numbers = ResourceLoader.readInts("aoc22/DayXPartX_input.txt");
+		List<String> lines = ResourceLoader.readStrings("aoc22/DayX_input.txt");
+//		List<Integer> numbers = ResourceLoader.readInts("aoc22/DayX_input.txt");
 
 		int ctr = 0;
 		int xxx = 0;
@@ -18,6 +19,7 @@ public class Template {
 //
 //			}
 
+//			List<Integer> nums = Helper.extractIntsFromText(line);
 //			String[] ary = line.split(" ");
 //			List<Character> list = Helper.charArrayToList(line.toCharArray());
 //			list.forEach(c -> System.out.println(c));
