@@ -24,7 +24,6 @@ public class Day17Part1 {
 
 		//fill grid
 		char[][] grid = new char[numGridRows][numGridCols];
-		//TOdO fillGRid
 		for (int i = 0; i < numGridRows; i++) {
 			for (int j = 0; j < numGridCols; j++) {
 				grid[i][j] = '.';
