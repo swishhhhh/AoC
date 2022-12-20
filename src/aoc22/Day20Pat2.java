@@ -100,7 +100,6 @@ public class Day20Pat2 {
 		long sum = val1 + val2 + val3;
 		System.out.printf("val1=%s, val2=%s, val3=%s, sum=%s%n", val1, val2, val3, sum);
 		System.out.printf("zeroIdx=%s, idx1=%s, idx2=%s, idx3=%s", zeroIdx, idx1, idx2, idx3);
-
 	}
 
 	static void rotate(LinkedList<NumHolder> list, String itemId) {
