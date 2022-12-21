@@ -6,13 +6,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class Day20Pat1 {
+public class Day20Part2 {
+
+	static final long KEY = 811589153L;
 
 	static class NumHolder {
 		String id;
-		int value;
+		long value;
 
-		public NumHolder(String id, int value) {
+		public NumHolder(String id, long value) {
 			this.id = id;
 			this.value = value;
 		}
@@ -50,15 +52,17 @@ public class Day20Pat1 {
 		//populate new rotating list
 		for (int num: numbers) {
 			ctr++;
-			list.add(new NumHolder(String.valueOf(ctr), num));
+			list.add(new NumHolder(String.valueOf(ctr), num * KEY));
 		}
 		list.forEach(nh2 -> System.out.print(nh2.value + ","));
 		System.out.println();
 
-		ctr = 0;
-		for (int ignored : numbers) {
-			ctr++;
-			rotate(list, String.valueOf(ctr));
+		for (int i = 0; i < 10; i++) {
+			ctr = 0;
+			for (int ignored: numbers) {
+				ctr++;
+				rotate(list, String.valueOf(ctr));
+			}
 		}
 		list.forEach(nh2 -> System.out.print(nh2.value + ","));
 		System.out.println();
@@ -90,10 +94,10 @@ public class Day20Pat1 {
 			idx3-= list.size();
 		}
 
-		int val1 = list.get(idx1).value;
-		int val2 = list.get(idx2).value;
-		int val3 = list.get(idx3).value;
-		int sum = val1 + val2 + val3;
+		long val1 = list.get(idx1).value;
+		long val2 = list.get(idx2).value;
+		long val3 = list.get(idx3).value;
+		long sum = val1 + val2 + val3;
 		System.out.printf("val1=%s, val2=%s, val3=%s, sum=%s%n", val1, val2, val3, sum);
 		System.out.printf("zeroIdx=%s, idx1=%s, idx2=%s, idx3=%s", zeroIdx, idx1, idx2, idx3);
 	}
@@ -108,10 +112,10 @@ public class Day20Pat1 {
 			return;
 		}
 
-		int increment = item.value % (listSize-1);
+		long increment = item.value % (listSize-1);
 		list.remove(item);
 
-		int insertionPoint = idx + increment;
+		int insertionPoint = idx + (int)increment;
 		if (insertionPoint >= listSize) {
 			insertionPoint-= (listSize - 1);
 		} else if (insertionPoint < 0) {
