@@ -48,9 +48,6 @@ public class Equation {
     public String getEquationVarName() {
         return equationVarName;
     }
-    public long getEquationResultValue() {
-        return eqResultValue;
-    }
     public String getOperandVariable1() {
         return operandVariable1;
     }
@@ -93,7 +90,7 @@ public class Equation {
             return solveFor1Operand();
         }
 
-        throw new RuntimeException("Unable to solve this equation: " + toString());
+        throw new RuntimeException("Unable to solve this equation: " + this);
     }
 
     private long solveFor2Operands() {
@@ -110,7 +107,7 @@ public class Equation {
 
     private long solveFor1Operand() {
         assert this.op1Resolved || this.op2Resolved;
-        
+
         switch (this.operator) {
             case ADD -> {
                 if (!this.op1Resolved) {
