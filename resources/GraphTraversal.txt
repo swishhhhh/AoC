@@ -1,0 +1,42 @@
+Graph searches
+ - if full graph traversal NOT required, e.g.:
+    - find *any*/first path (regardless of cost/speed)
+       - Graph Traversal: BFS or DFS (DFS usually faster)
+	   - optimizations: visited
+    - find shortest path AND edge weights are uniform
+       - Graph Traversal: BFS
+	   - optimizations: visited
+	   - AoC examples: 2022/Day18
+	- terminating conditions: target found, all nodes visited, time/resource depleted
+	- AoC examples: 2022/Day12 (shortest path up hill)
+  - if full graph traversal required BUT only visit each node once
+      - terminating conditions: all legal paths exhausted
+      - Graph traversal: BFS, DFS, Recursion
+        - Recursion must be used if intermediate results need to be passed up the stack
+      		    (e.g. calculate cumulative size of each node on dir tree, memoization shortcut)
+            - AoC examples: 2022/Day7 (parse file system)
+ - if full graph traversal might be required AND nodes can be visited multiple times
+      - e.g. find cheapest/fastest/most-rewarding/etc path to destination
+	  - no-optimizations: visited (nodes can be repeated)
+	  - terminating conditions: time/resource depleted, all legal paths exhausted
+	  - optimizations:
+	    - look for rule based optimizations (e.g. already out-of-bounds, variable X can't be more/less than Y, etc)
+		- memoization:
+		  - must be able to collect cumulative results from child nodes in path - i.e. use Recursion for traversal
+		  - must define "state" in the form of variables that form compository key for the intermediate state
+		  - Collect intermediate values returned from function call and persist ("memoize") into hashtable
+		  - AoC examples: 2022/Day16
+	  - Graph traversal: BFS or Recursion
+	    - BFS (easier):
+		  - if no need to pass results up the stack (i.e. save results in global variable,
+		    e.g. if path results is max or min of all paths before it)
+		  - AoC examples: 2022/Day19 (robot factory)
+        - Recursion (more mind exhausting):
+		  - if intermediate results need to be passed up the stack
+		    (e.g. calculate cumulative size of each node on dir tree, using memoization optimization)
+		- AoC examples: 2022/Day7 (parse file system and dir sizes), 2022/Day16 (tunnels & chambers)
+	  - Vertical Aggregation (i.e. accumulating for sum/min/max) options:
+	    - Leaf-nodes (pass cumulative values from parent -> child): save min/max/sum results to global field
+	    - Collect recursively (pass from child -> parent): min/max/sum passes all the way up to root node
+	  - Horizontal Aggregation (i.e. select or combine values from multiple child nodes at same level)
+	    - might be required
