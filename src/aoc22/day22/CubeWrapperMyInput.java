@@ -5,6 +5,13 @@ import aoc22.datastructs.Direction;
 
 import static aoc22.datastructs.Direction.*;
 
+/**
+ * Pattern:
+ *     |U|R|
+ *     |F|
+ *   |L|D|
+ *   |B|
+ */
 public class CubeWrapperMyInput extends CubeWrapper {
     public static final int DIMENSIONS = 50;
     public CubeWrapperMyInput(Coordinates cursor, Direction direction) {
