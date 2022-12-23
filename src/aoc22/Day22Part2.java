@@ -88,7 +88,8 @@ public class Day22Part2 {
 		}
 		long result = (1000L * (cursor.getY() + 1)) + (4L * (cursor.getX() + 1)) + directionValue;
 
-		System.out.printf("Result = %s%n", result);
+		System.out.printf("Row = %s, Col = %s, Direction = %s, Result = %s%n",
+				cursor.getY() + 1, cursor.getX() + 1, direction, result);
 	}
 
 	private static Coordinates moveCursorAndDirection(int numSteps, Coordinates cursor) {
