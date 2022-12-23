@@ -96,4 +96,24 @@ public class Helper {
         }
         return true;
     }
+
+    /**
+     * fills a 2D array with a char
+     * @param ary 2D-array to fill
+     * @param c character to fill every cell with
+     */
+    public static void fillCharArray2D(char[][] ary, char c) {
+        for (char[] chars : ary) {
+            Arrays.fill(chars, c);
+        }
+    }
+
+    public static void printArray2D(char[][] ary) {
+        for (char[] outer: ary) {
+            for (char c: outer) {
+                System.out.print(c);
+            }
+            System.out.println();
+        }
+    }
 }
