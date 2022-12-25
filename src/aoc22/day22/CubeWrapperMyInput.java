@@ -27,8 +27,8 @@ public class CubeWrapperMyInput extends CubeWrapper {
 
     @Override
     public void wrap() {
-        int cursorRow = this.getCursor().getY();
-        int cursorCol = this.getCursor().getX();
+        int cursorRow = this.getCursor().y();
+        int cursorCol = this.getCursor().x();
 
         //get relative row and cols in the source side
         int targetCol = -1, targetRow = -1, relativeCol, relativeRow;
@@ -36,17 +36,17 @@ public class CubeWrapperMyInput extends CubeWrapper {
 
         //source side = UP
         if (isInSectorBoundaries(this.getCursor(), originUpSide)) {
-            relativeCol = cursorCol - originUpSide.getX();
-            relativeRow = cursorRow - originUpSide.getY();
+            relativeCol = cursorCol - originUpSide.x();
+            relativeRow = cursorRow - originUpSide.y();
             switch (this.getDirection()) {
                 case NORTH -> { //target side = BACK
-                    targetCol = originBackSide.getX(); //0 offset
-                    targetRow = originBackSide.getY() + relativeCol;
+                    targetCol = originBackSide.x(); //0 offset
+                    targetRow = originBackSide.y() + relativeCol;
                     newDirection = EAST;
                 }
                 case WEST -> { //target side = LEFT
-                    targetCol = originLeftSide.getX(); //0 offset
-                    targetRow = originLeftSide.getY() + DIMENSIONS - relativeRow - 1; //0 offset
+                    targetCol = originLeftSide.x(); //0 offset
+                    targetRow = originLeftSide.y() + DIMENSIONS - relativeRow - 1; //0 offset
                     newDirection = EAST;
                 }
             }
@@ -57,22 +57,22 @@ public class CubeWrapperMyInput extends CubeWrapper {
 
         //Source side is RIGHT
         else if (isInSectorBoundaries(this.getCursor(), originRightSide)) {
-            relativeCol = cursorCol - originRightSide.getX();
-            relativeRow = cursorRow - originRightSide.getY();
+            relativeCol = cursorCol - originRightSide.x();
+            relativeRow = cursorRow - originRightSide.y();
             switch (this.getDirection()) {
                 case NORTH -> { //target side = BACK
-                    targetCol = originBackSide.getX() + relativeCol;
-                    targetRow = originBackSide.getY() + DIMENSIONS - 1;
+                    targetCol = originBackSide.x() + relativeCol;
+                    targetRow = originBackSide.y() + DIMENSIONS - 1;
                     newDirection = NORTH; //same as before
                 }
                 case EAST -> { //target side = DOWN
-                    targetCol = originDownSide.getX() + DIMENSIONS - 1;
-                    targetRow = originDownSide.getY() + DIMENSIONS - relativeRow - 1;
+                    targetCol = originDownSide.x() + DIMENSIONS - 1;
+                    targetRow = originDownSide.y() + DIMENSIONS - relativeRow - 1;
                     newDirection = WEST;
                 }
                 case SOUTH -> { //target side = FRONT
-                    targetCol = originFrontSide.getX() + DIMENSIONS -1;
-                    targetRow = originFrontSide.getY() + relativeCol;
+                    targetCol = originFrontSide.x() + DIMENSIONS -1;
+                    targetRow = originFrontSide.y() + relativeCol;
                     newDirection = WEST;
                 }
             }
@@ -83,16 +83,16 @@ public class CubeWrapperMyInput extends CubeWrapper {
 
         //source side is FRONT
         if (isInSectorBoundaries(this.getCursor(), originFrontSide)) {
-            relativeRow = cursorRow - originFrontSide.getY();
+            relativeRow = cursorRow - originFrontSide.y();
             switch (this.getDirection()) {
                 case EAST -> { //target side = RIGHT
-                    targetCol = originRightSide.getX() + relativeRow;
-                    targetRow = originRightSide.getY() + DIMENSIONS - 1;
+                    targetCol = originRightSide.x() + relativeRow;
+                    targetRow = originRightSide.y() + DIMENSIONS - 1;
                     newDirection = NORTH;
                 }
                 case WEST -> { //target side = LEFT
-                    targetCol = originLeftSide.getX() + relativeRow;
-                    targetRow = originLeftSide.getY(); //0 offset
+                    targetCol = originLeftSide.x() + relativeRow;
+                    targetRow = originLeftSide.y(); //0 offset
                     newDirection = SOUTH;
                 }
             }
@@ -103,17 +103,17 @@ public class CubeWrapperMyInput extends CubeWrapper {
 
         //source side is LEFT
         else if (isInSectorBoundaries(this.getCursor(), originLeftSide)) {
-            relativeCol = cursorCol - originLeftSide.getX();
-            relativeRow = cursorRow - originLeftSide.getY();
+            relativeCol = cursorCol - originLeftSide.x();
+            relativeRow = cursorRow - originLeftSide.y();
             switch (this.getDirection()) {
                 case NORTH -> { //target side = FRONT
-                    targetCol = originFrontSide.getX(); //0 offset
-                    targetRow = originFrontSide.getY() + relativeCol;
+                    targetCol = originFrontSide.x(); //0 offset
+                    targetRow = originFrontSide.y() + relativeCol;
                     newDirection = EAST;
                 }
                 case WEST -> { //target side = UP
-                    targetCol = originUpSide.getX(); //0 offset
-                    targetRow = originUpSide.getY() + DIMENSIONS - relativeRow - 1; //invert
+                    targetCol = originUpSide.x(); //0 offset
+                    targetRow = originUpSide.y() + DIMENSIONS - relativeRow - 1; //invert
                     newDirection = EAST;
                 }
             }
@@ -124,17 +124,17 @@ public class CubeWrapperMyInput extends CubeWrapper {
 
         //Source side is DOWN
         else if (isInSectorBoundaries(this.getCursor(), originDownSide)) {
-            relativeCol = cursorCol - originDownSide.getX();
-            relativeRow = cursorRow - originDownSide.getY();
+            relativeCol = cursorCol - originDownSide.x();
+            relativeRow = cursorRow - originDownSide.y();
             switch (this.getDirection()) {
                 case EAST -> { //target side = RIGHT
-                    targetCol = originRightSide.getX() + DIMENSIONS - 1;
-                    targetRow = originRightSide.getY() + DIMENSIONS - relativeRow - 1;
+                    targetCol = originRightSide.x() + DIMENSIONS - 1;
+                    targetRow = originRightSide.y() + DIMENSIONS - relativeRow - 1;
                     newDirection = WEST;
                 }
                 case SOUTH -> { //target side = BACK
-                    targetCol = originBackSide.getX() + DIMENSIONS -1;
-                    targetRow = originBackSide.getY() + relativeCol;
+                    targetCol = originBackSide.x() + DIMENSIONS -1;
+                    targetRow = originBackSide.y() + relativeCol;
                     newDirection = WEST;
                 }
             }
@@ -145,22 +145,22 @@ public class CubeWrapperMyInput extends CubeWrapper {
 
         //Source side is BACK
         else if (isInSectorBoundaries(this.getCursor(), originBackSide)) {
-            relativeCol = cursorCol - originBackSide.getX();
-            relativeRow = cursorRow - originBackSide.getY();
+            relativeCol = cursorCol - originBackSide.x();
+            relativeRow = cursorRow - originBackSide.y();
             switch (this.getDirection()) {
                 case EAST -> { //target side = DOWN
-                    targetCol = originDownSide.getX() + relativeRow;
-                    targetRow = originDownSide.getY() + DIMENSIONS - 1;
+                    targetCol = originDownSide.x() + relativeRow;
+                    targetRow = originDownSide.y() + DIMENSIONS - 1;
                     newDirection = NORTH;
                 }
                 case WEST -> { //target side = UP
-                    targetCol = originUpSide.getX() + relativeRow;
-                    targetRow = originUpSide.getY();
+                    targetCol = originUpSide.x() + relativeRow;
+                    targetRow = originUpSide.y();
                     newDirection = SOUTH;
                 }
                 case SOUTH -> { //target side = RIGHT
-                    targetCol = originRightSide.getX() + relativeCol;
-                    targetRow = originRightSide.getY();
+                    targetCol = originRightSide.x() + relativeCol;
+                    targetRow = originRightSide.y();
                     newDirection = SOUTH;
                 }
             }
@@ -174,9 +174,9 @@ public class CubeWrapperMyInput extends CubeWrapper {
     }
 
     private boolean isInSectorBoundaries(Coordinates checkCoord, Coordinates targetOrigin) {
-        return     checkCoord.getY() >= targetOrigin.getY()
-                && checkCoord.getY() < (targetOrigin.getY() + DIMENSIONS)
-                && checkCoord.getX() >= targetOrigin.getX()
-                && checkCoord.getX() < (targetOrigin.getX() + DIMENSIONS);
+        return     checkCoord.y() >= targetOrigin.y()
+                && checkCoord.y() < (targetOrigin.y() + DIMENSIONS)
+                && checkCoord.x() >= targetOrigin.x()
+                && checkCoord.x() < (targetOrigin.x() + DIMENSIONS);
     }
 }

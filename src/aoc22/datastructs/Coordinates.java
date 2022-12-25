@@ -1,20 +1,10 @@
 package aoc22.datastructs;
 
-public class Coordinates {
-    private final int x;
-    private final int y;
+public record Coordinates(int x, int y) {
 
-    public Coordinates(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
+    @Override
+    public Coordinates clone() {
+        return new Coordinates(x, y);
     }
 
     @Override
@@ -26,13 +16,6 @@ public class Coordinates {
 
         if (x != that.x) return false;
         return y == that.y;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = x;
-        result = 31 * result + y;
-        return result;
     }
 
     @Override

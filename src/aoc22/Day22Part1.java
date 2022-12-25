@@ -76,14 +76,14 @@ public class Day22Part1 {
 			case WEST -> directionValue = 2;
 			case NORTH -> directionValue = 3;
 		}
-		long result = (1000L * (cursor.getY() + 1)) + (4L * (cursor.getX() + 1)) + directionValue;
+		long result = (1000L * (cursor.y() + 1)) + (4L * (cursor.x() + 1)) + directionValue;
 
 		System.out.printf("Result = %s%n", result);
 	}
 
 	private static Coordinates moveCursor(int numSteps, Coordinates cursor, Direction direction) {
-		int targetRow = cursor.getY();
-		int targetCol = cursor.getX();
+		int targetRow = cursor.y();
+		int targetCol = cursor.x();
 		int tmpRow, tmpCol;
 
 		for (int i = 0; i < numSteps; i++) {

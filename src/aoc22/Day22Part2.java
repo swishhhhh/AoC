@@ -4,7 +4,6 @@ import aoc22.datastructs.Coordinates;
 import aoc22.datastructs.Direction;
 import aoc22.day22.CubeWrapper;
 import aoc22.day22.CubeWrapperMyInput;
-import aoc22.day22.CubeWrapperSample1;
 import utils.Helper;
 import utils.ResourceLoader;
 
@@ -86,15 +85,15 @@ public class Day22Part2 {
 			case WEST -> directionValue = 2;
 			case NORTH -> directionValue = 3;
 		}
-		long result = (1000L * (cursor.getY() + 1)) + (4L * (cursor.getX() + 1)) + directionValue;
+		long result = (1000L * (cursor.y() + 1)) + (4L * (cursor.x() + 1)) + directionValue;
 
 		System.out.printf("Row = %s, Col = %s, Direction = %s, Result = %s%n",
-				cursor.getY() + 1, cursor.getX() + 1, direction, result);
+				cursor.y() + 1, cursor.x() + 1, direction, result);
 	}
 
 	private static Coordinates moveCursorAndDirection(int numSteps, Coordinates cursor) {
-		int targetRow = cursor.getY();
-		int targetCol = cursor.getX();
+		int targetRow = cursor.y();
+		int targetCol = cursor.x();
 		Coordinates targetCursor = null; // = new Coordinates(cursor.getX(), cursor.getY());
 
 		for (int i = 0; i < numSteps; i++) {
@@ -114,12 +113,12 @@ public class Day22Part2 {
 				CubeWrapper cubeWrapper = getCubeWrapper(tmpCursor, direction);
 				cubeWrapper.wrap();
 				targetCursor = cubeWrapper.getCursor();
-				targetCol = targetCursor.getX();
-				targetRow = targetCursor.getY();
+				targetCol = targetCursor.x();
+				targetRow = targetCursor.y();
 				direction = cubeWrapper.getDirection();
 			}
 
-			if (grid[targetCursor.getY()][targetCursor.getX()] == '#') {
+			if (grid[targetCursor.y()][targetCursor.x()] == '#') {
 				//hit a wall, restore previous cell and direction
 				direction = tmpDirection;
 				return tmpCursor;

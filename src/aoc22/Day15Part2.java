@@ -66,7 +66,7 @@ public class Day15Part2 {
 		if (missingBeacon == null) {
 			System.out.println("Houston we got a problem! Couldn't locate beacon.");
 		} else {
-			long tuningFreq = (4000000L * missingBeacon.getX()) + missingBeacon.getY();
+			long tuningFreq = (4000000L * missingBeacon.x()) + missingBeacon.y();
 			System.out.printf("Missing Beacon = %s, Tuning Frequency = %s%n", missingBeacon, tuningFreq);
 		}
 	}

@@ -95,9 +95,9 @@ public class Day23Part2 {
 				//actual move
 				Coordinates src = elfLocations.get(elf);
 				elfLocations.put(elf, target);
-				char elfSymbol = grid[src.getY()][src.getX()];
-				grid[src.getY()][src.getX()] = '.';
-				grid[target.getY()][target.getX()] = elfSymbol;
+				char elfSymbol = grid[src.y()][src.x()];
+				grid[src.y()][src.x()] = '.';
+				grid[target.y()][target.x()] = elfSymbol;
 				numMoves++;
 			}
 
@@ -136,7 +136,7 @@ public class Day23Part2 {
 	}
 
 	private static Coordinates getLocation(Coordinates coordinates, Direction proposedDirection) {
-		int x = coordinates.getX(), y = coordinates.getY();
+		int x = coordinates.x(), y = coordinates.y();
 		switch (proposedDirection) {
 			case NORTH -> y--;
 			case EAST -> x++;
@@ -171,12 +171,12 @@ public class Day23Part2 {
 		Coordinates elfLocation = elfLocations.get(elf);
 		for (Direction dir : directionsToCheck) {
 			Coordinates neighborCell = getLocation(elfLocation, dir);
-			if (neighborCell.getX() < 0 || neighborCell.getY() < 0
-					|| neighborCell.getX() >= grid[0].length
-					|| neighborCell.getY() >= grid.length) {
+			if (neighborCell.x() < 0 || neighborCell.y() < 0
+					|| neighborCell.x() >= grid[0].length
+					|| neighborCell.y() >= grid.length) {
 				continue;
 			}
-			if (grid[neighborCell.getY()][neighborCell.getX()] != '.') {
+			if (grid[neighborCell.y()][neighborCell.x()] != '.') {
 				return true;
 			}
 		}

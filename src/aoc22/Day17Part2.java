@@ -184,51 +184,51 @@ public class Day17Part2 {
 
 				//attempt to move left
 				if (horizontalMovement == -1) {
-					if (rockCoordinate.getX() > 0) { //make sure not already up against left wall
+					if (rockCoordinate.x() > 0) { //make sure not already up against left wall
 						int[] leftProfile = rock.getLeftProfile();
 						boolean canMoveLeft = true;
 						for (int i = 0; i < rock.getHeight(); i++) { //check profile from bottom of rock up
-							if (grid[rockCoordinate.getY()+i]
-									[rockCoordinate.getX() + leftProfile[rock.getHeight() - 1 - i] - 1] == '#') {
+							if (grid[rockCoordinate.y()+i]
+									[rockCoordinate.x() + leftProfile[rock.getHeight() - 1 - i] - 1] == '#') {
 								canMoveLeft = false;
 								break;
 							}
 						}
 
 						if (canMoveLeft) {
-							rockCoordinate = new Coordinates(rockCoordinate.getX() - 1, rockCoordinate.getY());
+							rockCoordinate = new Coordinates(rockCoordinate.x() - 1, rockCoordinate.y());
 						}
 					}
 				}
 
 				//attempt to move right
 				if (horizontalMovement == 1) {
-					if (rockCoordinate.getX() + rock.getWidth() < numGridCols) { //make sure not already up against right wall
+					if (rockCoordinate.x() + rock.getWidth() < numGridCols) { //make sure not already up against right wall
 						int[] rightProfile = rock.getRightProfile();
 						boolean canMoveRight = true;
 						for (int i = 0; i < rock.getHeight(); i++) { //check profile from bottom of rock up
-							if (grid[rockCoordinate.getY()+i]
-									[rockCoordinate.getX() + rightProfile[rock.getHeight() - 1 - i]] == '#') {
+							if (grid[rockCoordinate.y()+i]
+									[rockCoordinate.x() + rightProfile[rock.getHeight() - 1 - i]] == '#') {
 								canMoveRight = false;
 								break;
 							}
 						}
 
 						if (canMoveRight) {
-							rockCoordinate = new Coordinates(rockCoordinate.getX() + 1, rockCoordinate.getY());
+							rockCoordinate = new Coordinates(rockCoordinate.x() + 1, rockCoordinate.y());
 							downMovesForThisRockCtr++;
 						}
 					}
 				}
 
 				//attempt to move down
-				if (rockCoordinate.getY() == 0) { //make sure not already on the floor
+				if (rockCoordinate.y() == 0) { //make sure not already on the floor
 					canMoveDown = false;
 				} else {
 					//check bottom profile
 					int[] bottomProfile = rock.getBottomProfile();
 					for (int i = 0; i < rock.getWidth(); i++) {
-						if (grid[rockCoordinate.getY() + bottomProfile[i] - 1][rockCoordinate.getX()+i] == '#') {
+						if (grid[rockCoordinate.y() + bottomProfile[i] - 1][rockCoordinate.x()+i] == '#') {
 							canMoveDown = false;
 							break;
 						}
@@ -236,7 +236,7 @@ public class Day17Part2 {
 				}
 
 				if (canMoveDown) {
-					rockCoordinate = new Coordinates(rockCoordinate.getX(), rockCoordinate.getY() - 1);
+					rockCoordinate = new Coordinates(rockCoordinate.x(), rockCoordinate.y() - 1);
 				} else {
 					//set rock down -> draw shape
 					char[][] bitmap = rock.toBitmap();
@@ -244,12 +244,12 @@ public class Day17Part2 {
 						for (int j = 0; j < rock.getWidth(); j++) {
 							char pixel = bitmap[rock.getHeight() - i - 1][j]; //draw shape from bottom up (grid numbers rows that way)
 							if (pixel == '#') { //only draw parts of the rock's shape (so as not to possibly erase parts of previous rocks)
-								grid[rockCoordinate.getY()+i][rockCoordinate.getX()+j] = pixel;
+								grid[rockCoordinate.y()+i][rockCoordinate.x()+j] = pixel;
 							}
 						}
 					}
 
-					topOfTower = Math.max(topOfTower, rockCoordinate.getY() + rock.getHeight() - 1);
+					topOfTower = Math.max(topOfTower, rockCoordinate.y() + rock.getHeight() - 1);
 				}
 			}
 

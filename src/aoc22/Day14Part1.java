@@ -52,14 +52,14 @@ public class Day14Part1 {
 			boolean firstCoordOnTrace = true;
 			for (Coordinates coord: rockTrace) {
 				if (firstCoordOnTrace) {
-					x1 = coord.getX();
-					y1 = coord.getY();
+					x1 = coord.x();
+					y1 = coord.y();
 					firstCoordOnTrace = false;
 					continue;
 				}
 
-				x2 = coord.getX();
-				y2 = coord.getY();
+				x2 = coord.x();
+				y2 = coord.y();
 				xLen = Math.abs(x1 - x2) + 1;
 				yLen = Math.abs(y1 - y2) + 1;
 				xDirection = Integer.compare(x2, x1);
@@ -84,41 +84,41 @@ public class Day14Part1 {
 			steps++;
 
 			//S: if target OOB -> done!, else if empty, update cursor to target, continue
-			target = new Coordinates(cursor.getX(), cursor.getY() + 1);
+			target = new Coordinates(cursor.x(), cursor.y() + 1);
 			if (outOfBounds(target)) {
 				unitsOfSand--; //don't count last one!
 				break;
 			}
 			if (isEmpty(target)) {
-				cursor = new Coordinates(target.getX(), target.getY());
+				cursor = new Coordinates(target.x(), target.y());
 				continue;
 			}
 
 			//SW: ...
-			target = new Coordinates(cursor.getX() - 1, cursor.getY() + 1);
+			target = new Coordinates(cursor.x() - 1, cursor.y() + 1);
 			if (outOfBounds(target)) {
 				unitsOfSand--; //don't count last one!
 				break;
 			}
 			if (isEmpty(target)) {
-				cursor = new Coordinates(target.getX(), target.getY());
+				cursor = new Coordinates(target.x(), target.y());
 				continue;
 			}
 
 			//SE: ...
-			target = new Coordinates(cursor.getX() + 1, cursor.getY() + 1);
+			target = new Coordinates(cursor.x() + 1, cursor.y() + 1);
 			if (outOfBounds(target)) {
 				unitsOfSand--; //don't count last one!
 				break;
 			}
 			if (isEmpty(target)) {
-				cursor = new Coordinates(target.getX(), target.getY());
+				cursor = new Coordinates(target.x(), target.y());
 				continue;
 			}
 
 			//if all 3 full, set grain down in cursor position (update grid), increment unitsOfSand, reset cursor, continue
-			target = new Coordinates(cursor.getX(), cursor.getY());
-			grid[target.getY()][target.getX()] = "O";
+			target = new Coordinates(cursor.x(), cursor.y());
+			grid[target.y()][target.x()] = "O";
 			unitsOfSand++;
 			steps++; //since movement into entryPoint (of next grain of sand) should also count as a step...
 			cursor = new Coordinates(entryXCoord, entryYCoord);
@@ -135,11 +135,11 @@ public class Day14Part1 {
 	}
 
 	private static boolean outOfBounds(Coordinates target) {
-		return target.getX() < minXcoord || target.getX() > maxXcoord || target.getY() > maxYcoord;
+		return target.x() < minXcoord || target.x() > maxXcoord || target.y() > maxYcoord;
 	}
 
 	private static boolean isEmpty(Coordinates target) {
-		return grid[target.getY()][target.getX()].equals(".");
+		return grid[target.y()][target.x()].equals(".");
 	}
 
 	private static void printGrid() {
