@@ -170,7 +170,7 @@ public class Day16Part2 {
 			for (Boolean valveOpen: nonZeroValvesOpened.values()) {
 				sb2.append(valveOpen ? "1" : "0");
 			}
-			sb.append(Integer.parseInt(sb2.toString(), 2)); //compress down to integer (max 5 chars)
+			sb.append(Integer.parseInt(sb2.toString(), 2)); //compress down to integer (max 5 chars for 15 bits/valves)
 
 			return sb.toString(); //max 13 chars
 		}
@@ -304,7 +304,7 @@ public class Day16Part2 {
 
 	private static boolean alreadyVisitedChamberSinceLastValveOpened(State incomingState, String chamberId) {
 		/*
-		 *	optimization: skip adding neighbor/chambers for the SAME player if they've already passed the neighbor
+		 * Optimization: skip adding neighbor/chambers for the SAME player if they've already passed the neighbor
 		 *  further up in the path UNLESS there was a valve opened in between
 		 * 		i.e.:  A -> B -> A = no point in going from B to A since no valve opened in between
 		 *			   A -> B -> open valve B -> A = there is a point going back to A
