@@ -61,15 +61,19 @@ public class Day16Part2 {
 		private int minutesRemaining;
 		private boolean actionValve; //true = valve was just checked, false = just arrived at the chamber
 		private int cumulativeFlowRate;
+		private List<State> path = new ArrayList<>();
 
 		public State(int playerNum, String chamberId, LinkedHashMap<String, Boolean> nonZeroValvesOpened,
-					 int minutesRemaining, boolean actionValve, int cumulativeFlowRate) {
+					 int minutesRemaining, boolean actionValve, int cumulativeFlowRate, List<State> path) {
 			this.playerNum = playerNum;
 			this.chamberId = chamberId;
 			this.nonZeroValvesOpened = nonZeroValvesOpened;
 			this.minutesRemaining = minutesRemaining;
 			this.actionValve = actionValve;
 			this.cumulativeFlowRate = cumulativeFlowRate;
+			if (path != null) {
+				this.path = path;
+			}
 		}
 
 		public int getPlayerNum() {
@@ -90,6 +94,12 @@ public class Day16Part2 {
 		public int getCumulativeFlowRate() {
 			return cumulativeFlowRate;
 		}
+		public boolean isActionValve() {
+			return actionValve;
+		}
+		public List<State> getPath() {
+			return path;
+		}
 
 		public void setChamberId(String chamberId) {
 			this.chamberId = chamberId;
@@ -105,6 +115,9 @@ public class Day16Part2 {
 		}
 		public void setCumulativeFlowRate(int cumulativeFlowRate) {
 			this.cumulativeFlowRate = cumulativeFlowRate;
+		}
+		public void addToPath(State state) {
+			this.path.add(state);
 		}
 
 		@Override
@@ -143,7 +156,7 @@ public class Day16Part2 {
 		@Override
 		protected State clone() {
 			return new State(playerNum, chamberId, new LinkedHashMap<>(nonZeroValvesOpened), minutesRemaining,
-					actionValve, cumulativeFlowRate);
+					actionValve, cumulativeFlowRate, new ArrayList<>(path));
 		}
 
 		public String getSignature() {
@@ -169,6 +182,7 @@ public class Day16Part2 {
 	static long recursionCtr;
 	static long cacheHits;
 	static long cacheMisses;
+	static long loopAvoidanceOptimizationCtr;
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day16_input.txt");
@@ -192,7 +206,7 @@ public class Day16Part2 {
 			nonZeroValvesOpened.put(ch.getId(), Boolean.FALSE); //valves all start out closed
 		}
 		State initialState = new State(1, root.getId(), nonZeroValvesOpened, 26,
-				false,0);
+				false,0, null);
 		int max = calculateMaxFlowRates(initialState);
 
 		System.out.printf("Max Flow Rate = %s%n", max);
@@ -227,8 +241,10 @@ public class Day16Part2 {
 
 		if (recursionCtr % 100_000 == 0) {
 			double hitPct = (double) cacheHits / (cacheHits+cacheMisses) * 100D;
-			System.out.printf("Recursion count=%s, Cache Hits=%s, Misses=%s, Hit Rate=%2.2f%% %n",
-					recursionCtr, cacheHits, cacheMisses, hitPct);
+			System.out.printf("Recursion count=%s, Cache Size=%s, Cache Hits=%s, Misses=%s, Hit Rate=%2.2f%%, " +
+							"Loop Avoidance Count=%s %n",
+					recursionCtr, maxFlowRateIncrementMemoTable.size(), cacheHits, cacheMisses, hitPct,
+					loopAvoidanceOptimizationCtr);
 		}
 
 		//for each of the following: actionValve=true, actionValve=false X all neighbors
@@ -240,6 +256,7 @@ public class Day16Part2 {
 		if (thisChamber.getFlowRate() > 0 && !incomingState.isChamberValveOpen(thisChamber.getId())) {
 			//open valve in current chamber
 			State state = incomingState.clone();
+			state.addToPath(incomingState);
 			state.setMinutesRemaining(state.getMinutesRemaining() - 1); //decrement time
 			state.setActionValve(true); //indicate it's an "open valve" action
 			state.getNonZeroValvesOpened().put(state.getChamberId(), true); //update valves table
@@ -269,11 +286,48 @@ public class Day16Part2 {
 
 	private static void iterateNeighbors(State incomingState, List<State> states, Chamber thisChamber) {
 		for (String neighborId: thisChamber.getNeighborIds()) {
+
+			/* unfortunately this optimization didn't pan out - see note in the method itself
+			if (alreadyVisitedChamberSinceLastValveOpened(incomingState, neighborId)) {
+				loopAvoidanceOptimizationCtr++;
+				continue;
+			}
+			 */
+
 			State state = incomingState.clone();
 			state.setMinutesRemaining(state.getMinutesRemaining() - 1); //decrement time
 			state.setChamberId(neighborId);
 			state.setActionValve(false); //NOT an "open valve" action (rather, a "move to chamber" action)
 			states.add(state);
 		}
+	}
+
+	private static boolean alreadyVisitedChamberSinceLastValveOpened(State incomingState, String chamberId) {
+		/*
+		 *	optimization: skip adding neighbor/chambers for the SAME player if they've already passed the neighbor
+		 *  further up in the path UNLESS there was a valve opened in between
+		 * 		i.e.:  A -> B -> A = no point in going from B to A since no valve opened in between
+		 *			   A -> B -> open valve B -> A = there is a point going back to A
+		 *
+		 * However... this optimization didn't pan out because it only saves a very small fraction of loops (chamber
+		 *  recursions) at the expense of the extra work (to backtrace and check the path) and the end result is
+		 *  around the same run-time (~2:20-2:25 running Java19 with 6GB heap on an Intel 4-core i5-3330S CPU @ 2.70GHz).
+		 *
+		 *  Stats on full run:
+		 * 		Recursion count=105200000, Cache Size=33270509, Cache Hits=63470564, Misses=33270546, Hit Rate=65.61%,
+		 * 			Loop Avoidance Count=258608
+		 *
+		 *  Note how the recursion count is still at ~105MM (compares with ~106MM without the optimization) and
+		 *    the loop avoidance count is a mere ~258K.
+		 */
+		for (State prevState : incomingState.getPath()) {
+			if (prevState.isActionValve() || prevState.getPlayerNum() != incomingState.getPlayerNum()) {
+				return false;
+			}
+			if (prevState.getChamberId().equals(chamberId)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -208,8 +208,8 @@ public class Day16Part1 {
 
 		if (recursionCtr % 100_000 == 0) {
 			double hitPct = (double) cacheHits / (cacheHits+cacheMisses) * 100D;
-			System.out.printf("Recursion count=%s, Cache Hits=%s, Misses=%s, Hit Rate=%2.2f%% %n",
-					recursionCtr, cacheHits, cacheMisses, hitPct);
+			System.out.printf("Recursion count=%s, Cache Size=%s, Cache Hits=%s, Misses=%s, Hit Rate=%2.2f%% %n",
+					recursionCtr, maxFlowRateIncrementMemoTable.size(), cacheHits, cacheMisses, hitPct);
 		}
 
 		//for each of the following: actionValve=true, actionValve=false X all neighbors
