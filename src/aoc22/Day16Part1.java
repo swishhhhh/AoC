@@ -1,12 +1,10 @@
 package aoc22;
 
 import utils.ResourceLoader;
-
 import java.util.*;
 
-
 /**
- * IMPORTANT!! need to run this with at least 6G of heap space (-Xmx6G), will still take a few minutes to run...
+ *  <a href="https://adventofcode.com/2022/day/16">Advent of Code 2022 Day 16</a>
  */
 public class Day16Part1 {
 	static class Chamber {
