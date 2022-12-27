@@ -1,12 +1,8 @@
 package aoc22.day19;
 
 import java.util.*;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class Blueprint {
-//    public static final int MINUTES_TO_COLLECT = 24;
-//    private static final int[] TRIANGULAR_SEQUENCE;
-
     private final int ID;
     private final int minutesToCollect;
     private final int costOfOreRobotInOre;
@@ -16,14 +12,10 @@ public class Blueprint {
     private final int costOfGeodeRobotInOre;
     private final int costOfGeodeRobotInObsidian;
     private int maxOreRobotsToBuy;
-    private int maxClayRobotsToBuy;
-    private int maxObsidianRobotsToBuy;
-    private int maxGeodeRobotsToBuy = Integer.MAX_VALUE; //implicitly unlimited
+    private final int maxClayRobotsToBuy;
+    private final int maxObsidianRobotsToBuy;
 
-    private int[] triangularSequenceTable;
-
-//    private Map<String, Integer> maxGeodesMemoTable = new HashMap<>();
-    private Set<String> visitedSet = new HashSet<>();
+    private final Set<String> visitedSet = new HashSet<>();
     private long cacheHits;
     private long cacheMisses;
 
@@ -45,17 +37,6 @@ public class Blueprint {
 
         this.maxClayRobotsToBuy = this.costOfObsidianRobotInClay;
         this.maxObsidianRobotsToBuy = this.costOfGeodeRobotInObsidian;
-
-        this.initTriangularSequenceTable();
-    }
-
-    private void initTriangularSequenceTable() {
-        this.triangularSequenceTable = new int[this.minutesToCollect + 1];
-        int sum = 0;
-        this.triangularSequenceTable[0] = 0;
-        for (int i = 1; i < this.triangularSequenceTable.length; i++) {
-            this.triangularSequenceTable[i] = i + this.triangularSequenceTable[i-1];
-        }
     }
 
     public int getID() {
@@ -67,20 +48,15 @@ public class Blueprint {
      */
     public State getStateWithMaxGeodes() {
         State initialState = new State(1, 0, 0, 0, 0);
-
-        Map<Integer, Integer> maxGeodesAtMinuteMark = new HashMap<>();
-
         Stack<State> stack = new Stack<>();
         stack.push(initialState);
-
         State maxState = null;
 
-        //DFS
         long loopCtr = 0;
         long loopsOptimized = 0;
         while (!stack.isEmpty()) {
             loopCtr++;
-            if (loopCtr % 10_000_000 == 0) {
+            if (loopCtr % 1_000_000 == 0) {
                 State tempState = stack.peek();
                 double hitPct = (double) cacheHits / (cacheHits+cacheMisses) * 100D;
                 System.out.printf("Loop ctr=%s, Cache Size=%s, Cache Hits=%s, Misses=%s, Hit Rate=%2.2f%%, " +
@@ -100,44 +76,20 @@ public class Blueprint {
                 continue;
             }
 
-            //term condition: figure out max number of geodes that can be collected in most optimistic scenario =
-            //          num-geodes so far + (num-geode-robots * minutes remaining) + triangularSequence(minutes - 1)
-            // triangularSequence = https://en.wikipedia.org/wiki/Triangular_number
-//            int maxOptimistic = getMaxOptimisticTotalGeodesFromState(incomingState);
-
-            //optimization 1: if numGeodes at this stage (minute mark) < maxGeodesAtMinuteMark(minuteMark)
-//            Integer maxGeodesSoFarAtThisStage = maxGeodesAtMinuteMark.get(incomingState.getMinuteCount());
-//            if (maxGeodesSoFarAtThisStage == null) {
-//                maxGeodesSoFarAtThisStage = -1;
-//            }
-//            if (maxOptimistic < maxGeodesSoFarAtThisStage) {
-//                loopsOptimized++;
-//                continue; //no point in continuing from here
-//            } else {
-//                maxGeodesAtMinuteMark.put(incomingState.getMinuteCount(), incomingState.getTotalGeode());
-//            }
-
-            //optimization 2: if incomingState's signature was already encountered, continue/skip..
+            //optimization: if incomingState's signature was already encountered, continue/skip..
+            incomingState = compressState(incomingState);
             String signature = incomingState.getSignature();
-//            Integer maxGeodesFromCache = maxGeodesMemoTable.get(signature);
-//            if (maxGeodesFromCache != null) {
             if (visitedSet.contains(signature)) {
                 this.cacheHits++;
-//                if (incomingState.getTotalGeode() <= maxGeodesFromCache) {
-                    loopsOptimized++;
-                    continue;
-//                }
+                loopsOptimized++;
+                continue;
             } else {
-//                maxGeodesMemoTable.put(signature, incomingState.getTotalGeode());
                 visitedSet.add(signature);
                 this.cacheMisses++;
             }
 
-
-            State state;
-
             //don't buy anything scenario
-            state = incomingState.clone();
+            State state = incomingState.clone();
             state.harvest();
             state.addToPath(incomingState);
             stack.push(state);
@@ -193,251 +145,43 @@ public class Blueprint {
         return maxState;
     }
 
-    private int getMaxOptimisticTotalGeodesFromState(State state) {
-        /*
-         * max number of geodes that can be collected in most optimistic scenario =
-         *     num-geodes so far + (num-geode-robots * minutes remaining) + triangularSequence(minutes - 1)
-         *
-         *     triangularSequence = https://en.wikipedia.org/wiki/Triangular_number
-         */
-        int minutesRemaining = this.minutesToCollect - state.getMinuteCount();
-        int max = state.getTotalGeode()
-                + (state.getGeodeRobotsCount() * minutesRemaining)
-                + this.triangularSequenceTable[minutesRemaining - 1];
+    private State compressState(State incomingState) {
+        State state = incomingState.clone();
 
-        return max;
-    }
-
-    public State oldDFSgetStateWithMaxGeodes() {
-        State initialState = new State(1, 0, 0, 0, 0);
-//        Queue<State> queue = new LinkedBlockingQueue<>();
-//        queue.add(initialState);
-
-        //assumption: purchase a geode robot as soon as you have the funds
-        //setup max geodes at minute count map
-        Map<Integer, Integer> maxGeodeRobotsAtMinuteMark = new HashMap<>();
-
-        Stack<State> stack = new Stack<>();
-        stack.push(initialState);
-
-//        int maxGeodesAfter24Mins = 0;
-        State maxState = null;
-
-        //DFS
-        long loopCtr = 0;
-//        while (!queue.isEmpty()) {
-        while (!stack.isEmpty()) {
-            loopCtr++;
-            if (loopCtr % 10_000_000 == 0) {
-                //State tempState = queue.peek();
-                State tempState = stack.peek();
-                System.out.printf("Loop ctr = %s, Queue size=%s, Peek Minutes=%s, State=%s%n",
-                        loopCtr, stack.size(), tempState.getMinuteCount(), tempState);
-            }
-
-            //State incomingState = queue.poll();
-            State incomingState = stack.pop();
-
-            //term condition: if numGeodeRobots at this stage (minute mark) < maxGeodeRobotsAtMinuteMark(minuteMark)
-            Integer maxGeodeRobotsAtThisStage = maxGeodeRobotsAtMinuteMark.get(incomingState.getMinuteCount());
-            if (maxGeodeRobotsAtThisStage == null) {
-                maxGeodeRobotsAtThisStage = 0;
-            }
-            if (incomingState.getGeodeRobotsCount() < maxGeodeRobotsAtThisStage) {
-                continue; //no point in continuing from here
-            } else if (incomingState.getGeodeRobotsCount() > maxGeodeRobotsAtThisStage) {
-                maxGeodeRobotsAtMinuteMark.put(incomingState.getMinuteCount(), incomingState.getGeodeRobotsCount());
-            }
-
-            //term condition: MINUTES_TO_COLLECT minutes reached
-            if (incomingState.getMinuteCount() >= this.minutesToCollect) {
-                if (maxState == null || incomingState.getTotalGeode() > maxState.getTotalGeode()) {
-//                    maxGeodesAfter24Mins = incomingState.getTotalGeode();
-                    maxState = incomingState;
-                    System.out.println("Max geodes = " + maxState.getTotalGeode());
-                }
-                continue;
-            }
-
-
-            State state;
-
-            //don't buy anything scenario
-            state = incomingState.clone();
-            state.harvest();
-            state.addToPath(incomingState);
-//          queue.add(state);
-            stack.push(state);
-
-            //Buy Ore robots scenario - check if you need another (max not exceeded) and you have the funds in ore...
-            if (incomingState.getOreRobotsCount() < this.maxOreRobotsToBuy
-                    && this.costOfOreRobotInOre <= incomingState.getTotalOre()) {
-                state = incomingState.clone();
-                state.setTotalOre(state.getTotalOre() - this.costOfOreRobotInOre);
-                state.harvest();
-                state.setOreRobotsCount(state.getOreRobotsCount() + 1);
-                state.addToPath(incomingState);
-//                queue.add(state);
-                stack.push(state);
-//                anyRobotsBought = true;
-            }
-
-            //Buy Clay robots scenario - check if you need another one and you have the funds in ore...
-            if (incomingState.getClayRobotsCount() < this.maxClayRobotsToBuy
-                    && this.costOfClayRobotInOre <= incomingState.getTotalOre()) {
-                state = incomingState.clone();
-                state.setTotalOre(state.getTotalOre() - this.costOfClayRobotInOre);
-                state.harvest();
-                state.setClayRobotsCount(state.getClayRobotsCount() + 1);
-                state.addToPath(incomingState);
-//                queue.add(state);
-                stack.push(state);
-//                anyRobotsBought = true;
-            }
-
-            //Buy Obsidian robots scenario - check if you need another one and you have the funds in ore & clay...
-            if (incomingState.getObsidianRobotsCount() < this.maxObsidianRobotsToBuy
-                    && this.costOfObsidianRobotInOre <= incomingState.getTotalOre()
-                    && this.costOfObsidianRobotInClay <= incomingState.getTotalClay()) {
-                state = incomingState.clone();
-                state.setTotalOre(state.getTotalOre() - this.costOfObsidianRobotInOre);
-                state.setTotalClay(state.getTotalClay() - this.costOfObsidianRobotInClay);
-                state.harvest();
-                state.setObsidianRobotsCount(state.getObsidianRobotsCount() + 1);
-                state.addToPath(incomingState);
-//                queue.add(state);
-                stack.push(state);
-//                anyRobotsBought = true;
-            }
-
-            //Buy Geode robots scenario - check if you have the funds in ore & obsidian... (no need to check max for geodes..)
-            if (this.costOfGeodeRobotInOre <= incomingState.getTotalOre()
-                    && this.costOfGeodeRobotInObsidian <= incomingState.getTotalObsidian()) {
-                state = incomingState.clone();
-                state.setTotalOre(state.getTotalOre() - this.costOfGeodeRobotInOre);
-                state.setTotalObsidian(state.getTotalObsidian() - this.costOfGeodeRobotInObsidian);
-                state.harvest();
-                state.setGeodeRobotsCount(state.getGeodeRobotsCount() + 1);
-                state.addToPath(incomingState);
-//                queue.add(state);
-                stack.push(state);
-//                anyRobotsBought = true;
-            }
+        //get rid of excess robots
+        if (state.getOreRobotsCount() > this.maxOreRobotsToBuy) {
+            state.setOreRobotsCount(this.maxOreRobotsToBuy);
+        }
+        if (state.getClayRobotsCount() > this.maxClayRobotsToBuy) {
+            state.setClayRobotsCount(this.maxClayRobotsToBuy);
+        }
+        if (state.getObsidianRobotsCount() > this.maxObsidianRobotsToBuy) {
+            state.setObsidianRobotsCount(this.maxObsidianRobotsToBuy);
         }
 
-        return maxState;
-    }
+        //get rid of excess minerals
+        int minsLeft = minutesToCollect - state.getMinuteCount();
 
-    public State BFSgetStateWithMaxGeodes() {
-        State initialState = new State(1, 0, 0, 0, 0);
-        Queue<State> queue = new LinkedBlockingQueue<>();
-        queue.add(initialState);
-
-        //assumption: purchase a geode robot as soon as you have the funds
-        //setup max geodes at minute count map
-        Map<Integer, Integer> maxGeodeRobotsAtMinuteMark = new HashMap<>();
-
-//        int maxGeodesAfter24Mins = 0;
-        State maxState = null;
-
-        //BFS
-        int loopCtr = 0;
-        while (!queue.isEmpty()) {
-            loopCtr++;
-            if (loopCtr % 1000 == 0) {
-                State tempState = queue.peek();
-                System.out.printf("Loop ctr = %s, Queue size=%s, Peek Minutes=%s, State=%s%n",
-                        loopCtr, queue.size(), tempState.getMinuteCount(), tempState);
-            }
-
-            State incomingState = queue.poll();
-
-            //term condition: if numGeodes at this stage (minute mark) < maxGeodesAtMinuteMark(minuteMark)
-            Integer maxGeodeRobotsAtThisStage = maxGeodeRobotsAtMinuteMark.get(incomingState.getMinuteCount());
-            if (maxGeodeRobotsAtThisStage == null) {
-                maxGeodeRobotsAtThisStage = 0;
-            }
-            if (incomingState.getGeodeRobotsCount() < maxGeodeRobotsAtThisStage) {
-                continue; //no point in continuing from here
-            } else if (incomingState.getGeodeRobotsCount() > maxGeodeRobotsAtThisStage) {
-                maxGeodeRobotsAtMinuteMark.put(incomingState.getMinuteCount(), incomingState.getGeodeRobotsCount());
-            }
-
-            //term condition: MINUTES_TO_COLLECT minutes reached
-            if (incomingState.getMinuteCount() >= this.minutesToCollect) {
-                if (maxState == null || incomingState.getTotalGeode() > maxState.getTotalGeode()) {
-//                    maxGeodesAfter24Mins = incomingState.getTotalGeode();
-                    maxState = incomingState;
-                    System.out.println("Max geodes = " + maxState.getTotalGeode());
-                }
-                continue;
-            }
-
-
-            State state;
-            boolean anyRobotsBought = false;
-
-            //don't buy anything scenario
-//            if (!anyRobotsBought) {
-                state = incomingState.clone();
-                state.harvest();
-                state.addToPath(incomingState);
-                queue.add(state);
-//            }
-
-            //Buy Ore robots scenario - check if you need another (max not exceeded) and you have the funds in ore...
-            if (incomingState.getOreRobotsCount() < this.maxOreRobotsToBuy
-                    && this.costOfOreRobotInOre <= incomingState.getTotalOre()) {
-                state = incomingState.clone();
-                state.setTotalOre(state.getTotalOre() - this.costOfOreRobotInOre);
-                state.harvest();
-                state.setOreRobotsCount(state.getOreRobotsCount() + 1);
-                state.addToPath(incomingState);
-                queue.add(state);
-                anyRobotsBought = true;
-            }
-
-            //Buy Clay robots scenario - check if you need another one and you have the funds in ore...
-            if (incomingState.getClayRobotsCount() < this.maxClayRobotsToBuy
-                    && this.costOfClayRobotInOre <= incomingState.getTotalOre()) {
-                state = incomingState.clone();
-                state.setTotalOre(state.getTotalOre() - this.costOfClayRobotInOre);
-                state.harvest();
-                state.setClayRobotsCount(state.getClayRobotsCount() + 1);
-                state.addToPath(incomingState);
-                queue.add(state);
-                anyRobotsBought = true;
-            }
-
-            //Buy Obsidian robots scenario - check if you need another one and you have the funds in ore & clay...
-            if (incomingState.getObsidianRobotsCount() < this.maxObsidianRobotsToBuy
-                    && this.costOfObsidianRobotInOre <= incomingState.getTotalOre()
-                    && this.costOfObsidianRobotInClay <= incomingState.getTotalClay()) {
-                state = incomingState.clone();
-                state.setTotalOre(state.getTotalOre() - this.costOfObsidianRobotInOre);
-                state.setTotalClay(state.getTotalClay() - this.costOfObsidianRobotInClay);
-                state.harvest();
-                state.setObsidianRobotsCount(state.getObsidianRobotsCount() + 1);
-                state.addToPath(incomingState);
-                queue.add(state);
-                anyRobotsBought = true;
-            }
-
-            //Buy Geode robots scenario - check if you have the funds in ore & obsidian... (no need to check max for geodes..)
-            if (this.costOfGeodeRobotInOre <= incomingState.getTotalOre()
-                    && this.costOfGeodeRobotInObsidian <= incomingState.getTotalObsidian()) {
-                state = incomingState.clone();
-                state.setTotalOre(state.getTotalOre() - this.costOfGeodeRobotInOre);
-                state.setTotalObsidian(state.getTotalObsidian() - this.costOfGeodeRobotInObsidian);
-                state.harvest();
-                state.setGeodeRobotsCount(state.getGeodeRobotsCount() + 1);
-                state.addToPath(incomingState);
-                queue.add(state);
-                anyRobotsBought = true;
-            }
+        //(minsLeft * maxOreRobotsToBuy) = if you spent the most ore you can spend for every remaining step
+        //(state.getOreRobotsCount() * (minsLeft-1)) = amount of ore existing ore robots will make from here until end
+        int maxOrePossiblyNeededFromHere = (minsLeft * maxOreRobotsToBuy) - (state.getOreRobotsCount() * (minsLeft-1));
+        if (state.getTotalOre() > maxOrePossiblyNeededFromHere) {
+            state.setTotalOre(maxOrePossiblyNeededFromHere);
         }
 
-        return maxState;
+        //ditto (but with clay)..
+        int maxClayPossiblyNeededFromHere = (minsLeft * maxClayRobotsToBuy) - (state.getClayRobotsCount() * (minsLeft-1));
+        if (state.getTotalClay() > maxClayPossiblyNeededFromHere) {
+            state.setTotalClay(maxClayPossiblyNeededFromHere);
+        }
+
+        //ditto (but with obsidian)..
+        int maxObsidianPossiblyNeededFromHere = (minsLeft * maxObsidianRobotsToBuy) - (state.getObsidianRobotsCount() * (minsLeft-1));
+        if (state.getTotalObsidian() > maxObsidianPossiblyNeededFromHere) {
+            state.setTotalObsidian(maxObsidianPossiblyNeededFromHere);
+        }
+
+        return state;
     }
 
     @Override
@@ -454,7 +198,6 @@ public class Blueprint {
                 ", maxOreRobotsToBuy=" + maxOreRobotsToBuy +
                 ", maxClayRobotsToBuy=" + maxClayRobotsToBuy +
                 ", maxObsidianRobotsToBuy=" + maxObsidianRobotsToBuy +
-                ", maxGeodeRobotsToBuy=" + maxGeodeRobotsToBuy +
                 '}';
     }
 }
