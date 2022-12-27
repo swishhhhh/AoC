@@ -4,6 +4,9 @@ import utils.ResourceLoader;
 
 import java.util.List;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/10">Advent of Code 2022 Day 10</a>
+ */
 public class Day10Part2 {
 
 	public static void main(String[] args) throws Exception {
@@ -30,7 +33,6 @@ public class Day10Part2 {
 			int row = getRow(cycle);
 			int col = getCol(cycle);
 			crt[row][col] = isSpriteOverCycle(cycle, register) ? "#" : ".";
-
 
 			register += prevValue;
 			prevValue = value;

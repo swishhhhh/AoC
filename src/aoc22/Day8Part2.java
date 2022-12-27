@@ -4,72 +4,76 @@ import utils.ResourceLoader;
 
 import java.util.List;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/8">Advent of Code 2022 Day 8</a>
+ */
 public class Day8Part2 {
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day8_input.txt");
 
 		long hiScore = 0;
-		int dimension = 99;
+		int dimension = lines.get(0).length();
 		int[][] grid = new int[dimension][dimension];
 
-		int i = 0;
+		//load grid
+		int row = 0;
 		for (String line : lines) {
-			for (int j = 0; j < dimension; j++) {
-				grid[i][j] = Integer.parseInt(line.substring(j, j + 1));
+			for (int col = 0; col < dimension; col++) {
+				grid[row][col] = Integer.parseInt(line.substring(col, col + 1));
 			}
-			i++;
+			row++;
 		}
 
-		for (i = 0; i < dimension; i++) {
-			for (int j = 0; j < dimension; j++) {
-				int cell = grid[i][j];
-
-				//look left
-				int visTreesLeft = 0;
-				if (i > 0) {
-					for (int k = i - 1; k >= 0; k--) {
-						visTreesLeft++;
-						if (cell <= grid[k][j]) {
-							break;
-						}
-					}
-				}
-
-				//look right
-				int visTreesRight = 0;
-				if (i < dimension - 1) {
-					for (int k = i + 1; k < dimension; k++) {
-						visTreesRight++;
-						if (cell <= grid[k][j]) {
-							break;
-						}
-					}
-				}
+		for (row = 0; row < dimension; row++) {
+			for (int col = 0; col < dimension; col++) {
+				int cell = grid[row][col];
 
 				//look up
-				int visTreesUp = 0;
-				if (j > 0) {
-					for (int k = j - 1; k >= 0; k--) {
-						visTreesUp++;
-						if (cell <= grid[i][k]) {
+				int visibleTreesUp = 0;
+				if (row > 0) {
+					for (int i = row - 1; i >= 0; i--) {
+						visibleTreesUp++;
+						if (cell <= grid[i][col]) {
 							break;
 						}
 					}
 				}
 
 				//look down
-				int visTreesDown = 0;
-				if (j < dimension - 1) {
-					for (int k = j + 1; k < dimension; k++) {
-						visTreesDown++;
-						if (cell <= grid[i][k]) {
+				int visibleTreesDown = 0;
+				if (row < dimension - 1) {
+					for (int i = row + 1; i < dimension; i++) {
+						visibleTreesDown++;
+						if (cell <= grid[i][col]) {
 							break;
 						}
 					}
 				}
 
-				long score = visTreesRight * visTreesLeft * visTreesDown * visTreesUp;
+				//look left
+				int visibleTreesLeft = 0;
+				if (col > 0) {
+					for (int i = col - 1; i >= 0; i--) {
+						visibleTreesLeft++;
+						if (cell <= grid[row][i]) {
+							break;
+						}
+					}
+				}
+
+				//look right
+				int visibleTreesRight = 0;
+				if (col < dimension - 1) {
+					for (int i = col + 1; i < dimension; i++) {
+						visibleTreesRight++;
+						if (cell <= grid[row][i]) {
+							break;
+						}
+					}
+				}
+
+				long score = (long) visibleTreesDown * visibleTreesUp * visibleTreesRight * visibleTreesLeft;
 				if (score > hiScore) {
 					hiScore = score;
 				}

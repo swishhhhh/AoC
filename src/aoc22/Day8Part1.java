@@ -4,63 +4,41 @@ import utils.ResourceLoader;
 
 import java.util.List;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/8">Advent of Code 2022 Day 8</a>
+ */
 public class Day8Part1 {
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day8_input.txt");
 
 		int ctr = 0;
-		int dimension = 99;
+		int dimension = lines.get(0).length();
 		int[][] grid = new int[dimension][dimension];
 
-		int i = 0;
+		//load grid
+		int row = 0;
 		for (String line : lines) {
 			for (int j = 0; j < dimension; j++) {
-				grid[i][j] = Integer.parseInt(line.substring(j, j + 1));
+				grid[row][j] = Integer.parseInt(line.substring(j, j + 1));
 			}
-			i++;
+			row++;
 		}
 
-		for (i = 0; i < dimension; i++) {
-			for (int j = 0; j < dimension; j++) {
-				if (i == 0 || j == 0 || i == dimension - 1 || j == dimension - 1) {
+		for (row = 0; row < dimension; row++) {
+			for (int col = 0; col < dimension; col++) {
+				if (row == 0 || col == 0 || row == dimension - 1 || col == dimension - 1) {
 					ctr++;
 					continue;
 				}
 
-				int cell = grid[i][j];
+				int cell = grid[row][col];
 				boolean good = false;
 
-				//look left
-				for (int k = 0; k < i; k++) {
-					good = true;
-					if (cell <= grid[k][j]) {
-						good = false;
-						break;
-					}
-				}
-				if (good) {
-					ctr++;
-					continue;
-				}
-
-				//look right
-				for (int k = i + 1; k < dimension; k++) {
-					good = true;
-					if (cell <= grid[k][j]) {
-						good = false;
-						break;
-					}
-				}
-				if (good) {
-					ctr++;
-					continue;
-				}
-
 				//look up
-				for (int k = 0; k < j; k++) {
+				for (int i = 0; i < row; i++) {
 					good = true;
-					if (cell <= grid[i][k]) {
+					if (cell <= grid[i][col]) {
 						good = false;
 						break;
 					}
@@ -71,9 +49,35 @@ public class Day8Part1 {
 				}
 
 				//look down
-				for (int k = j + 1; k < dimension; k++) {
+				for (int i = row + 1; i < dimension; i++) {
 					good = true;
-					if (cell <= grid[i][k]) {
+					if (cell <= grid[i][col]) {
+						good = false;
+						break;
+					}
+				}
+				if (good) {
+					ctr++;
+					continue;
+				}
+
+				//look left
+				for (int i = 0; i < col; i++) {
+					good = true;
+					if (cell <= grid[row][i]) {
+						good = false;
+						break;
+					}
+				}
+				if (good) {
+					ctr++;
+					continue;
+				}
+
+				//look right
+				for (int i = col + 1; i < dimension; i++) {
+					good = true;
+					if (cell <= grid[row][i]) {
 						good = false;
 						break;
 					}

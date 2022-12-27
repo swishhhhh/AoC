@@ -5,6 +5,9 @@ import utils.ResourceLoader;
 
 import java.util.*;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/7">Advent of Code 2022 Day 7</a>
+ */
 public class Day7Part2 {
 
 	static class Directory {
@@ -41,7 +44,7 @@ public class Day7Part2 {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day7_input.txt");
 
 		Directory currentDir = new Directory();
-		currentDir.path = "";
+		currentDir.path = "/";
 		Directory root = currentDir;
 		List<Directory> allDirs = new ArrayList<>();
 		allDirs.add(root);
@@ -55,7 +58,7 @@ public class Day7Part2 {
 				Directory dir = new Directory();
 				dir.parent = currentDir;
 				String dirName = line.split(" ")[1];
-				dir.path = dir.parent.path + "/" + dirName;
+				dir.path = dir.parent.path + dirName + "/";
 				currentDir.subDirs.add(dir);
 				currentDir.dirMap.put(dirName, dir);
 				allDirs.add(dir);
@@ -86,21 +89,21 @@ public class Day7Part2 {
 		}
 
 		//---------
-		long threshold = 40000000L;
+		long threshold = 40_000_000L;
 		root.calculateTotalSize();
 		long rootSize = root.getSize();
 		long neededSpace = rootSize - threshold;
-		TreeMap<Long, Directory> treeMap = new TreeMap<>();
+		TreeMap<Long, Directory> dirsMap = new TreeMap<>(); //sorted map
 
 		//get all sizes and store in order of their sizes
 		for (Directory dir: allDirs) {
 			long size = dir.getSize();
-			treeMap.put(size, dir);
+			dirsMap.put(size, dir);
 		}
 
-		for (Long l : treeMap.keySet()) {
-			if (l >= neededSpace) {
-				System.out.println(l);
+		for (Long size : dirsMap.keySet()) {
+			if (size >= neededSpace) {
+				System.out.println(size);
 				break;
 			}
 		}

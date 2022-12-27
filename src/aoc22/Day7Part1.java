@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/7">Advent of Code 2022 Day 7</a>
+ */
 public class Day7Part1 {
 
 	static class Directory {
@@ -44,7 +47,7 @@ public class Day7Part1 {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day7_input.txt");
 
 		Directory currentDir = new Directory();
-		currentDir.path = "";
+		currentDir.path = "/";
 		Directory root = currentDir;
 		List<Directory> allDirs = new ArrayList<>();
 		allDirs.add(root);
@@ -58,7 +61,7 @@ public class Day7Part1 {
 				Directory dir = new Directory();
 				dir.parent = currentDir;
 				String dirName = line.split(" ")[1];
-				dir.path = dir.parent.path + "/" + dirName;
+				dir.path = dir.parent.path + dirName + "/";
 				currentDir.subDirs.add(dir);
 				currentDir.dirMap.put(dirName, dir);
 				allDirs.add(dir);

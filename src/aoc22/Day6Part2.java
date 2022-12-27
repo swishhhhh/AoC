@@ -2,6 +2,9 @@ package aoc22;
 
 import static utils.Helper.*;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/6">Advent of Code 2022 Day 6</a>
+ */
 public class Day6Part2 {
 
 	public static void main(String[] args) throws Exception {

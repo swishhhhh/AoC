@@ -5,6 +5,9 @@ import utils.ResourceLoader;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/9">Advent of Code 2022 Day 9</a>
+ */
 public class Day9Part2 {
 
 	public static void main(String[] args) throws Exception {
@@ -36,7 +39,7 @@ public class Day9Part2 {
 					int followerY = yAry[j];
 
 					int xMovement = 0, yMovement = 0;
-					if (leaderX - 1 > followerX) { //leader 2 is steps to the right, increment X
+					if (leaderX - 1 > followerX) { //leader is 2 steps to the right, increment X
 						xMovement = 1;
 						if (leaderY > followerY) { //leader is NE, increment Y as well
 							yMovement = 1;
