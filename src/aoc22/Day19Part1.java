@@ -29,6 +29,7 @@ public class Day19Part1 {
 
 	private static Blueprint parseBlueprint(String line, int minutesToCollect) {
 		List<Integer> nums = Helper.extractIntsFromText(line);
-		return new Blueprint(nums.get(0), minutesToCollect, nums.get(1), nums.get(2), nums.get(3), nums.get(4), nums.get(5), nums.get(6));
+		return new Blueprint(nums.get(0), minutesToCollect, nums.get(1), nums.get(2), nums.get(3), nums.get(4),
+				nums.get(5), nums.get(6));
 	}
 }

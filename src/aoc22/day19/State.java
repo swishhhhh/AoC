@@ -62,9 +62,6 @@ public class State {
     public int getTotalGeode() {
         return totalGeode;
     }
-    public List<State> getPath() {
-        return path;
-    }
 
     public void setOreRobotsCount(int oreRobotsCount) {
         this.oreRobotsCount = oreRobotsCount;
@@ -78,9 +75,6 @@ public class State {
     public void setGeodeRobotsCount(int geodeRobotsCount) {
         this.geodeRobotsCount = geodeRobotsCount;
     }
-    public void setMinuteCount(int minuteCount) {
-        this.minuteCount = minuteCount;
-    }
     public void setTotalOre(int totalOre) {
         this.totalOre = totalOre;
     }
@@ -89,9 +83,6 @@ public class State {
     }
     public void setTotalObsidian(int totalObsidian) {
         this.totalObsidian = totalObsidian;
-    }
-    public void setTotalGeode(int totalGeode) {
-        this.totalGeode = totalGeode;
     }
 
     public void addToPath(State state) {
@@ -160,16 +151,15 @@ public class State {
     }
 
     public String getSignature() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(this.minuteCount).append("|");         //2-3 chars
-        sb.append(this.oreRobotsCount).append("|");      //2-3 chars
-        sb.append(this.clayRobotsCount).append("|");     //2-3 chars
-        sb.append(this.obsidianRobotsCount).append("|"); //2-3 chars
-        sb.append(this.geodeRobotsCount).append("|");    //2-3 chars
-        sb.append(this.totalOre).append("|");            //2-3 chars
-        sb.append(this.totalClay).append("|");           //2-3 chars
-        sb.append(this.totalObsidian).append("|");       //2-3 chars
-        sb.append(this.totalGeode);                      //1-2 chars
-        return sb.toString();                            //17-26 chars total
+        return  this.minuteCount + "|" +         //2-3 chars
+                this.oreRobotsCount + "|" +      //2-3 chars
+                this.clayRobotsCount + "|" +     //2-3 chars
+                this.obsidianRobotsCount + "|" + //2-3 chars
+                this.geodeRobotsCount + "|" +    //2-3 chars
+                this.totalOre + "|" +            //2-3 chars
+                this.totalClay + "|" +           //2-3 chars
+                this.totalObsidian + "|" +       //2-3 chars
+                this.totalGeode;                 //1-2 chars
+                                                 // 17-26 chars total
     }
 }

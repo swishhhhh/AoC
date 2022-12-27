@@ -76,7 +76,7 @@ public class Blueprint {
             }
 
             //optimization: if incomingState's signature was already encountered, continue/skip..
-            incomingState = compressState(incomingState);
+            incomingState = pruneExcessMinerals(incomingState);
             String signature = incomingState.getSignature();
             if (visitedSet.contains(signature)) {
                 this.cacheHits++;
@@ -143,21 +143,8 @@ public class Blueprint {
         return maxState;
     }
 
-    private State compressState(State incomingState) {
+    private State pruneExcessMinerals(State incomingState) {
         State state = incomingState.clone();
-
-        //get rid of excess robots
-        if (state.getOreRobotsCount() > this.maxOreRobotsToBuy) {
-            state.setOreRobotsCount(this.maxOreRobotsToBuy);
-        }
-        if (state.getClayRobotsCount() > this.maxClayRobotsToBuy) {
-            state.setClayRobotsCount(this.maxClayRobotsToBuy);
-        }
-        if (state.getObsidianRobotsCount() > this.maxObsidianRobotsToBuy) {
-            state.setObsidianRobotsCount(this.maxObsidianRobotsToBuy);
-        }
-
-        //get rid of excess minerals
         int minsLeft = minutesToCollect - state.getMinuteCount();
 
         //(minsLeft * maxOreRobotsToBuy) = if you spent the most ore you can spend for every remaining step
