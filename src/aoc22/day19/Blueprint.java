@@ -53,21 +53,20 @@ public class Blueprint {
         State maxState = null;
 
         long loopCtr = 0;
-        long loopsOptimized = 0;
         while (!stack.isEmpty()) {
             loopCtr++;
             if (loopCtr % 1_000_000 == 0) {
                 State tempState = stack.peek();
                 double hitPct = (double) cacheHits / (cacheHits+cacheMisses) * 100D;
                 System.out.printf("Loop ctr=%s, Cache Size=%s, Cache Hits=%s, Misses=%s, Hit Rate=%2.2f%%, " +
-                                "Optimized=%s, Queue size=%s, Peek Minutes=%s, State=%s%n",
-                        loopCtr, visitedSet.size(), cacheHits, cacheMisses, hitPct, loopsOptimized,
+                                "Queue size=%s, Peek Minutes=%s, State=%s%n",
+                        loopCtr, visitedSet.size(), cacheHits, cacheMisses, hitPct,
                         stack.size(), tempState.getMinuteCount(), tempState);
             }
 
             State incomingState = stack.pop();
 
-            //term condition: MINUTES_TO_COLLECT minutes reached
+            //term condition: time ran out
             if (incomingState.getMinuteCount() >= this.minutesToCollect) {
                 if (maxState == null || incomingState.getTotalGeode() > maxState.getTotalGeode()) {
                     maxState = incomingState;
@@ -81,7 +80,6 @@ public class Blueprint {
             String signature = incomingState.getSignature();
             if (visitedSet.contains(signature)) {
                 this.cacheHits++;
-                loopsOptimized++;
                 continue;
             } else {
                 visitedSet.add(signature);
