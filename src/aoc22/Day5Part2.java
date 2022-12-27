@@ -1,20 +1,33 @@
 package aoc22;
 
-import utils.Helper;
 import utils.ResourceLoader;
 
 import java.util.List;
 import java.util.Stack;
 
+import static utils.Helper.extractIntsFromText;
+
+/**
+ * <a href="https://adventofcode.com/2022/day/5">Advent of Code 2022 Day 5</a>
+ */
 public class Day5Part2 {
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day5_input.txt");
 
-		int numInitialLines = 8;
-//		int numInitialLines = 3;
-		int numStacks = 9;
-//		int numStacks = 3;
+		int numInitialLines = 0, numStacks = 0;
+
+		//find stack-numbers line (1st one that doesn't start with "[") to determine both numInitialLines and numStacks
+		for (String line : lines) {
+			if (line.trim().startsWith("[")) {
+				numInitialLines++;
+				continue;
+			}
+
+			List<Integer> nums = extractIntsFromText(line);
+			numStacks = nums.get(nums.size()-1);
+			break;
+		}
 
 		Stack<String>[] stacks = new Stack[numStacks];
 		for (int i = 0; i < numStacks; i++) {
@@ -40,11 +53,12 @@ public class Day5Part2 {
 		}
 
 		for (int i = numInitialLines + 2; i < lines.size(); i++) {
-			List<Integer> nums = Helper.extractIntsFromText(lines.get(i));
+			List<Integer> nums = extractIntsFromText(lines.get(i));
 			int numMoves = nums.get(0);
 			int srcStack = nums.get(1);
 			int targetStack = nums.get(2);
 
+			//to reverse the order just load into a temp stack and then "LIFO" out of it into the target stack..
 			Stack<String> tempStack = new Stack<>();
 			for (int j = 0; j < numMoves; j++) {
 				tempStack.push(stacks[srcStack - 1].pop());

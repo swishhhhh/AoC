@@ -1,47 +1,53 @@
 package aoc22;
 
 import utils.ResourceLoader;
-
 import java.util.List;
 
+import static aoc22.Day2Part1.Hand.*;
+
+/**
+ * <a href="https://adventofcode.com/2022/day/2">Advent of Code 2022 Day 2</a>
+ */
 public class Day2Part1 {
+
+	enum Hand {ROCK, PAPER, SCISSORS}
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day2_input.txt");
 
 		int score = 0;
-		String opponentHand = "", myHand = "";
+		Hand opponentHand = null, myHand = null;
 
 		for (String line: lines) {
 			String[] ary = line.split(" ");
 			switch (ary[0]) {
-				case "A" -> opponentHand = "rock";
-				case "B" -> opponentHand = "paper";
-				case "C" -> opponentHand = "scissors";
+				case "A" -> opponentHand = ROCK;
+				case "B" -> opponentHand = PAPER;
+				case "C" -> opponentHand = SCISSORS;
 			}
 
 			switch (ary[1]) {
 				case "X" -> {
-					myHand = "rock";
+					myHand = ROCK;
 					score += 1;
 				}
 				case "Y" -> {
-					myHand = "paper";
+					myHand = PAPER;
 					score += 2;
 				}
 				case "Z" -> {
-					myHand = "scissors";
+					myHand = SCISSORS;
 					score += 3;
 				}
 			}
 
-			if (opponentHand.equals(myHand)) {
+			if (opponentHand == myHand) {
 				score+= 3;
-			} else if (opponentHand.equals("rock") && myHand.equals("paper")) {
+			} else if (opponentHand == ROCK && myHand == PAPER) {
 				score+= 6;
-			} else if (opponentHand.equals("scissors") && myHand.equals("rock")) {
+			} else if (opponentHand == SCISSORS && myHand == ROCK) {
 				score+= 6;
-			} else if (opponentHand.equals("paper") && myHand.equals("scissors")) {
+			} else if (opponentHand == PAPER && myHand == SCISSORS) {
 				score+= 6;
 			}
 

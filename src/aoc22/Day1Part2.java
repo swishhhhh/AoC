@@ -4,6 +4,9 @@ import utils.ResourceLoader;
 
 import java.util.List;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/1">Advent of Code 2022 Day 1</a>
+ */
 public class Day1Part2 {
 
 	private static int highestSum1 = 0, highestSum2 = 0, highestSum3 = 0;
@@ -12,7 +15,6 @@ public class Day1Part2 {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day1_input.txt");
 
 		int currentSum = 0;
-//		int highestSum1 = 0, highestSum2 = 0, highestSum3 = 0;
 
 		for (String line: lines) {
 			if (line.trim().length() == 0) {

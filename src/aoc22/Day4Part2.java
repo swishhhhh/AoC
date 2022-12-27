@@ -4,6 +4,9 @@ import utils.ResourceLoader;
 
 import java.util.List;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/4">Advent of Code 2022 Day 4</a>
+ */
 public class Day4Part2 {
 
 	public static void main(String[] args) throws Exception {
@@ -12,6 +15,7 @@ public class Day4Part2 {
 		int ctr = 0;
 		int min1, max1, min2, max2;
 
+		//check for overlapping pairs
 		for (String line: lines) {
 			String[] pairAry = line.split(",");
 
@@ -23,16 +27,11 @@ public class Day4Part2 {
 			min2 = Integer.parseInt(rangeAry[0]);
 			max2 = Integer.parseInt(rangeAry[1]);
 
-//			int minOfBoth = Math.min(min1, min2);
-
 			if (max1 >= min2 && max1 <= max2) {
 				ctr++;
 			} else if (max2 >= min1 && max2 <= max1) {
 				ctr++;
 			}
-//			if (max1 >= min2 || max2 <= min1) {
-//				ctr++;
-//			}
 		}
 
 

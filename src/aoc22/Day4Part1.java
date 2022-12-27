@@ -4,6 +4,9 @@ import utils.ResourceLoader;
 
 import java.util.*;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/4">Advent of Code 2022 Day 4</a>
+ */
 public class Day4Part1 {
 
 	public static void main(String[] args) throws Exception {
@@ -12,6 +15,7 @@ public class Day4Part1 {
 		int ctr = 0;
 		int min1, max1, min2, max2;
 
+		//check for pairs where one fully contains the other
 		for (String line: lines) {
 			String[] pairAry = line.split(",");
 
