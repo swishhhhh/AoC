@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/11">Advent of Code 2022 Day 11</a>
+ */
 public class Day11Part1 {
 	static class Monkey {
 		public Monkey(String name) {
@@ -16,7 +19,6 @@ public class Day11Part1 {
 
 		public String name;
 		public Queue<Integer> items = new LinkedBlockingQueue<>();
-//		public int level;
 		public int inspectedCtr = 0;
 		public String operator1;
 		public String operator2;
@@ -30,7 +32,6 @@ public class Day11Part1 {
 			return "Monkey{" +
 					"name='" + name + '\'' +
 					", items=" + items +
-//					", level=" + level +
 					", inspectedCtr=" + inspectedCtr +
 					", operator1='" + operator1 + '\'' +
 					", operator2='" + operator2 + '\'' +
@@ -49,8 +50,8 @@ public class Day11Part1 {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day11_input.txt");
 		Monkey m = null;
 
+		//parse input
 		for (String line: lines) {
-			//parse input
 			line = line.trim();
 			if (line.startsWith("Monkey")) {
 				m = new Monkey(line);
@@ -95,17 +96,8 @@ public class Day11Part1 {
 
 		monkeys.forEach(System.out::println);
 
-		//figure out 2 highest monkey inspectors
-		int highest = 0, secondHighest = 0;
-		for (Monkey monkey: monkeys) {
-			if (monkey.inspectedCtr > highest) {
-				secondHighest = highest;
-				highest = monkey.inspectedCtr;
-			} else if (monkey.inspectedCtr > secondHighest) {
-				secondHighest = monkey.inspectedCtr;
-			}
-		}
-
-		System.out.printf("Total = %s%n", highest * secondHighest);
+		//sort monkeys by reverse order of inspectedCtr and return product of first 2..
+		monkeys.sort((m1, m2) -> m2.inspectedCtr - m1.inspectedCtr);
+		System.out.printf("Total = %s%n", monkeys.get(0).inspectedCtr * monkeys.get(1).inspectedCtr);
 	}
 }

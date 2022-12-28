@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/12">Advent of Code 2022 Day 12</a>
+ */
 public class Day12Part1 {
 
 	static class Coordinates {
@@ -84,7 +87,6 @@ public class Day12Part1 {
 		}
 
 		//-----------
-		// Create a queue for BFS
 		LinkedList<Coordinates> queue = new LinkedList<>();
 
 		startCoords.stepsFromStartCnt = 0;

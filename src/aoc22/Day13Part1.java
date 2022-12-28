@@ -6,6 +6,9 @@ import utils.ResourceLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/13">Advent of Code 2022 Day 13</a>
+ */
 public class Day13Part1 {
 
 	public static void main(String[] args) throws Exception {
@@ -38,7 +41,7 @@ public class Day13Part1 {
 
 		for (int i = 0; i < Math.max(leftAry.length, rightAry.length); i++) {
 
-			//handle case where 1 of the arys are done already
+			//handle case where 1 of the arrays are done already
 			if (i >= leftAry.length) { //left side ran out of items
 				return -1;
 			}
@@ -49,8 +52,8 @@ public class Day13Part1 {
 
 			//handle case where both sides are ints, compare them...
 			boolean isLeftAnInt = Helper.isNumeric(leftAry[i]);
-			boolean isRighAnInt = Helper.isNumeric(rightAry[i]);
-			if (isLeftAnInt && isRighAnInt) {
+			boolean isRightAnInt = Helper.isNumeric(rightAry[i]);
+			if (isLeftAnInt && isRightAnInt) {
 				int l = Integer.parseInt(leftAry[i]);
 				int r = Integer.parseInt(rightAry[i]);
 				if (l < r) return -1;
@@ -59,10 +62,10 @@ public class Day13Part1 {
 			}
 
 			//handle case where one side is an int and the other not -> convert int to array
-			if (!isLeftAnInt && isRighAnInt) {
+			if (!isLeftAnInt && isRightAnInt) {
 				rightAry[i] = "[" + rightAry[i] + "]";
 			}
-			if (!isRighAnInt && isLeftAnInt) {
+			if (!isRightAnInt && isLeftAnInt) {
 				leftAry[i] = "[" + leftAry[i] + "]";
 			}
 
@@ -78,7 +81,6 @@ public class Day13Part1 {
 	}
 
 	private static String[] parseArray(String input) {
-		//first strip off outer brackets
 		if (!input.startsWith("[") || !input.endsWith("]")) {
 			throw new IllegalArgumentException("Not an array (missing enclosing brackets) " + input);
 		}

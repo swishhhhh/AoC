@@ -9,12 +9,15 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/15">Advent of Code 2022 Day 15</a>
+ */
 public class Day15Part1 {
 	static Set<Coordinates> selectedCoords = new LinkedHashSet<>();
 	static Set<Coordinates> beacons = new LinkedHashSet<>();
 	static Set<Diamond> diamonds = new LinkedHashSet<>();
 
-	static int targetRow = 2000000;
+	static int targetRow = 2_000_000;
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day15_input.txt");

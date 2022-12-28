@@ -7,6 +7,9 @@ import utils.ResourceLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/14">Advent of Code 2022 Day 14</a>
+ */
 public class Day14Part2 {
 
 	static int maxXcoord = 0;
@@ -24,7 +27,6 @@ public class Day14Part2 {
 
 		for (String line: lines) {
 			List<Coordinates> rockTrace = new ArrayList<>();
-			//read in coords
 			List<Integer> ints = Helper.extractIntsFromText(line);
 			for (int i = 0; i < ints.size(); i+=2) {
 				int x = ints.get(i);
@@ -50,7 +52,6 @@ public class Day14Part2 {
 			rockTrace.add(coord);
 		}
 		rockTraces.add(rockTrace);
-
 
 		//setup grid
 		grid = new String[maxYcoord + 1][maxXcoord + 1];
@@ -145,7 +146,7 @@ public class Day14Part2 {
 			steps++; //since movement into entryPoint (of next grain of sand) should also count as a step...
 			cursor = new Coordinates(entryXCoord, entryYCoord);
 
-			if (steps >= Integer.MAX_VALUE) {
+			if (steps == Integer.MAX_VALUE) {
 				System.err.println("Max number of steps reached, something is wrong!");
 				break;
 			}

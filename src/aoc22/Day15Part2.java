@@ -9,12 +9,15 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/15">Advent of Code 2022 Day 15</a>
+ */
 public class Day15Part2 {
 	static Set<Coordinates> beacons = new LinkedHashSet<>();
 	static Set<Diamond> diamonds = new LinkedHashSet<>();
 
 	static final int gridSearchStart = 0;
-	static final int getGridSearchEnd = 4000000;
+	static final int getGridSearchEnd = 4_000_000;
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day15_input.txt");
@@ -44,7 +47,7 @@ public class Day15Part2 {
 			int xCursor = gridSearchStart;
 			while (xCursor <= getGridSearchEnd) {
 				/*
-				 * "searchDiamonds" returns -1 if coordinate not in any of the diamonds
+				 * "searchDiamonds" returns -1 if coordinate is not in any of the diamonds,
 				 * if it is found in any diamond, it returns the diamond with the greatest
 				 * number of steps that can be taken/skipped to the right and still be inside
 				 * that diamond (0 if only found on the rightmost edge of any diamond but not inside)
@@ -64,9 +67,9 @@ public class Day15Part2 {
 		}
 
 		if (missingBeacon == null) {
-			System.out.println("Houston we got a problem! Couldn't locate beacon.");
+			System.out.println("Houston we got a problem! Couldn't locate the beacon.");
 		} else {
-			long tuningFreq = (4000000L * missingBeacon.x()) + missingBeacon.y();
+			long tuningFreq = (4_000_000L * missingBeacon.x()) + missingBeacon.y();
 			System.out.printf("Missing Beacon = %s, Tuning Frequency = %s%n", missingBeacon, tuningFreq);
 		}
 	}

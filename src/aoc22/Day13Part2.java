@@ -7,13 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/13">Advent of Code 2022 Day 13</a>
+ */
 public class Day13Part2 {
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day13_input.txt");
 		lines = lines
 				.stream()
-				.filter(line -> line.trim().length() > 1)
+				.filter(line -> line.trim().length() > 1) //filter out blank lines
 				.collect(Collectors.toList());
 
 		String packet1 = "[[2]]";
@@ -74,7 +77,6 @@ public class Day13Part2 {
 	}
 
 	private static String[] parseArray(String input) {
-		//first strip off outer brackets
 		if (!input.startsWith("[") || !input.endsWith("]")) {
 			throw new IllegalArgumentException("Not an array (missing enclosing brackets) " + input);
 		}

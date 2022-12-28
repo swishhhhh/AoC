@@ -3,12 +3,14 @@ package aoc22;
 import utils.Helper;
 import utils.ResourceLoader;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/11">Advent of Code 2022 Day 11</a>
+ */
 public class Day11Part2 {
 	static class Monkey {
 		public Monkey(String name) {
@@ -48,8 +50,8 @@ public class Day11Part2 {
 		Monkey m = null;
 		long commonMultiplier = 1;
 
+		//parse input
 		for (String line: lines) {
-			//parse input
 			line = line.trim();
 			if (line.startsWith("Monkey")) {
 				m = new Monkey(line);
@@ -98,17 +100,10 @@ public class Day11Part2 {
 
 		monkeys.forEach(System.out::println);
 
-		//figure out 2 highest monkey inspectors
-		long highest = 0L, secondHighest = 0L;
-		for (Monkey monkey: monkeys) {
-			if (monkey.inspectedCtr > highest) {
-				secondHighest = highest;
-				highest = monkey.inspectedCtr;
-			} else if (monkey.inspectedCtr > secondHighest) {
-				secondHighest = monkey.inspectedCtr;
-			}
-		}
-
-		System.out.printf("Total = %s%n", BigInteger.valueOf(highest).multiply(BigInteger.valueOf(secondHighest)));
+		//sort monkeys by reverse order of inspectedCtr and return product of first 2..
+		monkeys.sort((m1, m2) -> m1.inspectedCtr < m2.inspectedCtr ? 1 : -1);
+		System.out.printf("Common Multiplier = %s, Total = %s%n", commonMultiplier,
+				monkeys.get(0).inspectedCtr * monkeys.get(1).inspectedCtr
+		);
 	}
 }
