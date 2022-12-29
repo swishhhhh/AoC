@@ -153,12 +153,12 @@ public class Day16Part1 {
 		}
 	}
 
-	static Map<String, Chamber> allChambers = new HashMap<>();
-	static Set<Chamber> nonZeroFlowChambers = new LinkedHashSet<>();
-	static Map<String, Integer> maxFlowRateIncrementMemoTable = new HashMap<>();
-	static long recursionCtr;
-	static long cacheHits;
-	static long cacheMisses;
+	private static final Map<String, Chamber> allChambers = new HashMap<>();
+	private static final Set<Chamber> nonZeroFlowChambers = new LinkedHashSet<>();
+	private static final Map<String, Integer> maxFlowRateIncrementMemoTable = new HashMap<>();
+	private static long recursionCtr;
+	private static long cacheHits;
+	private static long cacheMisses;
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day16_input.txt");
@@ -236,7 +236,7 @@ public class Day16Part1 {
 		//next, simulate scenario of bypassing this chamber (not opening its valve) and moving to every neighbor..
 		iterateNeighbors(incomingState, states, thisChamber);
 
-		//loop thru each state and recurse...
+		//loop through each state and recurse...
 		int maxUntilEndAllPaths = -1;
 		for (State state: states) {
 			int maxUntilEndThisPath = calculateMaxFlowRates(state);

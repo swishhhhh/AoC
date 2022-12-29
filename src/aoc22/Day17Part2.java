@@ -9,6 +9,9 @@ import java.util.Objects;
 
 import static aoc22.datastructs.TetrisShape.*;
 
+/**
+ *  <a href="https://adventofcode.com/2022/day/17">Advent of Code 2022 Day 17</a>
+ */
 public class Day17Part2 {
 	static class StateSignature {
 		int shiftIndex;
@@ -73,12 +76,12 @@ public class Day17Part2 {
 
 	private static final TetrisShape[] shapes =
 			new TetrisShape[]{newHorizontalLine(), newPlus(), newL(), newVerticalLine(), newSquare()};
-	static final long numOfRocks = 1_000_000_000_000L;
-	static final int minRowsToKeep = 50;
-	static final int numRowsToTriggerGC = 10_000;
-	static final int numGridCols = 7;
-	static final int numGridRows = numRowsToTriggerGC + minRowsToKeep;
-	static final int startSampleAt = 3000;
+	private static final long numOfRocks = 1_000_000_000_000L;
+	private static final int minRowsToKeep = 50;
+	private static final int numRowsToTriggerGC = 10_000;
+	private static final int numGridCols = 7;
+	private static final int numGridRows = numRowsToTriggerGC + minRowsToKeep;
+	private static final int startSampleAt = 3000;
 
 	public static void main(String[] args) throws Exception {
 		long startTime = System.currentTimeMillis();
@@ -180,7 +183,7 @@ public class Day17Part2 {
 				}
 				int horizontalMovement = horizontalShiftsAry[shiftIndex] == '<' ? -1 : 1;
 
-				//apply horizontal shift, THEN veritcal/down-movement
+				//apply horizontal shift, THEN vertical/down-movement
 
 				//attempt to move left
 				if (horizontalMovement == -1) {
@@ -256,7 +259,7 @@ public class Day17Part2 {
 			maxNumberOfDownMovesForAnyRock = Math.max(maxNumberOfDownMovesForAnyRock, downMovesForThisRockCtr);
 		}
 
-		printGrid(grid,topOfTower + 3, 30);
+		printBottomOfGrid(grid,topOfTower + 3, 30);
 		cumulativeTopOfTower = cumulativeNumRowsPurged + topOfTower;
 		System.out.printf("Tower Height = %s%n", cumulativeTopOfTower + 1);
 		System.out.printf("Max down moves for any rock = %s%n", maxNumberOfDownMovesForAnyRock);
@@ -301,7 +304,7 @@ public class Day17Part2 {
 		return grid;
 	}
 
-	static void printGrid(char[][] grid, int fromLine, int numOfLines) {
+	static void printBottomOfGrid(char[][] grid, int fromLine, int numOfLines) {
 		for (int i = fromLine; i >= Math.max(0, fromLine - numOfLines); i--) {
 			StringBuilder sb = new StringBuilder();
 			for (int j = 0; j < numGridCols; j++) {

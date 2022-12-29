@@ -1,19 +1,21 @@
 package aoc22;
 
-import static aoc22.datastructs.TetrisShape.*;
-
 import aoc22.datastructs.Coordinates;
 import aoc22.datastructs.TetrisShape;
 import utils.ResourceLoader;
 
 import java.util.List;
 
+import static aoc22.datastructs.TetrisShape.*;
+
+/**
+ *  <a href="https://adventofcode.com/2022/day/17">Advent of Code 2022 Day 17</a>
+ */
 public class Day17Part1 {
 	private static final TetrisShape[] shapes =
 			new TetrisShape[]{newHorizontalLine(), newPlus(), newL(), newVerticalLine(), newSquare()};
-	static final int numGridCols = 7;
-	static final int numGridRows = 8000; //to be optimized later
-
+	private static final int numGridCols = 7;
+	private static final int numGridRows = 8000; //to be optimized in part2
 
 	public static void main(String[] args) throws Exception {
 
@@ -54,7 +56,7 @@ public class Day17Part1 {
 				}
 				int horizontalMovement = horizontalShiftsAry[shiftIndex] == '<' ? -1 : 1;
 
-				//apply horizontal shift, THEN veritcal/down-movement
+				//apply horizontal shift, THEN vertical/down-movement
 
 				//attempt to move left
 				if (horizontalMovement == -1) {
@@ -127,11 +129,11 @@ public class Day17Part1 {
 			}
 		}
 
-		printGrid(grid,topOfTower + 3, 30);
+		printBottomOfGrid(grid,topOfTower + 3, 30);
 		System.out.printf("Tower Height = %s%n", topOfTower + 1);
 	}
 
-	static void printGrid(char[][] grid, int fromLine, int numOfLines) {
+	static void printBottomOfGrid(char[][] grid, int fromLine, int numOfLines) {
 		for (int i = fromLine; i >= Math.max(0, fromLine - numOfLines); i--) {
 			StringBuilder sb = new StringBuilder();
 			for (int j = 0; j < numGridCols; j++) {

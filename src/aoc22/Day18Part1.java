@@ -5,6 +5,9 @@ import utils.ResourceLoader;
 
 import java.util.List;
 
+/**
+ *  <a href="https://adventofcode.com/2022/day/18">Advent of Code 2022 Day 18</a>
+ */
 public class Day18Part1 {
 
 	private static final int GRID_SIZE = 22;
@@ -45,17 +48,17 @@ public class Day18Part1 {
 		int ctr = 0;
 
 		//6 directions: N, S, E, W, F(ront), B(ack)
-		//W
-		if (x > 0 && grid[x-1][y][z]) ctr++;
-
-		//E
-		if (x < GRID_SIZE - 1 && grid[x+1][y][z]) ctr++;
-
 		//N
 		if (y > 0 && grid[x][y-1][z]) ctr++;
 
 		//S
 		if (y < GRID_SIZE - 1 && grid[x][y+1][z]) ctr++;
+
+		//E
+		if (x < GRID_SIZE - 1 && grid[x+1][y][z]) ctr++;
+
+		//W
+		if (x > 0 && grid[x-1][y][z]) ctr++;
 
 		//F
 		if (z > 0 && grid[x][y][z-1]) ctr++;

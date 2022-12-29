@@ -6,6 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ *  <a href="https://adventofcode.com/2022/day/20">Advent of Code 2022 Day 20</a>
+ */
 public class Day20Part2 {
 
 	static final long KEY = 811589153L;
@@ -98,8 +101,8 @@ public class Day20Part2 {
 		long val2 = list.get(idx2).value;
 		long val3 = list.get(idx3).value;
 		long sum = val1 + val2 + val3;
-		System.out.printf("val1=%s, val2=%s, val3=%s, sum=%s%n", val1, val2, val3, sum);
 		System.out.printf("zeroIdx=%s, idx1=%s, idx2=%s, idx3=%s", zeroIdx, idx1, idx2, idx3);
+		System.out.printf("val1=%s, val2=%s, val3=%s, sum=%s%n", val1, val2, val3, sum);
 	}
 
 	static void rotate(LinkedList<NumHolder> list, String itemId) {

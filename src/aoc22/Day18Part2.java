@@ -7,6 +7,9 @@ import utils.ResourceLoader;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ *  <a href="https://adventofcode.com/2022/day/18">Advent of Code 2022 Day 18</a>
+ */
 public class Day18Part2 {
 
 	private static final int GRID_SIZE = 22;
@@ -46,17 +49,17 @@ public class Day18Part2 {
 	private static int getReachableSurfaces(int x, int y, int z) {
 		int ctr = 0;
 
-		//W
-		if (isCellReachableFromOutside(x-1, y, z)) ctr++;
-
-		//E
-		if (isCellReachableFromOutside(x+1, y, z)) ctr++;
-
 		//N
 		if (isCellReachableFromOutside(x, y-1, z)) ctr++;
 
 		//S
 		if (isCellReachableFromOutside(x, y+1, z)) ctr++;
+
+		//E
+		if (isCellReachableFromOutside(x+1, y, z)) ctr++;
+
+		//W
+		if (isCellReachableFromOutside(x-1, y, z)) ctr++;
 
 		//F(ront)
 		if (isCellReachableFromOutside(x, y, z-1)) ctr++;
@@ -71,7 +74,7 @@ public class Day18Part2 {
 	 * BFS search
 	 */
 	private static boolean isCellReachableFromOutside(int x, int y, int z) {
-		//terminating condition 0: if starting cell is already out of bounds
+		//terminating condition 1: if starting cell is already out of bounds
 		if (isCellOutOfBounds(new Coordinates3D(x, y, z))) {
 			return true;
 		}
@@ -85,7 +88,7 @@ public class Day18Part2 {
 		while (queue.size() != 0) {
 			Coordinates3D cell = queue.poll();
 
-			//terminating condition 1: check if cell is outside already, if so reachable=true, break
+			//terminating condition 2: check if cell is outside already, if so reachable=true, break
 			if (isCellOutOfBounds(cell)) {
 				reachable = true;
 				break;
@@ -96,7 +99,7 @@ public class Day18Part2 {
 				continue;
 			}
 
-			//term condition 2: if reachableGrid[x][y][z]==true, break true
+			//term condition 3: if reachableGrid[x][y][z]==true, break true
 			if (reachableGrid[cell.getX()][cell.getY()][cell.getZ()]) {
 				reachable = true;
 				break;
@@ -147,13 +150,13 @@ public class Day18Part2 {
 				new Coordinates3D(x, y, z+1));
 	}
 
-	static boolean isCellOutOfBounds(Coordinates3D cell) {
+	private static boolean isCellOutOfBounds(Coordinates3D cell) {
 		return cell.getX() < 0 || cell.getX() >= GRID_SIZE ||
 				cell.getY() < 0 || cell.getY() >= GRID_SIZE ||
 				cell.getZ() < 0 || cell.getZ() >= GRID_SIZE;
 	}
 
-	static boolean[][][] newGrid() {
+	private static boolean[][][] newGrid() {
 		return new boolean[GRID_SIZE][GRID_SIZE][GRID_SIZE];
 	}
 }
