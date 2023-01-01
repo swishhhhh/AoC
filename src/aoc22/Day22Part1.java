@@ -1,6 +1,5 @@
 package aoc22;
 
-import static aoc22.datastructs.Direction.*;
 import aoc22.datastructs.Coordinates;
 import aoc22.datastructs.Direction;
 import utils.Helper;
@@ -9,12 +8,18 @@ import utils.ResourceLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static aoc22.datastructs.Direction.*;
+
+/**
+ * <a href="https://adventofcode.com/2022/day/22">Advent of Code 2022 Day 22</a>
+ */
 public class Day22Part1 {
-	static char[][] grid;
-	static int[] leftEdgePositions;
-	static int[] rightEdgePositions;
-	static int[] topEdgePositions;
-	static int[] bottomEdgePositions;
+	private static char[][] grid;
+	private static int[] leftEdgePositions;
+	private static int[] rightEdgePositions;
+	private static int[] topEdgePositions;
+	private static int[] bottomEdgePositions;
+	private static final List<Direction> DIRECTIONS = List.of(NORTH, EAST, SOUTH, WEST);
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day22_input.txt");
@@ -32,7 +37,7 @@ public class Day22Part1 {
 				//add prev number
 				instructions.add(sb.toString());
 				instructions.add(String.valueOf(c));
-				sb = new StringBuilder(); //clear it for next numbers
+				sb = new StringBuilder(); //clear it for next number
 			} else {
 				throw new Exception("Unexpected char in instructions line: " + c);
 			}
@@ -148,26 +153,18 @@ public class Day22Part1 {
 	}
 
 	private static Direction rotateDirection(String instruction, Direction fromDirection) {
-		Direction newDirection = null;
+		int idx = DIRECTIONS.indexOf(fromDirection);
 		switch (instruction) {
 			case "R" -> {
-				switch (fromDirection) {
-					case EAST -> newDirection = SOUTH;
-					case SOUTH -> newDirection = WEST;
-					case WEST -> newDirection = NORTH;
-					case NORTH -> newDirection = EAST;
-				}
+				idx++;
+				if (idx >= DIRECTIONS.size()) idx = 0;
 			}
 			case "L" -> {
-				switch (fromDirection) {
-					case EAST -> newDirection = NORTH;
-					case NORTH -> newDirection = WEST;
-					case WEST -> newDirection = SOUTH;
-					case SOUTH -> newDirection = EAST;
-				}
+				idx--;
+				if (idx < 0) idx = DIRECTIONS.size() - 1;
 			}
 		}
-		return newDirection;
+		return DIRECTIONS.get(idx);
 	}
 
 	private static void initPerimeter(int numRows, int numCols) {

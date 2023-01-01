@@ -3,6 +3,9 @@ package aoc22;
 import utils.ResourceLoader;
 import java.util.*;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/25">Advent of Code 2022 Day 25</a>
+ */
 public class Day25Part1 {
 
 	static long[] FIVER_MULTIPLIERS = new long[21];
@@ -49,7 +52,7 @@ public class Day25Part1 {
 		StringBuilder snafuString = new StringBuilder();
 		long sum = 0;
 		for (int i = 0; i < snafuStringLen; i++) {
-			//for each decimal place in reverse order {2,1,0,-,=}, find number with closest positive distance
+			//for each decimal place in reverse order {2,1,0,-,=}, find number with the closest positive distance
 			int digit = snafuStringLen - i;
 			String testStr = stringOfValues(digit, "2"); //e.g. 3= 222, 2=22, 1=2
 
@@ -87,7 +90,7 @@ public class Day25Part1 {
 		throw new IllegalStateException("can't support this number");
 	}
 
-	static long snafuToDecimal(String snafu) {
+	private static long snafuToDecimal(String snafu) {
 		long sum = 0;
 		for (int i = 0; i < snafu.length(); i++) {
 			char c = snafu.charAt(snafu.length() - 1 - i);

@@ -12,13 +12,17 @@ import java.util.List;
 
 import static aoc22.datastructs.Direction.*;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/22">Advent of Code 2022 Day 22</a>
+ */
 public class Day22Part2 {
-	static char[][] grid;
-	static int[] leftEdgePositions;
-	static int[] rightEdgePositions;
-	static int[] topEdgePositions;
-	static int[] bottomEdgePositions;
-	static Direction direction;
+	private static char[][] grid;
+	private static int[] leftEdgePositions;
+	private static int[] rightEdgePositions;
+	private static int[] topEdgePositions;
+	private static int[] bottomEdgePositions;
+	private static Direction direction;
+	private static final List<Direction> DIRECTIONS = List.of(NORTH, EAST, SOUTH, WEST);
 
 	static CubeWrapper getCubeWrapper(Coordinates cursor, Direction direction) {
 //		return new CubeWrapperSample1(cursor, direction);
@@ -94,10 +98,10 @@ public class Day22Part2 {
 	private static Coordinates moveCursorAndDirection(int numSteps, Coordinates cursor) {
 		int targetRow = cursor.y();
 		int targetCol = cursor.x();
-		Coordinates targetCursor = null; // = new Coordinates(cursor.getX(), cursor.getY());
+		Coordinates targetCursor = null;
 
 		for (int i = 0; i < numSteps; i++) {
-			//save tmpCursor in case you need to back out of the move (i.e. if hit a wall)
+			//save tmpCursor in case you need to back out of the move (i.e. if you hit a wall)
 			Coordinates tmpCursor = new Coordinates(targetCol, targetRow);
 			Direction tmpDirection = direction;
 
@@ -138,24 +142,18 @@ public class Day22Part2 {
 	}
 
 	private static void rotateDirection(String instruction) {
+		int idx = DIRECTIONS.indexOf(direction);
 		switch (instruction) {
 			case "R" -> {
-				switch (direction) {
-					case EAST -> direction = SOUTH;
-					case SOUTH -> direction = WEST;
-					case WEST -> direction = NORTH;
-					case NORTH -> direction = EAST;
-				}
+				idx++;
+				if (idx >= DIRECTIONS.size()) idx = 0;
 			}
 			case "L" -> {
-				switch (direction) {
-					case EAST -> direction = NORTH;
-					case NORTH -> direction = WEST;
-					case WEST -> direction = SOUTH;
-					case SOUTH -> direction = EAST;
-				}
+				idx--;
+				if (idx < 0) idx = DIRECTIONS.size() - 1;
 			}
 		}
+		direction = DIRECTIONS.get(idx);
 	}
 
 	private static void initPerimeter(int numRows, int numCols) {

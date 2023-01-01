@@ -17,7 +17,7 @@ public class Day15Part2 {
 	static Set<Diamond> diamonds = new LinkedHashSet<>();
 
 	static final int gridSearchStart = 0;
-	static final int getGridSearchEnd = 4_000_000;
+	static final int gridSearchEnd = 4_000_000;
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day15_input.txt");
@@ -43,9 +43,9 @@ public class Day15Part2 {
 		}
 
 		Coordinates missingBeacon = null;
-		for (int yCursor = gridSearchStart; yCursor <= getGridSearchEnd; yCursor++) {
+		for (int yCursor = gridSearchStart; yCursor <= gridSearchEnd; yCursor++) {
 			int xCursor = gridSearchStart;
-			while (xCursor <= getGridSearchEnd) {
+			while (xCursor <= gridSearchEnd) {
 				/*
 				 * "searchDiamonds" returns -1 if coordinate is not in any of the diamonds,
 				 * if it is found in any diamond, it returns the diamond with the greatest

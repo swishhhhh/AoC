@@ -101,7 +101,7 @@ public class Day11Part2 {
 		monkeys.forEach(System.out::println);
 
 		//sort monkeys by reverse order of inspectedCtr and return product of first 2..
-		monkeys.sort((m1, m2) -> m1.inspectedCtr < m2.inspectedCtr ? 1 : -1);
+		monkeys.sort((m1, m2) -> Long.compare(m2.inspectedCtr, m1.inspectedCtr));
 		System.out.printf("Common Multiplier = %s, Total = %s%n", commonMultiplier,
 				monkeys.get(0).inspectedCtr * monkeys.get(1).inspectedCtr
 		);

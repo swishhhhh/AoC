@@ -1,14 +1,20 @@
 package aoc22;
 
-import static aoc22.datastructs.Direction.*;
-
 import aoc22.datastructs.Coordinates;
 import aoc22.datastructs.Direction;
 import utils.Helper;
 import utils.ResourceLoader;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
+import static aoc22.datastructs.Direction.*;
+
+/**
+ * <a href="https://adventofcode.com/2022/day/23">Advent of Code 2022 Day 23</a>
+ */
 public class Day23Part1 {
 
 	private static char[][] grid;
@@ -19,7 +25,7 @@ public class Day23Part1 {
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day23_input.txt");
 
-		//setup grid and elve locations
+		//setup grid and elf locations
 		grid = new char[lines.size() + (2*PAD_MARGIN)][lines.get(0).length() + (2*PAD_MARGIN)];
 		Helper.fillCharArray2D(grid, '.');
 
@@ -50,7 +56,7 @@ public class Day23Part1 {
 		dirQ.add(List.of(EAST, NE, SE));
 
 		//loop
-		for (int step = 0; step < 10; step++) {
+		for (int round = 0; round < 10; round++) {
 			//first half of round: proposals
 			int numMoves = 0;
 			Map<Coordinates, Integer> moveProposalsByLocationCnt = new HashMap<>();
@@ -62,7 +68,7 @@ public class Day23Part1 {
 
 				//find suitable side
 				List<Direction> suitableSide = findSuitableSide(elf, dirQ);
-				if (suitableSide == null) { //not sure if this can happen
+				if (suitableSide == null) {
 					continue;
 				}
 
@@ -101,7 +107,7 @@ public class Day23Part1 {
 			//rotate front of queue to back..
 			dirQ.add(dirQ.remove(0));
 
-			System.out.printf("End of round %s, number of elves moved = %s%n", step+1, numMoves);
+			System.out.printf("End of round %s, number of elves moved = %s%n", round+1, numMoves);
 
 			if (numMoves == 0) {
 				System.out.println("No elves moved this round, ending early");

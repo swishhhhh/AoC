@@ -1,6 +1,5 @@
 package aoc22;
 
-import static aoc22.datastructs.Direction.*;
 import aoc22.datastructs.Coordinates;
 import aoc22.datastructs.Direction;
 import utils.Helper;
@@ -11,6 +10,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static aoc22.datastructs.Direction.*;
+
+/**
+ * <a href="https://adventofcode.com/2022/day/24">Advent of Code 2022 Day 24</a>
+ */
 public class Day24Part1 {
 	static class Blizzard {
 		private final int id;
@@ -145,11 +149,10 @@ public class Day24Part1 {
 			//check if already visited this state
 			String stateSignature = (minutesCtr % CYCLE_REPEAT_CNT) + cursor.toString();
 			if (statesVisited.contains(stateSignature)) {
-				System.out.printf("State %s already visited%n", stateSignature);
 				continue;
 			}
 
-			//check availability for each of the 4 directions + same cell
+			//check availability for each of the 4 directions + same cell (i.e. not moving at all)
 			List<Coordinates> cellsToCheck = new ArrayList<>();
 			cellsToCheck.add(cursor); //same cell
 			cellsToCheck.addAll(getNeighboringCells(cursor));
@@ -192,12 +195,11 @@ public class Day24Part1 {
 	}
 
 	private static List<Coordinates> getNeighboringCells(Coordinates cursor) {
-		//West
 		return Stream.of(
 					new Coordinates(cursor.x(), cursor.y()-1), //North
 					new Coordinates(cursor.x(), cursor.y()+1), //South
 					new Coordinates(cursor.x()+1, cursor.y()), //East
-					new Coordinates(cursor.x()-1, cursor.y()))
+					new Coordinates(cursor.x()-1, cursor.y())) //West
 				.filter(coord -> coord.y() >= 0 && coord.y() < grid.length) //avoid out-of-bounds
 				.filter(coord -> coord.x() >= 0 && coord.x() < grid[0].length) // ditto
 				.filter(coord -> grid[coord.y()][coord.x()] != '#') //avoid hitting a wall..
@@ -239,11 +241,9 @@ public class Day24Part1 {
 
 			//update/remove prev location count
 			Integer cnt = blizzardsByLocationCnt.remove(prevLocation);
-			if (cnt != null) { //should never be null...
-				cnt--;
-				if (cnt > 0) {
-					blizzardsByLocationCnt.put(prevLocation, cnt); //update with decremented count
-				}
+			cnt--;
+			if (cnt > 0) {
+				blizzardsByLocationCnt.put(prevLocation, cnt); //update with decremented count
 			}
 
 			//update/add new location count

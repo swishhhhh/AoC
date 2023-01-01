@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/21">Advent of Code 2022 Day 21</a>
+ */
 public class Day21Part1 {
 	public static Map<String, Long> solvedVariables = new HashMap<>();
 

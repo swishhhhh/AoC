@@ -12,6 +12,9 @@ import java.util.Map;
 
 import static aoc22.datastructs.Direction.*;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/23">Advent of Code 2022 Day 23</a>
+ */
 public class Day23Part2 {
 
 	private static char[][] grid;
@@ -22,7 +25,7 @@ public class Day23Part2 {
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day23_input.txt");
 
-		//setup grid and elve locations
+		//setup grid and elf locations
 		grid = new char[lines.size() + (2*PAD_MARGIN)][lines.get(0).length() + (2*PAD_MARGIN)];
 		Helper.fillCharArray2D(grid, '.');
 
@@ -37,6 +40,7 @@ public class Day23Part2 {
 				if (charAry[col] == '#') {
 					elfCtr++;
 					elfLocations.put(elfCtr, new Coordinates(col+PAD_MARGIN, row+PAD_MARGIN));
+
 					//to identify your elves (not useful for too many elves or you get non-readable chars...
 					// but works great for initial example of 22 elves)
 //					grid[row + PAD_MARGIN][col + PAD_MARGIN] = (char) ('A' + (char)(elfCtr - 1));
@@ -65,7 +69,7 @@ public class Day23Part2 {
 
 				//find suitable side
 				List<Direction> suitableSide = findSuitableSide(elf, dirQ);
-				if (suitableSide == null) { //not sure if this can happen
+				if (suitableSide == null) {
 					continue;
 				}
 

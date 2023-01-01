@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * <a href="https://adventofcode.com/2022/day/21">Advent of Code 2022 Day 21</a>
+ */
 public class Day21Part2 {
 	public static Map<String, Long> solvedVariables = new HashMap<>();
 
@@ -18,7 +21,7 @@ public class Day21Part2 {
 
 		solvedVariables.put("zero", 0L);
 
-		//split out the solved variables from the unsolved expressions (ignore the "humn" variable, and "root" exp)
+		//split out the solved variables from the unsolved equations (ignore the "humn" variable)
 		for (String line: lines) {
 			String[] ary = line.split(" ");
 			String varName = ary[0].replace(":", "");
@@ -44,7 +47,7 @@ public class Day21Part2 {
 			}
 		}
 
-		//keep solving expressions until humn is solved
+		//keep solving equations until humn is solved
 		long humnAnswer = 0L;
 		long cyclesCtr = 0;
 		int cyclesSinceLastSolvedCtr = 0;
