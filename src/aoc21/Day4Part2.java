@@ -89,9 +89,9 @@ public class Day4Part2 {
         }
     }
 
-    private static int calculateScore(int winningBoardNum, int lastNumCalled) {
-        Integer[][] winningBoardNumbers = boardsNumbers.get(winningBoardNum);
-        Boolean[][] winningBoardStatus = boardsStatuses.get(winningBoardNum);
+    private static int calculateScore(int boardNum, int lastNumCalled) {
+        Integer[][] winningBoardNumbers = boardsNumbers.get(boardNum);
+        Boolean[][] winningBoardStatus = boardsStatuses.get(boardNum);
         int sum = 0;
 
         for (int i = 0; i < winningBoardStatus.length; i++) {
