@@ -6,6 +6,9 @@ import utils.ResourceLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <a href="https://adventofcode.com/2021/day/6">Advent of Code 2021 Day 6</a>
+ */
 public class Day6Part1 {
 
     public static void main(String... args) throws Exception {

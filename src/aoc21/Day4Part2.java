@@ -5,6 +5,9 @@ import utils.ResourceLoader;
 
 import java.util.*;
 
+/**
+ * <a href="https://adventofcode.com/2021/day/4">Advent of Code 2021 Day 4</a>
+ */
 public class Day4Part2 {
 
     private static final Map<Integer, Integer[][]> boardsNumbers = new HashMap<>();

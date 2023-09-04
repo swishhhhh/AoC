@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * <a href="https://adventofcode.com/2021/day/6">Advent of Code 2021 Day 6</a>
+ */
 public class Day6Part2 {
 
     public static void main(String... args) throws Exception {

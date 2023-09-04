@@ -5,6 +5,9 @@ import utils.ResourceLoader;
 
 import java.util.List;
 
+/**
+ * <a href="https://adventofcode.com/2021/day/7">Advent of Code 2021 Day 7</a>
+ */
 public class Day7Part2 {
 
     public static void main(String... args) throws Exception {

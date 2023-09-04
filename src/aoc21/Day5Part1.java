@@ -6,6 +6,9 @@ import utils.ResourceLoader;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * <a href="https://adventofcode.com/2021/day/5">Advent of Code 2021 Day 5</a>
+ */
 public class Day5Part1 {
 
     private static int[][] grid;

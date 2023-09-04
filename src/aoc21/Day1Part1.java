@@ -3,6 +3,9 @@ package aoc21;
 import utils.ResourceLoader;
 import java.util.List;
 
+/**
+ * <a href="https://adventofcode.com/2021/day/1">Advent of Code 2021 Day 1</a>
+ */
 public class Day1Part1 {
 
 	public static void main(String[] args) throws Exception {

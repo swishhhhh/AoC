@@ -4,6 +4,9 @@ import utils.ResourceLoader;
 
 import java.util.List;
 
+/**
+ * <a href="https://adventofcode.com/2021/day/2">Advent of Code 2021 Day 2</a>
+ */
 public class Day2Part2 {
     public static void main(String... args) throws Exception {
         List<String> lines = ResourceLoader.readStrings("aoc21/Day2_input.txt");
