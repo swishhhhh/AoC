@@ -20,9 +20,7 @@ public class Day4Part1 {
 			//sample line -> Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
 
 			String s = line.split(":")[1]; //sample -> 41 48 83 86 17 | 83 86  6 31 17  9 48 53
-
-			List<Integer> winningNums = Helper.extractIntsFromText(s.split("\\|")[0]);
-			Set<Integer> winningNumsSet = new HashSet<>(winningNums);
+			Set<Integer> winningNumsSet = new HashSet<>(Helper.extractIntsFromText(s.split("\\|")[0]));
 
 			List<Integer> myNums = Helper.extractIntsFromText(s.split("\\|")[1]);
 			boolean matchFound = false;
