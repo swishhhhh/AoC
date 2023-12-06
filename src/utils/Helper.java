@@ -85,6 +85,21 @@ public class Helper {
         return extractIntsFromText(text, false);
     }
 
+    public static List<Long> extractLongsFromText(String text, boolean withMinusSign) {
+        String pattern = withMinusSign ? "-?\\d+" : "\\d+";
+        Pattern p = Pattern.compile(pattern);
+        Matcher m = p.matcher(text);
+        List<Long> list = new ArrayList<>();
+        while(m.find()) {
+            list.add(Long.parseLong(m.group()));
+        }
+        return list;
+    }
+
+    public static List<Long> extractLongsFromText(String text) {
+        return extractLongsFromText(text, false);
+    }
+
     public static boolean isNumeric(String strNum) {
         if (strNum == null) {
             return false;
