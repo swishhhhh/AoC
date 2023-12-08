@@ -131,4 +131,33 @@ public class Helper {
             System.out.println();
         }
     }
+
+    public static long greatestCommonDenominator(long a, long b) {
+        while (b > 0) {
+            long temp = b;
+            b = a % b; // % is remainder
+            a = temp;
+        }
+        return a;
+    }
+
+    public static long greatestCommonDenominator(long[] input) {
+        long result = input[0];
+        for(int i = 1; i < input.length; i++) {
+            result = greatestCommonDenominator(result, input[i]);
+        }
+        return result;
+    }
+
+    public static long lowestCommonMultiplier(long a, long b) {
+        return a * (b / greatestCommonDenominator(a, b));
+    }
+
+    public static long lowestCommonMultiplier(long[] input) {
+        long result = input[0];
+        for(int i = 1; i < input.length; i++) {
+            result = lowestCommonMultiplier(result, input[i]);
+        }
+        return result;
+    }
 }
