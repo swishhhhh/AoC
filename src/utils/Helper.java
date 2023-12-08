@@ -143,7 +143,7 @@ public class Helper {
 
     public static long greatestCommonDenominator(long[] input) {
         long result = input[0];
-        for(int i = 1; i < input.length; i++) {
+        for (int i = 1; i < input.length; i++) {
             result = greatestCommonDenominator(result, input[i]);
         }
         return result;
@@ -155,7 +155,7 @@ public class Helper {
 
     public static long lowestCommonMultiplier(long[] input) {
         long result = input[0];
-        for(int i = 1; i < input.length; i++) {
+        for (int i = 1; i < input.length; i++) {
             result = lowestCommonMultiplier(result, input[i]);
         }
         return result;
