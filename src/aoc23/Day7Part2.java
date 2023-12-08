@@ -77,7 +77,7 @@ public class Day7Part2 {
 	}
 
 	private static String getHandTypeSignature(List<String> cardLabels) {
-		//produces frequency signature of elements in carLabels list:
+		//produces frequency signature of elements in cardLabels list:
 		// 	e.g. {"A", "A", "J", "B", "C"} produces: "[3, 1, 1]"
 		//	     {"A", "J", "A", "A", "A"} produces: "[5]"
 		Map<String, Long> freqMap =
@@ -96,7 +96,7 @@ public class Day7Part2 {
 
 		ArrayList<Long> values = new ArrayList<>(freqMap.values());
 		values.sort(Collections.reverseOrder());
-		values.set(0, values.get(0) + jokerFrequency); //add jokerFrequency to first (highest) element in map
+		values.set(0, values.get(0) + jokerFrequency); //add jokerFrequency to first (highest frequency) element in map
 		return values.toString();
 	}
 }

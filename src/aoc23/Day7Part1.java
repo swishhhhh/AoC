@@ -77,7 +77,7 @@ public class Day7Part1 {
 	}
 
 	private static String getHandTypeSignature(List<String> cardLabels) {
-		//produces frequency signature of elements in carLabels list:
+		//produces frequency signature of elements in cardLabels list:
 		// 	e.g. {"A", "A", "A", "B", "C"} produces: "[3, 1, 1]"
 		//	     {"A", "A", "A", "A", "A"} produces: "[5]"
 		ArrayList<Long> values =
