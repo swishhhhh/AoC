@@ -9,7 +9,7 @@ Graph searches
 	   - AoC examples: 2022/Day18
 	- terminating conditions: target found, all nodes visited, time/resource depleted
 	- AoC examples: 2022/Day12 (shortest path up hill)
-  - if full graph traversal required BUT only visit each node once
+ - if full graph traversal required BUT only visit each node once
       - terminating conditions: all legal paths exhausted
       - Graph traversal: BFS, DFS, Recursion
         - Recursion must be used if intermediate results need to be passed up the stack
