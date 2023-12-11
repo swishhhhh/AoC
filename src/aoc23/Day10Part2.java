@@ -94,7 +94,7 @@ public class Day10Part2 {
 
 	private static PipeType getStartingPipe(Coordinates startLocation) {
 		//figure out which 2 of the surrounding 4 sides have adjacent pipes (can't use getReachableAdjacentCells
-		// method here because we don't yet know the pipe-symbol yet for this starting cell)
+		// method here because we don't yet know the pipe-symbol for this starting cell)
 		boolean adjacentNorth = false, adjacentEast = false, adjacentSouth = false, adjacentWest = false;
 		if (startLocation.y() > 0) {
 			char c = grid[startLocation.y() - 1][startLocation.x()];
@@ -115,10 +115,10 @@ public class Day10Part2 {
 
 		if (adjacentNorth && adjacentSouth) return PipeType.VERTICAL;
 		if (adjacentEast && adjacentWest) 	return PipeType.HORIZONTAL;
-		if (adjacentNorth && adjacentEast) return PipeType.L;
-		if (adjacentNorth && adjacentWest) return PipeType.J;
-		if (adjacentSouth && adjacentEast) return PipeType.F;
-		if (adjacentSouth && adjacentWest) return PipeType.S7;
+		if (adjacentNorth && adjacentEast) 	return PipeType.L;
+		if (adjacentNorth && adjacentWest) 	return PipeType.J;
+		if (adjacentSouth && adjacentEast) 	return PipeType.F;
+		if (adjacentSouth && adjacentWest) 	return PipeType.S7;
 
 		throw new RuntimeException("Unable to determine starting pipe");
 	}
