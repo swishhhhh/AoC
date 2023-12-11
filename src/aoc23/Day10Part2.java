@@ -113,7 +113,7 @@ public class Day10Part2 {
 			adjacentEast = Set.of('-', 'J', '7').contains(c);
 		}
 
-		if (adjacentNorth && adjacentSouth) return PipeType.VERTICAL;
+		if (adjacentNorth && adjacentSouth)	return PipeType.VERTICAL;
 		if (adjacentEast && adjacentWest) 	return PipeType.HORIZONTAL;
 		if (adjacentNorth && adjacentEast) 	return PipeType.L;
 		if (adjacentNorth && adjacentWest) 	return PipeType.J;
