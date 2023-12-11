@@ -11,8 +11,8 @@ import java.util.List;
  */
 public class Day11Part1and2 {
 	private static final int EXPANSION =
-//			1; 			//part 1
-			999_999; 	//part 2
+//			1;			//part 1
+			999_999;	//part 2
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc23/Day11_input.txt");
