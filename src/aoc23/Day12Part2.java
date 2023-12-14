@@ -139,6 +139,7 @@ public class Day12Part2 {
 	}
 
 	private static String getSignature(String input) {
+		//e.g. "##..###.#" -> 2,3,1
 		return getSignatureAsList(input)
 				.toString()
 				.replace("[", "")
@@ -147,6 +148,7 @@ public class Day12Part2 {
 	}
 
 	private static List<Integer> getSignatureAsList(String input) {
+		//e.g. "##..###.#" -> List.of(2, 3, 1)
 		int groupLen = 0;
 		List<Integer> groupLengths = new ArrayList<>();
 		for (char c : input.toCharArray()) {

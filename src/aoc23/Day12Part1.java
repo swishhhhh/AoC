@@ -131,6 +131,7 @@ public class Day12Part1 {
 	}
 
 	private static String getSignature(String input) {
+		//e.g. "##..###.#" -> 2,3,1
 		int groupLen = 0;
 		List<Integer> groupLengths = new ArrayList<>();
 		for (char c : input.toCharArray()) {
