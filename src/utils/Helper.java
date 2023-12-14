@@ -160,4 +160,8 @@ public class Helper {
         }
         return result;
     }
+
+    public static int countChars(String input, char charToCount) {
+        return input.length() - input.replaceAll("[" + charToCount + "]", "").length();
+    }
 }
