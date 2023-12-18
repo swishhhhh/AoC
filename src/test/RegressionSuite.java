@@ -60,8 +60,7 @@ public class RegressionSuite {
             return Class.forName(packageName + "."
                     + className.substring(0, className.lastIndexOf('.')));
         } catch (ClassNotFoundException e) {
-            // handle the exception
+            throw new RuntimeException(e);
         }
-        return null;
     }
 }
