@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * <a href="https://adventofcode.com/2023/day/8">Advent of Code 2023 Day 8</a>
  */
-public class Day8Part1 {
+public class Day08Part1 {
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc23/Day8_input.txt");
@@ -51,6 +51,11 @@ public class Day8Part1 {
 
 
 		System.out.printf("Steps = %s%n", steps);
+
+		long expected = 14681;
+		if (steps != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", steps, expected));
+		}
 	}
 
 }

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * <a href="https://adventofcode.com/2023/day/9">Advent of Code 2023 Day 9</a>
  */
-public class Day9Part1 {
+public class Day09Part2 {
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc23/Day9_input.txt");
@@ -19,12 +19,12 @@ public class Day9Part1 {
 		for (String line: lines) {
 			lineCtr++;
 			List<Long> history = Helper.extractLongsFromText(line, true);
-			List<Long> lastNumsOfHistory = new ArrayList<>();
-			long nextValue = 0;
+			List<Long> firstNumsOfHistory = new ArrayList<>();
+			long prevValue = 0;
 
 			while (true) {
-				//save last num of history list
-				lastNumsOfHistory.add(history.get(history.size() - 1));
+				//save first num of history list
+				firstNumsOfHistory.add(history.get(0));
 
 				List<Long> nextHistory = new ArrayList<>();
 				boolean allZeros = true;
@@ -40,14 +40,19 @@ public class Day9Part1 {
 				history = nextHistory;
 			}
 
-			for (int i = lastNumsOfHistory.size() - 1; i >= 0; i--) {
-				nextValue+= lastNumsOfHistory.get(i);
+			for (int i = firstNumsOfHistory.size() - 1; i >= 0; i--) {
+				prevValue = firstNumsOfHistory.get(i) - prevValue;
 			}
 
-			sum+= nextValue;
-			System.out.printf("Next Value for line %s = %s%n", lineCtr, nextValue);
+			sum+= prevValue;
+//			System.out.printf("Previous Value for line %s = %s%n", lineCtr, prevValue);
 		}
 
 		System.out.printf("Sum = %s%n", sum);
+
+		long expected = 1140;
+		if (sum != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", sum, expected));
+		}
 	}
 }

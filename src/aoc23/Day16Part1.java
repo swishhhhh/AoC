@@ -65,6 +65,11 @@ public class Day16Part1 {
 
 		long count = getEnergizedTileCount(grid, new GridStep(new Coordinates(0, 0), Direction.EAST));
 		System.out.printf("Energized tiles count: %s%n", count);
+
+		long expected = 7307;
+		if (count != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", count, expected));
+		}
 	}
 
 	private static long getEnergizedTileCount(char[][] grid, GridStep startingStep) {

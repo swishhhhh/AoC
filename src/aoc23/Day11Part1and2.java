@@ -75,5 +75,10 @@ public class Day11Part1and2 {
 		}
 
 		System.out.printf("Sum = %s%n", sum);
+
+		long expected = 685038186836L;
+		if (sum != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", sum, expected));
+		}
 	}
 }

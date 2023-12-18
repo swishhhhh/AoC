@@ -44,6 +44,11 @@ public class Day12Part1 {
 		}
 
 		System.out.printf("Sum = %s%n", sum);
+
+		long expected = 7541;
+		if (sum != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", sum, expected));
+		}
 	}
 
 	private static long getNumArrangementsForLine(String line) {
@@ -91,7 +96,7 @@ public class Day12Part1 {
 
 		List<TreeNode> lowestNodes = levelsToNodesMap.get(tokens.length);
 		long num = lowestNodes == null ? 0 : lowestNodes.size();
-		System.out.printf("%s = %s%n", line, num);
+//		System.out.printf("%s = %s%n", line, num);
 		return num;
 
 	}

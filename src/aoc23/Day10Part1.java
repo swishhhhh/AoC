@@ -75,8 +75,13 @@ public class Day10Part1 {
 			prevCursor = temp;
 		}
 
+		long farthest = (long) Math.ceil(steps / 2);
+		System.out.printf("Steps = %s, farthest = %s%n", steps, farthest);
 
-		System.out.printf("Steps = %s, farthest = %s%n", steps, Math.ceil(steps / 2f));
+		long expected = 6886;
+		if (farthest != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", farthest, expected));
+		}
 	}
 
 	private static PipeType getStartingPipe(Coordinates startLocation) {

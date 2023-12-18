@@ -24,6 +24,11 @@ public class Day13Part1 {
 		}
 
 		System.out.printf("Sum = %s%n", sum);
+
+		long expected = 37113;
+		if (sum != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", sum, expected));
+		}
 	}
 
 	private static void initGrids(List<String> lines) {

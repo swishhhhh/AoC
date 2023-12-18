@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * <a href="https://adventofcode.com/2023/day/2">Advent of Code 2023 Day 2</a>
  */
-public class Day2Part2 {
+public class Day02Part2 {
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc23/Day2_input.txt");
@@ -19,6 +19,11 @@ public class Day2Part2 {
 		}
 
 		System.out.printf("Sum = %s%n", sum);
+
+		long expected = 72227;
+		if (sum != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", sum, expected));
+		}
 	}
 
 	private static int getPower(String line) {

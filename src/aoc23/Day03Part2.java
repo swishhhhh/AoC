@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * <a href="https://adventofcode.com/2023/day/3">Advent of Code 2023 Day 3</a>
  */
-public class Day3Part2 {
+public class Day03Part2 {
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc23/Day3_input.txt");
@@ -26,13 +26,18 @@ public class Day3Part2 {
 					List<Integer> adjNumbers = getAdjacentNumbers(grid, row, col);
 					if (adjNumbers.size() == 2) {
 						sum += (adjNumbers.get(0) * adjNumbers.get(1));
-						System.out.printf("Gear found [%s, %s], adjNumbers = %s%n", row, col, adjNumbers);
+//						System.out.printf("Gear found [%s, %s], adjNumbers = %s%n", row, col, adjNumbers);
 					}
 				}
 			}
 		}
 
 		System.out.printf("Sum = %s%n", sum);
+
+		long expected = 82818007;
+		if (sum != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", sum, expected));
+		}
 	}
 
 	private static List<Integer> getAdjacentNumbers(char[][] grid, int row, int col) {

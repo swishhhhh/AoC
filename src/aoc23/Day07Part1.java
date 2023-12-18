@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 /**
  * <a href="https://adventofcode.com/2023/day/7">Advent of Code 2023 Day 7</a>
  */
-public class Day7Part1 {
+public class Day07Part1 {
 
 	static class Hand {
 		List<String> cardLabels;
@@ -74,6 +74,11 @@ public class Day7Part1 {
 		}
 
 		System.out.printf("Sum = %s%n", sum);
+
+		long expected = 251029473;
+		if (sum != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", sum, expected));
+		}
 	}
 
 	private static String getHandTypeSignature(List<String> cardLabels) {

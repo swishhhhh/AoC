@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * <a href="https://adventofcode.com/2023/day/6">Advent of Code 2023 Day 6</a>
  */
-public class Day6Part1 {
+public class Day06Part1 {
 
 
 	public static void main(String[] args) throws Exception {
@@ -52,5 +52,10 @@ public class Day6Part1 {
 		}
 
 		System.out.printf("Product of number of ways to beat record = %s%n", waysProduct);
+
+		long expected = 861300;
+		if (waysProduct != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", waysProduct, expected));
+		}
 	}
 }

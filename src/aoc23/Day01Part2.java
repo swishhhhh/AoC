@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * <a href="https://adventofcode.com/2023/day/1">Advent of Code 2023 Day 1</a>
  */
-public class Day1Part2 {
+public class Day01Part2 {
 	private static final Collection<String> ALPHA_DIGITS =
 			Arrays.asList("one", "two", "three", "four", "five", "six", "seven", "eight", "nine");
 	private static final Map<String, String> DIGITS_MAP =
@@ -32,11 +32,16 @@ public class Day1Part2 {
 			StringBuilder sb = new StringBuilder(getFirstAlphaOrNumDigitInLine(line));
 			sb.append(getLastAlphaOrNumDigitInLine(line));
 			long num = Long.parseLong(sb.toString());
-			System.out.printf("Digit on line %s: %s%n", line, num);
+//			System.out.printf("Digit on line %s: %s%n", line, num);
 			sum+= num;
 		}
 
 		System.out.printf("Sum = %s%n", sum);
+
+		long expected = 55358;
+		if (sum != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", sum, expected));
+		}
 	}
 
 	private static String getFirstAlphaOrNumDigitInLine(String line) {

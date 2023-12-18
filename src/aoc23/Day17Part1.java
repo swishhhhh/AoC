@@ -105,6 +105,11 @@ public class Day17Part1 {
 
 		long shortestPath = getShortestPath(grid);
 		System.out.printf("Shortest path: %s%n", shortestPath);
+
+		long expected = 970;
+		if (shortestPath != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", shortestPath, expected));
+		}
 	}
 
 	private static long getShortestPath(char[][] grid) {

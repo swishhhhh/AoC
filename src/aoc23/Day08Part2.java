@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * <a href="https://adventofcode.com/2023/day/8">Advent of Code 2023 Day 8</a>
  */
-public class Day8Part2 {
+public class Day08Part2 {
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc23/Day8_input.txt");
@@ -36,6 +36,11 @@ public class Day8Part2 {
 
 		long steps = executeCycles(leftRightAry, nodes, startNodes);
 		System.out.printf("Steps = %s%n", steps);
+
+		long expected = 14321394058031L;
+		if (steps != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", steps, expected));
+		}
 	}
 
 	private static long executeCycles(char[] leftRightAry, Map<String, String[]> nodes, Set<String> startNodes) {

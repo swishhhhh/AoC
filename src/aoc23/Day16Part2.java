@@ -76,6 +76,11 @@ public class Day16Part2 {
 			largest = Math.max(largest, getEnergizedTileCount(grid, new GridStep(new Coordinates(grid[i].length, i), Direction.WEST)));
 		}
 		System.out.printf("Most energized tiles count: %s%n", largest);
+
+		long expected = 7635;
+		if (largest != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", largest, expected));
+		}
 	}
 
 	private static long getEnergizedTileCount(char[][] grid, GridStep startingStep) {

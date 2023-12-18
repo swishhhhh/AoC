@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * <a href="https://adventofcode.com/2023/day/3">Advent of Code 2023 Day 3</a>
  */
-public class Day3Part1 {
+public class Day03Part1 {
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc23/Day3_input.txt");
@@ -33,12 +33,12 @@ public class Day3Part1 {
 					}
 				} else {
 					if (midWord) { //just completed a word
-						System.out.printf("Val %s found [%s, %s]", sb, row, col - sb.length());
+//						System.out.printf("Val %s found [%s, %s]", sb, row, col - sb.length());
 						if (isAdjacentToSymbol(grid, row, col - sb.length(), col - 1)) {
 							sum+= Integer.parseInt(sb.toString());
-							System.out.print(" *");
+//							System.out.print(" *");
 						}
-						System.out.println();
+//						System.out.println();
 						midWord = false;
 					}
 				}
@@ -46,18 +46,23 @@ public class Day3Part1 {
 
 			//end of row logic
 			if (midWord) {
-				System.out.printf("Val %s found [%s, %s]", sb, row, grid[row].length - 1 - sb.length());
+//				System.out.printf("Val %s found [%s, %s]", sb, row, grid[row].length - 1 - sb.length());
 				if (isAdjacentToSymbol(grid, row, grid[row].length - sb.length(), grid[row].length - 1)) {
 					sum+= Integer.parseInt(sb.toString());
-					System.out.print(" *");
+//					System.out.print(" *");
 				}
-				System.out.println();
+//				System.out.println();
 				midWord = false;
 			}
 		}
 
 
 		System.out.printf("Sum = %s%n", sum);
+
+		long expected = 539637;
+		if (sum != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", sum, expected));
+		}
 	}
 
 	private static boolean isDigit(char c) {

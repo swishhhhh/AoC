@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * <a href="https://adventofcode.com/2023/day/4">Advent of Code 2023 Day 4</a>
  */
-public class Day4Part1 {
+public class Day04Part1 {
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc23/Day4_input.txt");
@@ -39,5 +39,10 @@ public class Day4Part1 {
 		}
 
 		System.out.printf("Sum = %s%n", sum);
+
+		long expected = 20117;
+		if (sum != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", sum, expected));
+		}
 	}
 }

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * <a href="https://adventofcode.com/2023/day/2">Advent of Code 2023 Day 2</a>
  */
-public class Day2Part1 {
+public class Day02Part1 {
 	public static final int MAX_RED = 12;
 	public static final int MAX_GREEN = 13;
 	public static final int MAX_BLUE = 14;
@@ -26,6 +26,11 @@ public class Day2Part1 {
 		}
 
 		System.out.printf("Sum = %s%n", sum);
+
+		long expected = 2716;
+		if (sum != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", sum, expected));
+		}
 	}
 
 	private static boolean isValid(String line) {

@@ -87,7 +87,8 @@ public class Day10Part2 {
 		}
 
 
-		System.out.printf("Steps = %s, farthest = %s%n", steps, Math.ceil(steps / 2f));
+		long farthest = (long) Math.ceil(steps / 2);
+		System.out.printf("Steps = %s, farthest = %s%n", steps, farthest);
 
 		findEnclosedTiles();
 	}
@@ -163,6 +164,11 @@ public class Day10Part2 {
 		}
 
 		System.out.printf("Marked tiles = %s%n", markedTilesCnt);
+
+		long expected = 371;
+		if (markedTilesCnt != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", markedTilesCnt, expected));
+		}
 	}
 
 	private static List<Coordinates> getReachableAdjacentCells(Coordinates cursor) {

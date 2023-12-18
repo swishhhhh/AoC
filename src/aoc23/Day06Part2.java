@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * <a href="https://adventofcode.com/2023/day/6">Advent of Code 2023 Day 6</a>
  */
-public class Day6Part2 {
+public class Day06Part2 {
 
 
 	public static void main(String[] args) throws Exception {
@@ -46,5 +46,10 @@ public class Day6Part2 {
 		}
 
 		System.out.printf("Number of ways to beat record = %s%n", numWaysToBeatRecord);
+
+		long expected = 28101347;
+		if (numWaysToBeatRecord != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", numWaysToBeatRecord, expected));
+		}
 	}
 }

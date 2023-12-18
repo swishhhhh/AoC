@@ -25,6 +25,11 @@ public class Day15Part2 {
 		long sum = addUpBoxes(boxes, focalBoxes);
 
 		System.out.printf("Sum = %s%n", sum);
+
+		long expected = 230462;
+		if (sum != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", sum, expected));
+		}
 	}
 
 	private static long addUpBoxes(LinkedList<String>[] boxes, HashMap<String, Integer>[] focalBoxes) {

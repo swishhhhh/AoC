@@ -23,6 +23,11 @@ public class Day12Part2 {
 		}
 
 		System.out.printf("Sum = %s%n", sum);
+
+		long expected = 17485169859432L;
+		if (sum != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", sum, expected));
+		}
 	}
 
 	private static String unfoldLine(String line) {

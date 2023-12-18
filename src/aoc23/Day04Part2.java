@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * <a href="https://adventofcode.com/2023/day/4">Advent of Code 2023 Day 4</a>
  */
-public class Day4Part2 {
+public class Day04Part2 {
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc23/Day4_input.txt");
@@ -52,5 +52,10 @@ public class Day4Part2 {
 		}
 
 		System.out.printf("Sum = %s%n", sum);
+
+		long expected = 13768818;
+		if (sum != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", sum, expected));
+		}
 	}
 }

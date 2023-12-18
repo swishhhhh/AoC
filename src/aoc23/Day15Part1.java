@@ -20,6 +20,11 @@ public class Day15Part1 {
 		}
 
 		System.out.printf("Sum = %s%n", sum);
+
+		long expected = 506891;
+		if (sum != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", sum, expected));
+		}
 	}
 
 	private static long hash(String token) {

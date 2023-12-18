@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * <a href="https://adventofcode.com/2023/day/1">Advent of Code 2023 Day 1</a>
  */
-public class Day1Part1 {
+public class Day01Part1 {
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc23/Day1_input.txt");
@@ -20,6 +20,11 @@ public class Day1Part1 {
 		}
 
 		System.out.printf("Sum = %s%n", sum);
+
+		long expected = 56042;
+		if (sum != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", sum, expected));
+		}
 	}
 
 	private static String getFirstDigitInLine(String line) {

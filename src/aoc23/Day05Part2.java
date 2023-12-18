@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * <a href="https://adventofcode.com/2023/day/5">Advent of Code 2023 Day 5</a>
  */
-public class Day5Part2 {
+public class Day05Part2 {
 
 	static class RangeMapping {
 		private final long destinationStart;
@@ -176,6 +176,11 @@ public class Day5Part2 {
 		}
 
 		System.out.printf("Lowest Location = %s%n", lowestLocation);
+
+		long expected = 78775051;
+		if (lowestLocation != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", lowestLocation, expected));
+		}
 	}
 
 	private static List<Node> createSeedNodes(List<Long> seeds) {

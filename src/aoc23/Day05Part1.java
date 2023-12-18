@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * <a href="https://adventofcode.com/2023/day/5">Advent of Code 2023 Day 5</a>
  */
-public class Day5Part1 {
+public class Day05Part1 {
 
 	static class RangeMapping {
 		long destinationStart;
@@ -104,6 +104,11 @@ public class Day5Part1 {
 		}
 
 		System.out.printf("Lowest Location = %s%n", lowestLocation);
+
+		long expected = 227653707;
+		if (lowestLocation != expected) {
+			throw new RuntimeException(String.format("Output %s doesn't match expected %s", lowestLocation, expected));
+		}
 	}
 
 	private static long lookupMapping(long source, ArrayList<RangeMapping> sourceToTargetMappings) {
