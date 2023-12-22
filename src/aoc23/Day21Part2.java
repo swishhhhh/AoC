@@ -89,7 +89,7 @@ public class Day21Part2 {
 		start = new Coordinates((multiples * originalGrid[0].length) + originalCursorCol,
 				(multiples * originalGrid.length) + originalCursorRow);
 		clonedGrid = cloneGridInEachDirection(originalGrid, multiples);
-		steps = fullCycleSteps + halfCycleSteps;
+		steps = (multiples * fullCycleSteps) + halfCycleSteps;
 		long afterFullCycleAndWarmupCount = process(clonedGrid, start, steps);
 		long firstCycleIncrement = afterFullCycleAndWarmupCount - warmupHalfCycleCnt;
 
@@ -98,11 +98,11 @@ public class Day21Part2 {
 		clonedGrid = cloneGridInEachDirection(originalGrid, multiples);
 		start = new Coordinates((multiples * originalGrid[0].length) + originalCursorCol,
 				(multiples * originalGrid.length) + originalCursorRow);
-		steps = (multiples*fullCycleSteps) + halfCycleSteps;
+		steps = (multiples * fullCycleSteps) + halfCycleSteps;
 		long after2ndFullCycleCnt = process(clonedGrid, start, steps);
 		long secondCycleIncrement = after2ndFullCycleCnt - afterFullCycleAndWarmupCount;
 
-
+		//at this point the increment should be stable
 		long stableCycleIncrDiff = secondCycleIncrement - firstCycleIncrement;
 		long remainingSteps = targetSteps - steps;
 		long remainingCycles = remainingSteps / fullCycleSteps;
