@@ -39,4 +39,21 @@ public class GridUtils {
                 .filter(coord -> coord.x() >= 0 && coord.x() < grid[0].length) // ditto
                 .collect(Collectors.toList());
     }
+
+    public static char[][] cloneGridInEachDirection(char[][] srcGrid, int multipleInEachDir) {
+        int multiple = ((2 * multipleInEachDir) + 1);
+        int newGridSizeRows = srcGrid.length * multiple;
+        int newGridSizeCols = srcGrid[0].length * multiple;
+        char[][] newGrid = new char[newGridSizeRows][newGridSizeCols];
+
+        for (int i = 0; i < multiple; i++) {
+            for (int row = 0; row < newGridSizeRows; row++) {
+                for (int j = 0; j < multiple; j++) {
+                    System.arraycopy(srcGrid[row % srcGrid.length], 0, newGrid[row], j * srcGrid.length, srcGrid.length);
+                }
+            }
+        }
+
+        return newGrid;
+    }
 }
