@@ -76,14 +76,13 @@ public class Day21Part2 {
 
 		long targetSteps = 26501365;
 		long fullCycleSteps = originalGrid.length;
-		final long halfCycleSteps = (fullCycleSteps - 1) / 2;
+		long halfCycleSteps = (fullCycleSteps - 1) / 2;
 
 		//half-cycle warmup
 		char[][] clonedGrid = cloneGridInEachDirection(originalGrid, 0); //just make a plain copy
 		long steps = halfCycleSteps;
-		boolean countOdds = steps % 2 == 1;
 		Coordinates start = new Coordinates(originalCursorCol, originalCursorRow);
-		long warmupHalfCycleCnt = process(clonedGrid, start, steps, countOdds);
+		long warmupHalfCycleCnt = process(clonedGrid, start, steps);
 
 		//1st full cycle warmup
 		int multiples = 1;
@@ -91,8 +90,7 @@ public class Day21Part2 {
 				(multiples * originalGrid.length) + originalCursorRow);
 		clonedGrid = cloneGridInEachDirection(originalGrid, multiples);
 		steps = fullCycleSteps + halfCycleSteps;
-		countOdds = steps % 2 == 1;
-		long afterFullCycleAndWarmupCount = process(clonedGrid, start, steps, countOdds);
+		long afterFullCycleAndWarmupCount = process(clonedGrid, start, steps);
 		long firstCycleIncrement = afterFullCycleAndWarmupCount - warmupHalfCycleCnt;
 
 		//2nd full cycle warmup
@@ -101,8 +99,7 @@ public class Day21Part2 {
 		start = new Coordinates((multiples * originalGrid[0].length) + originalCursorCol,
 				(multiples * originalGrid.length) + originalCursorRow);
 		steps = (multiples*fullCycleSteps) + halfCycleSteps;
-		countOdds = steps % 2 == 1;
-		long after2ndFullCycleCnt = process(clonedGrid, start, steps, countOdds);
+		long after2ndFullCycleCnt = process(clonedGrid, start, steps);
 		long secondCycleIncrement = after2ndFullCycleCnt - afterFullCycleAndWarmupCount;
 
 
@@ -119,7 +116,8 @@ public class Day21Part2 {
 		return totalCnt;
 	}
 
-	private static long process(char[][] grid, Coordinates start, long maxSteps, boolean countOdds) {
+	private static long process(char[][] grid, Coordinates start, long maxSteps) {
+		boolean countOdds = maxSteps % 2 == 1;
 		Step step = new Step(start, 0);
 		Queue<Step> queue = new LinkedBlockingQueue<>();
 		queue.add(step);
