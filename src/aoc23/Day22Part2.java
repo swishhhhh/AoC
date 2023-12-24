@@ -78,7 +78,6 @@ public class Day22Part2 {
 
 		settleBricks(grid, bricksMap, brickLocationsMap);
 		long count = countBricks(grid, bricksMap, brickLocationsMap);
-//		long count = countBricksSafeToRemove(grid, bricksMap, brickLocationsMap);
 
 		System.out.printf("Count = %s%n", count);
 
@@ -94,7 +93,7 @@ public class Day22Part2 {
 		for (Brick brick : bricksMap.values()) {
 			String[][][] clonedGrid = cloneGrid(grid);
 			Map<String, Coordinates3D> clonedBricksLocationsMap = new HashMap<>(brickLocationsMap);
-			removeBrick(brick, clonedGrid, clonedBricksLocationsMap);
+			removeBrickIfPresent(brick, clonedGrid, clonedBricksLocationsMap);
 			settleBricks(clonedGrid, bricksMap, clonedBricksLocationsMap);
 
 			for (String brickId : brickLocationsMap.keySet()) {
@@ -238,7 +237,7 @@ public class Day22Part2 {
 	private static void moveBrick(Brick brick, Coordinates3D targetLoc, String[][][] grid,
 								  Map<String, Coordinates3D> brickLocationsMap) {
 		//check if brick is already on the grid and if so remove it
-		removeBrick(brick, grid, brickLocationsMap);
+		removeBrickIfPresent(brick, grid, brickLocationsMap);
 
 		//place brick in new target location in the grid
 		for (int i = 0; i < brick.cubes.length; i++) {
@@ -252,7 +251,7 @@ public class Day22Part2 {
 		}
 	}
 
-	private static void removeBrick(Brick brick, String[][][] grid, Map<String, Coordinates3D> brickLocationsMap) {
+	private static void removeBrickIfPresent(Brick brick, String[][][] grid, Map<String, Coordinates3D> brickLocationsMap) {
 		Coordinates3D curLoc = brickLocationsMap.get(brick.id);
 		if (curLoc != null) {
 			for (Coordinates3D c : brick.cubes) {
