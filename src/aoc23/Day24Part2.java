@@ -15,12 +15,16 @@ import static java.lang.Math.*;
  *       worked only by chance. See algorithm in "calculateForY(...)" which is the one axis where this worked for, and
  *       even there only with ~98% accuracy (but good enough). "calculateForZ(...)" (coded, but then removed from this
  *       class) was tried and didn't work at all even though we got 1 hit (a stone with the same z axis coordinate and
- *       z-velocity as the rock/laser/solution's output. "calculateForX(...)" wasn't even attempted since there were no
- *       matching stones (confirmed that based on the solution found with "calculateForY").
+ *       z-velocity as the rock/laser/solution's output). "calculateForX(...)" wasn't even attempted since there were
+ *       no matching stones (confirmed that based on the solution found with "calculateForY").
  * <p>
  *       The correct way to solve this problem is via mathematical solver libraries like sympy and z3 in python (see
  *       ../Day24Part2.py for an example). Since I couldn't easily find any such equivalent libraries in java, and this
- *       solution, sub-par as it is, came up with the right answer for my puzzle input... I'll leave it at that.
+ *       solution, sub-par as it is, came up with the right answer for my puzzle input... I chose not to pursue further.
+ * <p>
+ *       Other ways to solve this without libraries is to do some variation of guessing the output (semi-brute-force)
+ *       based on assumptions like the velocity variables probably aren't very large etc. Since these solutions rely on
+ *       assumptions, they're not too much better than the below imperfect solution... so for now I'll leave it at that.
  */
 public class Day24Part2 {
 	static class Path {
@@ -101,9 +105,9 @@ public class Day24Part2 {
 	private static Double calculateForY(List<Path> paths) {
 		/*
 		 * Algo: Assuming the thing we're solving is the path of a laser-beam that is to intercept every hail-stone let's
-		 * 		 use the "b" notation for the beam. We'll also be referring to hailstones with the "h" notation and pairs
+		 *       use the "b" notation for the beam. We'll also be referring to hailstones with the "h" notation and pairs
 		 *       of peer stones with the "p1" and "p2" notations respectively.
-		 * 		 For each path/hailstone, select its y coordinate (hy) and yVelocity (hvy) and assume that it's the
+		 *       For each path/hailstone, select its y coordinate (hy) and yVelocity (hvy) and assume that it's the
 		 *       same as the beam's y (by) and yVelocity (bvy) - which means the beam and selected stone have already
 		 *       met (on their y axes at least) and will always be on the same y axes and vy speeds. So T (time to contact)
 		 *       is 0 (and remains 0 in perpetuity, so no point in doing the rest for this/selected stone).
@@ -111,18 +115,18 @@ public class Day24Part2 {
 		 *           the same coord (by) and velocity (bvy) values, and save them as T1, T2.
 		 *         2. Select the pair of stones' x coordinates (p1x & p2x) and xVelocity (p1vx & p2vx).
 		 *         3. We then plug in those values (p1x, p2x, p1vx, p2vx) and perform the following pair of linear equations:
-		 * 				bx + (bvx * T1) = p1x + (p1vx * T1)
+		 *              bx + (bvx * T1) = p1x + (p1vx * T1)
 		 *              bx + (bvx * T2) = p2x + (p2vx * T2)
 		 *            treating bx as X and bvx as Y (in linear equation parlance).
 		 *         4. If X (bx) and Y (bvx) doesn't match for every of the pair iterations, track it, and if too many pairs
-		 *            (currently set at a threshold of 5%) then it's not the answer and continue on (top of outer loop)
-		 *            to next stone. (Re the 5% threshold allowance, in theory every pair should match so should be 0%,
+		 *            (currently set at a threshold of 5%) don't match then it's not the answer and continue on to the
+		 *            next stone. (Re the 5% threshold allowance, in theory every pair should match so should be 0%,
 		 *            needs more investigation).
 		 *         5. Same as step 2 but select z coordinates (p1z & p2z) and zVelocity (p1vz & p2vz)
 		 *         6. Same as step 3 substituting {p1z, p2z, p1vz, p2vz, bx & bvx} for {p1x, p2x, p1vx, p2vx, bz & bvz}
 		 *            respectively.
 		 *         7. Same as step 4 - if X (bz) and Y (bvz) don't match for too many pairs, it's not the answer and continue.
-		 *         8. If you get this far, you have a winner!
+		 *         8. If you get this far, you have a winner (probably :))!
 		 */
 
 		double bx = -1, by, bz = -1, bvx = -1, bvy, bvz = -1;

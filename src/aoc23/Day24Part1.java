@@ -115,13 +115,13 @@ public class Day24Part1 {
 		//check if point is in the past
 		//line1 heading south and test-box is to the north
 		return     (!(p1x2 > p1x1) || !(p1x1 > p.x))  //line1 heading east and test-box is to the west
-				&& (!(p1x2 < p1x1) || !(p1x1 < p.x))  //line1 heading west and test-box is to the east
-				&& (!(p1y2 > p1y1) || !(p1y1 > p.y))  //line1 heading north and test-box is to the south
-				&& (!(p1y2 < p1y1) || !(p1y1 < p.y))  //line1 heading south and test-box is to the north
-				&& (!(p2x2 > p2x1) || !(p2x1 > p.x))  //line2 heading east and test-box is to the west
-				&& (!(p2x2 < p2x1) || !(p2x1 < p.x))  //line1 heading west and test-box is to the east
-				&& (!(p2y2 > p2y1) || !(p2y1 > p.y))  //line1 heading north and test-box is to the south
-				&& (!(p2y2 < p2y1) || !(p2y1 < p.y)); //line1 heading south and test-box is to the north
+		        && (!(p1x2 < p1x1) || !(p1x1 < p.x))  //line1 heading west and test-box is to the east
+		        && (!(p1y2 > p1y1) || !(p1y1 > p.y))  //line1 heading north and test-box is to the south
+		        && (!(p1y2 < p1y1) || !(p1y1 < p.y))  //line1 heading south and test-box is to the north
+		        && (!(p2x2 > p2x1) || !(p2x1 > p.x))  //line2 heading east and test-box is to the west
+		        && (!(p2x2 < p2x1) || !(p2x1 < p.x))  //line1 heading west and test-box is to the east
+		        && (!(p2y2 > p2y1) || !(p2y1 > p.y))  //line1 heading north and test-box is to the south
+		        && (!(p2y2 < p2y1) || !(p2y1 < p.y)); //line1 heading south and test-box is to the north
 	}
 
 	private static double getYintercept(double x, double y, double slope) {
@@ -134,7 +134,7 @@ public class Day24Part1 {
 		}
 
 		double x = (yIntercept2 - yIntercept1) / (slope1 - slope2);
-		double y = slope1 * x + yIntercept1;
+		double y = (slope1 * x) + yIntercept1;
 
 		return new Point(x, y);
 	}
