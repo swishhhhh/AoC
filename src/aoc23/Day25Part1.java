@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * <a href="https://adventofcode.com/2023/day/25">Advent of Code 2023 Day 25</a>
  * <P>
- * Solved using Karger's algorithm to find minimum number of cuts in a graph
+ * Solved using Karger's algorithm to find the minimum number of cuts in a graph.
  */
 public class Day25Part1 {
 	private static class Graph {
@@ -106,7 +106,6 @@ public class Day25Part1 {
 	private static Graph process(List<String> lines) {
 		int minCut = lines.size(); //initialize to max
 		Graph selectedGraph = null;
-		Map<Integer, Integer> statistics = new LinkedHashMap<>();
 		for (int i = 1; i < 1000; i++) { //might need more than 1000 iterations... but usually enough
 			if (DEBUG && i % 10 == 0) {
 				System.out.printf("iteration: %s%n", i);
@@ -123,12 +122,6 @@ public class Day25Part1 {
 				minCut = m;
 				selectedGraph = graph;
 			}
-
-			Integer cnt = statistics.get(m);
-			if (cnt == null) {
-				cnt = 0;
-			}
-			statistics.put(m, cnt + 1);
 
 			if (minCut == 3) {
 				System.out.printf("Min cuts found after %s iterations%n", i);
