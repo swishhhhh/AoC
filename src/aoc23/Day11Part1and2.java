@@ -33,22 +33,22 @@ public class Day11Part1and2 {
 			}
 		}
 
-		//for each missing row increment adjustment by 1 for all subsequent rows
+		//for each missing row increment adjustment for all subsequent rows
 		int[] rowAdjustments = new int[rowsWithGalaxies.length];
 		for (int row = 0; row < rowsWithGalaxies.length; row++) {
 			if (!rowsWithGalaxies[row]) {
-				//add 1 to each subsequent row
+				//add EXPANSION to each subsequent row
 				for (int i = row + 1; i < rowAdjustments.length; i++) {
 					rowAdjustments[i]+= EXPANSION;
 				}
 			}
 		}
 
-		//for each missing col increment adjustment by 1 for all subsequent cols
+		//for each missing col increment adjustment for all subsequent cols
 		int[] colAdjustments = new int[colsWithGalaxies.length];
 		for (int col = 0; col < colsWithGalaxies.length; col++) {
 			if (!colsWithGalaxies[col]) {
-				//add 1M to each subsequent col
+				//add EXPANSION to each subsequent col
 				for (int i = col + 1; i < colAdjustments.length; i++) {
 					colAdjustments[i]+= EXPANSION;
 				}
