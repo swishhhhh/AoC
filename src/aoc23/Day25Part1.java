@@ -106,7 +106,8 @@ public class Day25Part1 {
 	private static Graph process(List<String> lines) {
 		int minCut = lines.size(); //initialize to max
 		Graph selectedGraph = null;
-		for (int i = 1; i < 1000; i++) { //might need more than 1000 iterations... but usually enough
+		final int maxIterations = 1000; //might need more than 1000 iterations... but usually enough
+		for (int i = 1; i < maxIterations; i++) {
 			if (DEBUG && i % 10 == 0) {
 				System.out.printf("iteration: %s%n", i);
 			}
@@ -125,11 +126,11 @@ public class Day25Part1 {
 
 			if (minCut == 3) {
 				System.out.printf("Min cuts found after %s iterations%n", i);
-				break; //shortcut, since we know the number of cuts we're looking for...
+				return selectedGraph; //shortcut, since we know the number of cuts we're looking for...
 			}
 		}
 
-		return selectedGraph;
+		throw new RuntimeException(String.format("Max iterations (%s) completed without finding the minCut.", maxIterations));
 	}
 
 	public static int minCut(Graph graph) {
