@@ -1,4 +1,4 @@
-package aoc23.datastructs;
+package datastructs;
 
 public class Line implements Comparable<Line> {
     private final long x1;

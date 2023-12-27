@@ -1,6 +1,6 @@
 package aoc23;
 
-import aoc23.datastructs.Coordinates3D;
+import datastructs.Coordinates3D;
 import utils.ResourceLoader;
 
 import java.util.*;

@@ -1,6 +1,6 @@
 package utils;
 
-import aoc23.datastructs.Coordinates; //TODO clean this up once Coordinates class is moved to common (non aoc23) pkg
+import datastructs.Coordinates;
 
 import java.util.Arrays;
 import java.util.List;

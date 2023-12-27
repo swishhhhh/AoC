@@ -1,6 +1,6 @@
 package aoc23;
 
-import aoc23.datastructs.Line;
+import datastructs.Line;
 import utils.ResourceLoader;
 
 import java.util.*;

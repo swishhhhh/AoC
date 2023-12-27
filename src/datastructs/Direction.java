@@ -1,4 +1,4 @@
-package aoc23.datastructs;
+package datastructs;
 
 public enum Direction {
     NORTH("N"), SOUTH("S"), EAST("E"), WEST("W"),

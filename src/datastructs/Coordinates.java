@@ -1,4 +1,4 @@
-package aoc23.datastructs;
+package datastructs;
 
 public record Coordinates(int x, int y) {
 

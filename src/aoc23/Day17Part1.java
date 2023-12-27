@@ -1,13 +1,13 @@
 package aoc23;
 
-import aoc23.datastructs.Coordinates;
-import aoc23.datastructs.Direction;
+import datastructs.Coordinates;
+import datastructs.Direction;
 import utils.ResourceLoader;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static aoc23.datastructs.Direction.*;
+import static datastructs.Direction.*;
 
 /**
  * <a href="https://adventofcode.com/2023/day/17">Advent of Code 2023 Day 17</a>

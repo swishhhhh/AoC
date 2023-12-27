@@ -1,12 +1,12 @@
 package aoc23;
 
-import aoc23.datastructs.Coordinates;
-import aoc23.datastructs.Direction;
+import datastructs.Coordinates;
+import datastructs.Direction;
 import utils.ResourceLoader;
 
 import java.util.List;
 
-import static aoc23.datastructs.Direction.*;
+import static datastructs.Direction.*;
 import static java.lang.Math.*;
 import static utils.GridUtils.*;
 
