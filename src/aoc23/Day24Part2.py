@@ -1,4 +1,4 @@
-f = open("../inputs/Day23_input.txt", "r")
+f = open("../inputs/Day24_input.txt", "r")
 import sympy
 
 hailstones = [tuple(map(int, line.replace("@", ",").split(","))) for line in f.readlines()]
