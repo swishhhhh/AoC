@@ -77,7 +77,7 @@ public class Day22Part2 {
 		}
 
 		settleBricks(grid, bricksMap, brickLocationsMap);
-		long count = countBricks(grid, bricksMap, brickLocationsMap);
+		long count = countBricksThatMoved(grid, bricksMap, brickLocationsMap);
 
 		System.out.printf("Count = %s%n", count);
 
@@ -87,8 +87,8 @@ public class Day22Part2 {
 		}
 	}
 
-	private static long countBricks(String[][][] grid, Map<String, Brick> bricksMap,
-									Map<String, Coordinates3D> brickLocationsMap) {
+	private static long countBricksThatMoved(String[][][] grid, Map<String, Brick> bricksMap,
+											 Map<String, Coordinates3D> brickLocationsMap) {
 		long bricksMovedCnt = 0;
 		for (Brick brick : bricksMap.values()) {
 			String[][][] clonedGrid = cloneGrid(grid);
@@ -176,7 +176,7 @@ public class Day22Part2 {
 				.sorted(Comparator.comparingInt(Coordinates3D::z))
 				.toList();
 
-		//for each brick, check if it can move down and if so move as far down as it can go
+		//drop each brick down as far as it can go
 		for (Coordinates3D c : locations) {
 			String cellValue = grid[c.x()][c.y()][c.z()];
 			String brickId = cellValue.substring(0, 6);
@@ -186,6 +186,7 @@ public class Day22Part2 {
 	}
 
 	private static void dropBrick(Brick brick, String[][][] grid, Map<String, Coordinates3D> brickLocationsMap) {
+		//move brick down as far as it can go (if can at all)
 		int movesDownCtr = countAvailableMovesDown(brick, grid, brickLocationsMap);
 		if (movesDownCtr <  1) {
 			return;
