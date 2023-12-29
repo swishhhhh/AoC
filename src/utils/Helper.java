@@ -141,10 +141,14 @@ public class Helper {
         return a;
     }
 
-    public static long greatestCommonDenominator(long[] input) {
-        long result = input[0];
-        for (int i = 1; i < input.length; i++) {
-            result = greatestCommonDenominator(result, input[i]);
+    public static long greatestCommonDenominator(Long[] input) {
+        return greatestCommonDenominator(Arrays.asList(input));
+    }
+
+    public static long greatestCommonDenominator(List<Long> input) {
+        long result = input.get(0);
+        for (int i = 1; i < input.size(); i++) {
+            result = greatestCommonDenominator(result, input.get(i));
         }
         return result;
     }
@@ -153,10 +157,14 @@ public class Helper {
         return a * (b / greatestCommonDenominator(a, b));
     }
 
-    public static long lowestCommonMultiplier(long[] input) {
-        long result = input[0];
-        for (int i = 1; i < input.length; i++) {
-            result = lowestCommonMultiplier(result, input[i]);
+    public static long lowestCommonMultiplier(Long[] input) {
+        return lowestCommonMultiplier(Arrays.asList(input));
+    }
+
+    public static long lowestCommonMultiplier(List<Long> input) {
+        long result = input.get(0);
+        for (int i = 1; i < input.size(); i++) {
+            result = lowestCommonMultiplier(result, input.get(i));
         }
         return result;
     }

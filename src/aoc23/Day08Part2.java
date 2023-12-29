@@ -48,7 +48,7 @@ public class Day08Part2 {
 		String[] nodePtrs = startNodes.toArray(new String[]{});
 
 		//keep track of cycle lengths for each path
-		long[] cycleLengths = new long[startNodes.size()];
+		Long[] cycleLengths = new Long[startNodes.size()];
 		long cyclesFoundCtr = 0;
 
 		long steps = 0;
@@ -61,7 +61,7 @@ public class Day08Part2 {
 			for (int i = 0; i < nodePtrs.length; i++) {
 				String nodePtr = nodePtrs[i];
 
-				if (nodePtr.endsWith("Z") && cycleLengths[i] == 0) {
+				if (nodePtr.endsWith("Z") && cycleLengths[i] == null) {
 					cycleLengths[i] = steps;
 					cyclesFoundCtr++;
 				}
