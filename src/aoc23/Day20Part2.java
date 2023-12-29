@@ -152,14 +152,14 @@ public class Day20Part2 {
 		/*
 		 * Assumptions: the tail of the machine/graph looks like this (flow from right to left), example modules from
 		 *    our puzzle input in parentheses):
-		 *   target(rx) <- conjunction-mod-A(zr) <- conjunction-mod-B1(gc) <- conjunction-mod-C1(dn) <- flip-flop-modules[ff1]
-		 *                                       <- conjunction-mod-B2(sz) <- conjunction-mod-C1(ms) <- flip-flop-modules[ff2]
-		 *                                       <- conjunction-mod-B3(cm) <- conjunction-mod-C3(ks) <- flip-flop-modules[ff3]
-		 *                                       <- conjunction-mod-B4(xf) <- conjunction-mod-C4(tc) <- flip-flop-modules[ff4]
+		 *   target(rx) <- conjunction-mod-A(zr) <- conjunction-mod-B1(gc) <- conjunction-mod-C1(dn) <- flip-flop-modules[](ff1)
+		 *                                       <- conjunction-mod-B2(sz) <- conjunction-mod-C1(ms) <- flip-flop-modules[](ff2)
+		 *                                       <- conjunction-mod-B3(cm) <- conjunction-mod-C3(ks) <- flip-flop-modules[](ff3)
+		 *                                       <- conjunction-mod-B4(xf) <- conjunction-mod-C4(tc) <- flip-flop-modules[](ff4)
 		 *
 		 *  Note: There can be more (or fewer) mod-Bs and Cs, but each B has exactly one C (otherwise this code needs
-		 *        further adapting). Also note that [ff1], [ff2] etc are different lists/arrays of n incoming flip-flop
-		 *        modules of possibly different sizes (first one can be 10, 2nd 7, etc).
+		 *        further adapting). Also note that array sizes ff1 and ff2 etc are different - i.e. each conjunction C
+		 *        module might have a different number of incoming flip-flop modules.
 		 *
 		 *  Steps:
 		 *       1. Starting from target(rx) find conjunction modules A, B1-n, C1-n.
