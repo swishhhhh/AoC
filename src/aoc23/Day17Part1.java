@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static datastructs.Direction.*;
+import static utils.GridUtils.*;
 
 /**
  * <a href="https://adventofcode.com/2023/day/17">Advent of Code 2023 Day 17</a>
@@ -169,17 +170,5 @@ public class Day17Part1 {
 	private static boolean outOfBounds(Coordinates coords, char[][] grid) {
 		return coords.x() < 0 || coords.x() >= grid[0].length
 				|| coords.y() < 0 || coords.y() >= grid.length;
-	}
-
-	private static Coordinates getNextCoord(Coordinates coord, Direction direction) {
-		int x = coord.x(), y = coord.y();
-		switch (direction) {
-			case NORTH -> y = y - 1;
-			case SOUTH -> y = y + 1;
-			case WEST  -> x = x - 1;
-			case EAST  -> x = x + 1;
-		}
-
-		return new Coordinates(x, y);
 	}
 }

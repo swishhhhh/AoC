@@ -1,9 +1,9 @@
 package aoc23;
 
 import datastructs.Coordinates;
+import utils.GridUtils;
 import utils.ResourceLoader;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -49,9 +49,7 @@ public class Day10Part2 {
 		traceGrid = new char[lines.size()][lines.get(0).length()];
 
 		//initialize traceGrid with periods
-		for (char[] row : traceGrid) {
-			Arrays.fill(row, '.');
-		}
+		GridUtils.fillGrid(traceGrid, '.');
 
 		for (int row = 0; row < grid.length; row++) {
 			grid[row] = lines.get(row).toCharArray();

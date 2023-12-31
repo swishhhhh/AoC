@@ -10,6 +10,8 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import static utils.GridUtils.*;
+
 /**
  * <a href="https://adventofcode.com/2023/day/16">Advent of Code 2023 Day 16</a>
  */
@@ -167,18 +169,6 @@ public class Day16Part2 {
 
 	private static GridStep getNextStepSameDirection(GridStep step) {
 		return new GridStep(getNextCoord(step.coord, step.direction), step.direction);
-	}
-
-	private static Coordinates getNextCoord(Coordinates coord, Direction direction) {
-		int x = coord.x(), y = coord.y();
-		switch (direction) {
-			case NORTH -> y = y - 1;
-			case SOUTH -> y = y + 1;
-			case WEST  -> x = x - 1;
-			case EAST  -> x = x + 1;
-		}
-
-		return new Coordinates(x, y);
 	}
 
 	private static boolean outOfBounds(Coordinates coords, char[][] grid) {

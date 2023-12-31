@@ -174,18 +174,6 @@ public class Day18Part1 {
 		return cursor;
 	}
 
-	private static Coordinates getNextCoord(Coordinates coord, Direction direction) {
-		int x = coord.x(), y = coord.y();
-		switch (direction) {
-			case NORTH -> y = y - 1;
-			case SOUTH -> y = y + 1;
-			case WEST  -> x = x - 1;
-			case EAST  -> x = x + 1;
-		}
-
-		return new Coordinates(x, y);
-	}
-
 	private static Direction getDirectionFromOrientation(String leftRightUpDown) {
 		Direction dir = null;
 		switch (leftRightUpDown) {

@@ -1,6 +1,7 @@
 package utils;
 
 import datastructs.Coordinates;
+import datastructs.Direction;
 
 import java.util.Arrays;
 import java.util.List;
@@ -55,5 +56,17 @@ public class GridUtils {
         }
 
         return newGrid;
+    }
+
+    public static Coordinates getNextCoord(Coordinates coord, Direction direction) {
+        int x = coord.x(), y = coord.y();
+        switch (direction) {
+            case NORTH -> y = y - 1;
+            case SOUTH -> y = y + 1;
+            case WEST  -> x = x - 1;
+            case EAST  -> x = x + 1;
+        }
+
+        return new Coordinates(x, y);
     }
 }
