@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class Day19Part2 {
 
+	private static final boolean DEBUG = false;
+
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day19_input.txt");
 
@@ -22,14 +24,24 @@ public class Day19Part2 {
 			Blueprint bp = parseBlueprint(lines.get(i), minutesToCollect);
 			State maxState = bp.getStateWithMaxGeodes();
 			product*= maxState.getTotalGeode();
-			System.out.printf("Max Geodes for Blueprint %s = %s, Product=%s%n",
-					bp.getID(), maxState.getTotalGeode(), product);
+			if (DEBUG) {
+				System.out.printf("Max Geodes for Blueprint %s = %s, Product=%s%n",
+						bp.getID(), maxState.getTotalGeode(), product);
+			}
+		}
+
+		long answer = product;
+		System.out.printf("Sum Quality Level = %s%n", answer);
+
+		long expected = 29348;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
 		}
 	}
 
 	private static Blueprint parseBlueprint(String line, int minutesToCollect) {
 		List<Integer> nums = Helper.extractIntsFromText(line);
 		return new Blueprint(nums.get(0), minutesToCollect, nums.get(1), nums.get(2), nums.get(3), nums.get(4),
-				nums.get(5), nums.get(6));
+				nums.get(5), nums.get(6), DEBUG);
 	}
 }

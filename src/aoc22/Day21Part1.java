@@ -32,7 +32,7 @@ public class Day21Part1 {
 		}
 
 		//keep solving equations until root is solved
-		long rootAnswer = 0L;
+		long answer = 0L;
 		long cyclesCtr = 0;
 		int cyclesSinceLastSolvedCtr = 0;
 		while (queue.size() > 0) {
@@ -55,7 +55,7 @@ public class Day21Part1 {
 				solvedVariables.put(eq.getEquationVarName(), result);
 				cyclesSinceLastSolvedCtr = 0;
 				if (eq.getEquationVarName().equals("root")) {
-					rootAnswer = result;
+					answer = result;
 					break; //done!
 				}
 			} else { //put unsolved equation back onto the tail of the queue
@@ -69,6 +69,11 @@ public class Day21Part1 {
 			}
 		}
 
-		System.out.printf("Cycles Ctr = %s, Root's Answer = %s%n", cyclesCtr, rootAnswer);
+		System.out.printf("Cycles Ctr = %s, Root's Answer = %s%n", cyclesCtr, answer);
+
+		long expected = 157714751182692L;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 }

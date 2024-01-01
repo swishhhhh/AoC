@@ -19,9 +19,11 @@ public class Blueprint {
     private long cacheHits;
     private long cacheMisses;
 
+    private boolean debug = false;
+
     public Blueprint(int ID, int minutesToCollect, int costOfOreRobotInOre, int costOfClayRobotInOre,
                      int costOfObsidianRobotInOre, int costOfObsidianRobotInClay,
-                     int costOfGeodeRobotInOre, int costOfGeodeRobotInObsidian) {
+                     int costOfGeodeRobotInOre, int costOfGeodeRobotInObsidian, boolean debug) {
         this.ID = ID;
         this.minutesToCollect = minutesToCollect;
         this.costOfOreRobotInOre = costOfOreRobotInOre;
@@ -37,6 +39,8 @@ public class Blueprint {
 
         this.maxClayRobotsToBuy = this.costOfObsidianRobotInClay;
         this.maxObsidianRobotsToBuy = this.costOfGeodeRobotInObsidian;
+
+        this.debug = debug;
     }
 
     public int getID() {
@@ -55,7 +59,7 @@ public class Blueprint {
         long loopCtr = 0;
         while (!stack.isEmpty()) {
             loopCtr++;
-            if (loopCtr % 1_000_000 == 0) {
+            if (debug && loopCtr % 1_000_000 == 0) {
                 State tempState = stack.peek();
                 double hitPct = (double) cacheHits / (cacheHits+cacheMisses) * 100D;
                 System.out.printf("Loop ctr=%s, Cache Size=%s, Cache Hits=%s, Misses=%s, Hit Rate=%2.2f%%, " +
@@ -70,7 +74,9 @@ public class Blueprint {
             if (incomingState.getMinuteCount() >= this.minutesToCollect) {
                 if (maxState == null || incomingState.getTotalGeode() > maxState.getTotalGeode()) {
                     maxState = incomingState;
-                    System.out.println("Max geodes = " + maxState.getTotalGeode());
+                    if (debug) {
+                        System.out.println("Max geodes = " + maxState.getTotalGeode());
+                    }
                 }
                 continue;
             }

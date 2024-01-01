@@ -17,7 +17,8 @@ public class Day15Part1 {
 	static Set<Coordinates> beacons = new LinkedHashSet<>();
 	static Set<Diamond> diamonds = new LinkedHashSet<>();
 
-	static int targetRow = 2_000_000;
+	private final static int targetRow = 2_000_000;
+	private final static boolean DEBUG = false;
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day15_input.txt");
@@ -39,7 +40,9 @@ public class Day15Part1 {
 			minX = Math.min(minX, sensorX - distance);
 			maxX = Math.max(maxX, sensorX + distance);
 
-			System.out.printf("line %s: %s, distance: %s%n", ctr, line, distance);
+			if (DEBUG) {
+				System.out.printf("line %s: %s, distance: %s%n", ctr, line, distance);
+			}
 		}
 
 		for (int i = minX; i <= maxX; i++) {
@@ -52,6 +55,12 @@ public class Day15Part1 {
 
 		selectedCoords.removeAll(beacons);
 
+		long answer = selectedCoords.size();
 		System.out.printf("Selected Coordinates = %s%n", selectedCoords.size());
+
+		long expected = 4827924;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 }

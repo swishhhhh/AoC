@@ -28,7 +28,13 @@ public class Day13Part2 {
 
 		int packet1Loc = lines.indexOf(packet1) + 1;
 		int packet2Loc = lines.indexOf(packet2) + 1;
-		System.out.printf("Packet1 location: %s, Packet2 location = %s, Product = %s%n", packet1Loc, packet2Loc, packet1Loc * packet2Loc);
+		long answer = packet1Loc * packet2Loc;
+		System.out.printf("Packet1 location: %s, Packet2 location = %s, Product = %s%n", packet1Loc, packet2Loc, answer);
+
+		long expected = 23111;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 
 	private static int compareLines(String leftPart, String rightPart) {

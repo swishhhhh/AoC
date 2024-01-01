@@ -48,7 +48,7 @@ public class Day21Part2 {
 		}
 
 		//keep solving equations until humn is solved
-		long humnAnswer = 0L;
+		long answer = 0L;
 		long cyclesCtr = 0;
 		int cyclesSinceLastSolvedCtr = 0;
 		while (queue.size() > 0) {
@@ -86,7 +86,7 @@ public class Day21Part2 {
 				solvedVariables.put(varName, value);
 				cyclesSinceLastSolvedCtr = 0;
 				if (varName.equals("humn")) {
-					humnAnswer = value;
+					answer = value;
 					break; //done!
 				}
 			}
@@ -101,6 +101,11 @@ public class Day21Part2 {
 			}
 		}
 
-		System.out.printf("Cycles Ctr = %s, Human's Answer = %s%n", cyclesCtr, humnAnswer);
+		System.out.printf("Cycles Ctr = %s, Human's Answer = %s%n", cyclesCtr, answer);
+
+		long expected = 3373767893067L;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 }

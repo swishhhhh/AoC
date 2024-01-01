@@ -50,9 +50,10 @@ public class Day12Part2 {
 		}
 	}
 
-	static char[][] grid;
-	static boolean[][] visitedGrid;
-	static Coordinates targetCoords;
+	private static char[][] grid;
+	private static boolean[][] visitedGrid;
+	private static Coordinates targetCoords;
+	private static final boolean DEBUG = false;
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day12_input.txt");
@@ -97,7 +98,13 @@ public class Day12Part2 {
 			}
 		}
 
+		long answer = lowestCount;
 		System.out.println("Lowest number of steps: " + lowestCount);
+
+		long expected = 459;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 
 	private static int bfsSearchGrid(Coordinates startCoords) {
@@ -112,8 +119,10 @@ public class Day12Part2 {
 			Coordinates node = queue.poll();
 
 			if (node.equals(targetCoords)) {
-				System.out.printf("Successful path found in %s steps, start-coords: %s%n",
-								node.stepsFromStartCnt, startCoords);
+				if (DEBUG) {
+					System.out.printf("Successful path found in %s steps, start-coords: %s%n",
+							node.stepsFromStartCnt, startCoords);
+				}
 				return node.stepsFromStartCnt;
 			}
 

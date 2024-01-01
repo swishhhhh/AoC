@@ -17,6 +17,8 @@ public class Day17Part1 {
 	private static final int numGridCols = 7;
 	private static final int numGridRows = 8000; //to be optimized in part2
 
+	private static final boolean DEBUG = false;
+
 	public static void main(String[] args) throws Exception {
 
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day17_input.txt");
@@ -129,8 +131,17 @@ public class Day17Part1 {
 			}
 		}
 
-		printBottomOfGrid(grid,topOfTower + 3, 30);
-		System.out.printf("Tower Height = %s%n", topOfTower + 1);
+		if (DEBUG) {
+			printBottomOfGrid(grid,topOfTower + 3, 30);
+		}
+
+		long answer = topOfTower + 1;
+		System.out.printf("Tower Height = %s%n", answer);
+
+		long expected = 3235;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 
 	static void printBottomOfGrid(char[][] grid, int fromLine, int numOfLines) {

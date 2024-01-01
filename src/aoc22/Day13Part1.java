@@ -32,7 +32,13 @@ public class Day13Part1 {
 			}
 		}
 
+		long answer = sumOfCorrectPairs;
 		System.out.printf("Sum of Correct Pairs = %s%n", sumOfCorrectPairs);
+
+		long expected = 5625;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 
 	private static int compareLines(String leftPart, String rightPart) {

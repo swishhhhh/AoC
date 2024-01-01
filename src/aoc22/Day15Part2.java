@@ -16,8 +16,9 @@ public class Day15Part2 {
 	static Set<Coordinates> beacons = new LinkedHashSet<>();
 	static Set<Diamond> diamonds = new LinkedHashSet<>();
 
-	static final int gridSearchStart = 0;
-	static final int gridSearchEnd = 4_000_000;
+	private static final int gridSearchStart = 0;
+	private static final int gridSearchEnd = 4_000_000;
+	private final static boolean DEBUG = false;
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day15_input.txt");
@@ -39,7 +40,9 @@ public class Day15Part2 {
 			minX = Math.min(minX, sensorX - distance);
 			maxX = Math.max(maxX, sensorX + distance);
 
-			System.out.printf("line %s: %s, distance: %s%n", ctr, line, distance);
+			if (DEBUG) {
+				System.out.printf("line %s: %s, distance: %s%n", ctr, line, distance);
+			}
 		}
 
 		Coordinates missingBeacon = null;
@@ -66,11 +69,17 @@ public class Day15Part2 {
 			}
 		}
 
+		long answer = 0;
 		if (missingBeacon == null) {
 			System.out.println("Houston we got a problem! Couldn't locate the beacon.");
 		} else {
-			long tuningFreq = (4_000_000L * missingBeacon.x()) + missingBeacon.y();
-			System.out.printf("Missing Beacon = %s, Tuning Frequency = %s%n", missingBeacon, tuningFreq);
+			answer = (4_000_000L * missingBeacon.x()) + missingBeacon.y();
+			System.out.printf("Missing Beacon = %s, Tuning Frequency = %s%n", missingBeacon, answer);
+		}
+
+		long expected = 12977110973564L;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
 		}
 	}
 

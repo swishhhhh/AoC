@@ -2,7 +2,6 @@ package aoc22;
 
 import aoc22.datastructs.Coordinates;
 import aoc22.datastructs.Direction;
-import utils.Helper;
 import utils.ResourceLoader;
 
 import java.util.*;
@@ -11,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static aoc22.datastructs.Direction.*;
+import static utils.GridUtils.printGrid;
 
 /**
  * <a href="https://adventofcode.com/2022/day/24">Advent of Code 2022 Day 24</a>
@@ -87,6 +87,8 @@ public class Day24Part2 {
 //	static final int CYCLE_REPEAT_CNT = 12; //LCD of dimensions of inner grid (4 X 6 = 24, LCD=12)
 	static final int CYCLE_REPEAT_CNT = 300; //LCD of dimensions of inner grid (20 X 150 = 3000, LCD=300)
 
+	private static final boolean DEBUG = false;
+
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day24_input.txt");
 
@@ -122,16 +124,24 @@ public class Day24Part2 {
 		}
 
 		redrawGrid();
-		Helper.printArray2D(grid);
+
+		if (DEBUG) {
+			printGrid(grid);
+		}
 
 		//------------------
 
 		int totalMinutes = traverseGrid(1, startLocation, targetLocation);
 		totalMinutes+= traverseGrid(2, targetLocation, startLocation);
 		totalMinutes+= traverseGrid(3, startLocation, targetLocation);
+		long answer = totalMinutes;
 
-		System.out.printf("Total minutes (after 3 rounds) = %s%n", totalMinutes);
+		System.out.printf("Total minutes (after 3 rounds) = %s%n", answer);
 
+		long expected = 960;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 
 	private static int traverseGrid(int round, Coordinates fromLocation, Coordinates toLocation) {
@@ -151,7 +161,9 @@ public class Day24Part2 {
 			if (minutesCtr < incomingPath.size()) {
 				advanceBlizzards();
 				minutesCtr++;
-				System.out.printf("Round: %s, Minutes = %s, q-size=%s%n", round, minutesCtr, queue.size());
+				if (DEBUG) {
+					System.out.printf("Round: %s, Minutes = %s, q-size=%s%n", round, minutesCtr, queue.size());
+				}
 				redrawGrid();
 			}
 
@@ -195,13 +207,14 @@ public class Day24Part2 {
 				cursor = toLocation;
 				break;
 			}
-
 		}
 
 		redrawGrid();
-		Helper.printArray2D(grid);
 
-		System.out.printf("Round: %s, Number of minutes = %s%n", round, pathFound.size() - 1);
+		if (DEBUG) {
+			printGrid(grid);
+			System.out.printf("Round: %s, Number of minutes = %s%n", round, pathFound.size() - 1);
+		}
 
 		return pathFound.size() - 1;
 	}

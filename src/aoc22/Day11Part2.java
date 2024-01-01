@@ -43,7 +43,8 @@ public class Day11Part2 {
 		}
 	}
 
-	static List<Monkey> monkeys = new ArrayList<>();
+	private static List<Monkey> monkeys = new ArrayList<>();
+	private static final boolean DEBUG = false;
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day11_input.txt");
@@ -98,12 +99,18 @@ public class Day11Part2 {
 			}
 		}
 
-		monkeys.forEach(System.out::println);
+		if (DEBUG) {
+			monkeys.forEach(System.out::println);
+		}
 
 		//sort monkeys by reverse order of inspectedCtr and return product of first 2..
 		monkeys.sort((m1, m2) -> Long.compare(m2.inspectedCtr, m1.inspectedCtr));
-		System.out.printf("Common Multiplier = %s, Total = %s%n", commonMultiplier,
-				monkeys.get(0).inspectedCtr * monkeys.get(1).inspectedCtr
-		);
+		long answer = monkeys.get(0).inspectedCtr * monkeys.get(1).inspectedCtr;
+		System.out.printf("Common Multiplier = %s, Total = %s%n", commonMultiplier, answer);
+
+		long expected = 15305381442L;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 }

@@ -8,9 +8,11 @@ import java.util.*;
  */
 public class Day25Part1 {
 
-	static long[] FIVER_MULTIPLIERS = new long[21];
-	static long[] POS_MAX_VALUES = new long[21];
-	static String[] fiverDigits = {"2", "1", "0", "-", "="};
+	private static final long[] FIVER_MULTIPLIERS = new long[21];
+	private static final long[] POS_MAX_VALUES = new long[21];
+	private static final String[] fiverDigits = {"2", "1", "0", "-", "="};
+
+	private static final boolean DEBUG = false;
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day25_input.txt");
@@ -20,12 +22,23 @@ public class Day25Part1 {
 		long sum = 0;
 		for (String line: lines) {
 			long lineVal = snafuToDecimal(line);
-			System.out.println(line + " -> " + lineVal);
+			if (DEBUG) {
+				System.out.println(line + " -> " + lineVal);
+			}
 			sum+= lineVal;
 		}
 
-		System.out.printf("Total in decimal = %s%n", sum);
-		System.out.printf("Total in snafu = %s%n", decimalToSnafu(sum));
+		if (DEBUG) {
+			System.out.printf("Total in decimal = %s%n", sum);
+		}
+
+		String answer = decimalToSnafu(sum);
+		System.out.printf("Total in snafu = %s%n", answer);
+
+		String expected = "2=1-=02-21===-21=200";
+		if (!answer.equals(expected)) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 
 	private static void initializeTables() {

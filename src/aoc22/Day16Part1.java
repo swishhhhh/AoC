@@ -160,6 +160,8 @@ public class Day16Part1 {
 	private static long cacheHits;
 	private static long cacheMisses;
 
+	private static final boolean DEBUG = false;
+
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day16_input.txt");
 
@@ -183,9 +185,14 @@ public class Day16Part1 {
 		}
 		State initialState = new State(root.getId(), nonZeroValvesOpened, 30, false,
 				0,null);
-		int max = calculateMaxFlowRates(initialState);
+		int answer = calculateMaxFlowRates(initialState);
 
-		System.out.printf("Max Flow Rate = %s%n", max);
+		System.out.printf("Max Flow Rate = %s%n", answer);
+
+		long expected = 1944;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 
 	private static int calculateMaxFlowRates(State incomingState) {
@@ -206,7 +213,7 @@ public class Day16Part1 {
 			cacheMisses++;
 		}
 
-		if (recursionCtr % 100_000 == 0) {
+		if (DEBUG && recursionCtr % 100_000 == 0) {
 			double hitPct = (double) cacheHits / (cacheHits+cacheMisses) * 100D;
 			System.out.printf("Recursion count=%s, Cache Size=%s, Cache Hits=%s, Misses=%s, Hit Rate=%2.2f%% %n",
 					recursionCtr, maxFlowRateIncrementMemoTable.size(), cacheHits, cacheMisses, hitPct);

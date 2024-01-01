@@ -81,9 +81,14 @@ public class Day22Part1 {
 			case WEST -> directionValue = 2;
 			case NORTH -> directionValue = 3;
 		}
-		long result = (1000L * (cursor.y() + 1)) + (4L * (cursor.x() + 1)) + directionValue;
+		long answer = (1000L * (cursor.y() + 1)) + (4L * (cursor.x() + 1)) + directionValue;
 
-		System.out.printf("Result = %s%n", result);
+		System.out.printf("Result = %s%n", answer);
+
+		long expected = 146092;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 
 	private static Coordinates moveCursor(int numSteps, Coordinates cursor, Direction direction) {

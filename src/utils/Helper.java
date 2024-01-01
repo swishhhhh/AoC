@@ -123,15 +123,6 @@ public class Helper {
         }
     }
 
-    public static void printArray2D(char[][] ary) {
-        for (char[] outer: ary) {
-            for (char c: outer) {
-                System.out.print(c);
-            }
-            System.out.println();
-        }
-    }
-
     public static long greatestCommonDenominator(long a, long b) {
         while (b > 0) {
             long temp = b;

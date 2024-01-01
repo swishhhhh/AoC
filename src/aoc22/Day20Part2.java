@@ -46,6 +46,8 @@ public class Day20Part2 {
 		}
 	}
 
+	private static final boolean DEBUG = false;
+
 	public static void main(String[] args) throws Exception {
 		List<Integer> numbers = ResourceLoader.readInts("aoc22/Day20_input.txt");
 
@@ -57,8 +59,10 @@ public class Day20Part2 {
 			ctr++;
 			list.add(new NumHolder(String.valueOf(ctr), num * KEY));
 		}
-		list.forEach(nh2 -> System.out.print(nh2.value + ","));
-		System.out.println();
+		if (DEBUG) {
+			list.forEach(nh2 -> System.out.print(nh2.value + ","));
+			System.out.println();
+		}
 
 		for (int i = 0; i < 10; i++) {
 			ctr = 0;
@@ -67,8 +71,10 @@ public class Day20Part2 {
 				rotate(list, String.valueOf(ctr));
 			}
 		}
-		list.forEach(nh2 -> System.out.print(nh2.value + ","));
-		System.out.println();
+		if (DEBUG) {
+			list.forEach(nh2 -> System.out.print(nh2.value + ","));
+			System.out.println();
+		}
 
 		//find 0
 		int zeroIdx = -1;
@@ -100,9 +106,17 @@ public class Day20Part2 {
 		long val1 = list.get(idx1).value;
 		long val2 = list.get(idx2).value;
 		long val3 = list.get(idx3).value;
-		long sum = val1 + val2 + val3;
-		System.out.printf("zeroIdx=%s, idx1=%s, idx2=%s, idx3=%s", zeroIdx, idx1, idx2, idx3);
-		System.out.printf("val1=%s, val2=%s, val3=%s, sum=%s%n", val1, val2, val3, sum);
+		long answer = val1 + val2 + val3;
+
+		if (DEBUG) {
+			System.out.printf("zeroIdx=%s, idx1=%s, idx2=%s, idx3=%s", zeroIdx, idx1, idx2, idx3);
+		}
+
+		System.out.printf("val1=%s, val2=%s, val3=%s, sum=%s%n", val1, val2, val3, answer);
+		long expected = 9738258246847L;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 
 	static void rotate(LinkedList<NumHolder> list, String itemId) {

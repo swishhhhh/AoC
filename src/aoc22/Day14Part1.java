@@ -7,6 +7,8 @@ import utils.ResourceLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static utils.GridUtils.*;
+
 /**
  * <a href="https://adventofcode.com/2022/day/14">Advent of Code 2022 Day 14</a>
  */
@@ -17,7 +19,9 @@ public class Day14Part1 {
 	static int maxYcoord = 0;
 	static int entryXCoord = 500;
 	static int entryYCoord = 0;
-	static String[][] grid;
+	static char[][] grid;
+
+	private static final boolean DEBUG = false;
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day14_input.txt");
@@ -41,13 +45,13 @@ public class Day14Part1 {
 		}
 
 		//setup grid
-		grid = new String[maxYcoord + 1][maxXcoord + 1];
+		grid = new char[maxYcoord + 1][maxXcoord + 1];
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[0].length; j++) {
-				grid[i][j] = ".";
+				grid[i][j] = '.';
 			}
 		}
-		grid[0][entryXCoord] = "+";
+		grid[0][entryXCoord] = '+';
 
 		for (List<Coordinates> rockTrace: rockTraces) {
 			int x1 = 0, y1 = 0, x2, y2, xLen, yLen, xDirection, yDirection;
@@ -70,7 +74,7 @@ public class Day14Part1 {
 				//fill in grid
 				int len = Math.max(xLen, yLen);
 				for (int i = 0; i < len; i++) {
-					grid[y1 + (i*yDirection)][x1 + (i*xDirection)] = "#";
+					grid[y1 + (i*yDirection)][x1 + (i*xDirection)] = '#';
 				}
 
 				x1 = x2;
@@ -120,7 +124,7 @@ public class Day14Part1 {
 
 			//if all 3 full, set grain down in cursor position (update grid), increment unitsOfSand, reset cursor, continue
 			target = new Coordinates(cursor.x(), cursor.y());
-			grid[target.y()][target.x()] = "O";
+			grid[target.y()][target.x()] = 'O';
 			unitsOfSand++;
 			steps++; //since movement into entryPoint (of next grain of sand) should also count as a step...
 			cursor = new Coordinates(entryXCoord, entryYCoord);
@@ -131,9 +135,17 @@ public class Day14Part1 {
 			}
 		}
 
-		printGrid();
+		if (DEBUG) {
+			printGrid(grid);
+		}
 
+		long answer = unitsOfSand;
 		System.out.printf("Total steps = %s, units of sand = %s%n", steps, unitsOfSand);
+
+		long expected = 1061;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 
 	private static boolean outOfBounds(Coordinates target) {
@@ -141,16 +153,6 @@ public class Day14Part1 {
 	}
 
 	private static boolean isEmpty(Coordinates target) {
-		return grid[target.y()][target.x()].equals(".");
-	}
-
-	private static void printGrid() {
-		for (int i = 0; i < grid.length; i++) {
-			System.out.printf("%03d", i);
-			for (int j = minXcoord - 1; j < grid[0].length; j++) {
-				System.out.print(grid[i][j]);
-			}
-			System.out.println();
-		}
+		return grid[target.y()][target.x()] == '.';
 	}
 }

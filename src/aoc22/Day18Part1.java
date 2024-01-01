@@ -37,7 +37,13 @@ public class Day18Part1 {
 			}
 		}
 
+		long answer = ctr;
 		System.out.printf("Total = %s%n", ctr);
+
+		long expected = 4244;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 
 	private static int getExposedSurfaces(int x, int y, int z) {

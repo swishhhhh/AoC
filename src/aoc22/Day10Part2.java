@@ -49,11 +49,19 @@ public class Day10Part2 {
 			}
 		}
 
+		StringBuilder answer = new StringBuilder();
 		for (int row = 0; row < crt.length; row++) {
 			for (int col = 0; col < crt[row].length; col++) {
-				System.out.print(crt[row][col]);
+				answer.append(crt[row][col]);
 			}
-			System.out.println();
+			answer.append(System.lineSeparator());
+		}
+
+		System.out.println(answer);
+
+		String expected = getExpectedAnswer();
+		if (!answer.toString().equals(expected)) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
 		}
 	}
 
@@ -69,4 +77,16 @@ public class Day10Part2 {
 		int col = getCol(cycle);
 		return Math.abs(middleOfSprite - col) <= 1;
 	}
+
+	private static String getExpectedAnswer() {
+		StringBuilder sb = new StringBuilder();
+		  sb.append("###....##.####.###..###..####.####..##..").append(System.lineSeparator())
+		  	.append("#..#....#.#....#..#.#..#.#....#....#..#.").append(System.lineSeparator())
+			.append("#..#....#.###..#..#.#..#.###..###..#....").append(System.lineSeparator())
+			.append("###.....#.#....###..###..#....#....#....").append(System.lineSeparator())
+			.append("#.#..#..#.#....#.#..#....#....#....#..#.").append(System.lineSeparator())
+			.append("#..#..##..####.#..#.#....####.#.....##..").append(System.lineSeparator());
+		return sb.toString();
+	}
+
 }

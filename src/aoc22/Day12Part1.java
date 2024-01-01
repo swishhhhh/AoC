@@ -93,10 +93,12 @@ public class Day12Part1 {
 		visitedGrid[startCoords.row][startCoords.col] = true;
 		queue.add(startCoords);
 
+		long answer = 0;
 		while (queue.size() != 0) {
 			Coordinates node = queue.poll();
 
 			if (node.equals(targetCoords)) {
+				answer = node.stepsFromStartCnt;
 				System.out.println("Successful path found, node = " + node);
 				break;
 			}
@@ -108,6 +110,11 @@ public class Day12Part1 {
 					queue.add(neighbor);
 				}
 			}
+		}
+
+		long expected = 468;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
 		}
 	}
 

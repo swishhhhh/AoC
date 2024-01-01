@@ -52,6 +52,12 @@ public class Day10Part1 {
 			}
 		}
 
+		long answer = multipliedSum;
 		System.out.printf("Steps = %s, MultipliedSum = %s%n", cycle, multipliedSum);
+
+		long expected = 14160;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 }

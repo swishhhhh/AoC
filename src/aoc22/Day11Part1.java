@@ -43,8 +43,8 @@ public class Day11Part1 {
 		}
 	}
 
-	static List<Monkey> monkeys = new ArrayList<>();
-
+	private static final List<Monkey> monkeys = new ArrayList<>();
+	private static final boolean DEBUG = false;
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day11_input.txt");
@@ -94,10 +94,19 @@ public class Day11Part1 {
 			}
 		}
 
-		monkeys.forEach(System.out::println);
+		if (DEBUG) {
+			monkeys.forEach(System.out::println);
+		}
 
 		//sort monkeys by reverse order of inspectedCtr and return product of first 2..
 		monkeys.sort((m1, m2) -> m2.inspectedCtr - m1.inspectedCtr);
-		System.out.printf("Total = %s%n", monkeys.get(0).inspectedCtr * monkeys.get(1).inspectedCtr);
+
+		long answer = monkeys.get(0).inspectedCtr * monkeys.get(1).inspectedCtr;
+		System.out.printf("Total = %s%n", answer);
+
+		long expected = 67830;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 }

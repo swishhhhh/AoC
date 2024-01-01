@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import static aoc22.datastructs.Direction.*;
+import static utils.GridUtils.*;
 
 /**
  * <a href="https://adventofcode.com/2022/day/23">Advent of Code 2022 Day 23</a>
@@ -21,6 +22,8 @@ public class Day23Part2 {
 	private static final int PAD_MARGIN = 55;
 	static LinkedList<List<Direction>> dirQ = new LinkedList<>();
 	static Map<Integer, Coordinates> elfLocations = new HashMap<>();
+
+	private static final boolean DEBUG = false;
 
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day23_input.txt");
@@ -47,7 +50,10 @@ public class Day23Part2 {
 				}
 			}
 		}
-		Helper.printArray2D(grid);
+
+		if (DEBUG) {
+			printGrid(grid);
+		}
 
 		//setup directions Q
 		dirQ.add(List.of(NORTH, NE, NW));
@@ -108,10 +114,14 @@ public class Day23Part2 {
 			//rotate front of queue to back..
 			dirQ.add(dirQ.remove(0));
 
-			System.out.printf("End of round %s, number of elves moved = %s%n", round+1, numMoves);
+			if (DEBUG) {
+				System.out.printf("End of round %s, number of elves moved = %s%n", round + 1, numMoves);
+			}
 
 			if (numMoves == 0) {
-				System.out.println("No elves moved this round, ending early");
+				if (DEBUG) {
+					System.out.println("No elves moved this round, ending early");
+				}
 				break;
 			}
 		}
@@ -129,14 +139,25 @@ public class Day23Part2 {
 			}
 		}
 
-		Helper.printArray2D(grid);
+		if (DEBUG) {
+			printGrid(grid);
+		}
 
 		int gridArea = ((right - left) + 1) * ((bottom - top) + 1);
 		long emptyTiles = gridArea - elfLocations.size();
 
-		System.out.printf("Right=%s, Left=%s, Top=%s, Bottom=%s%n", right, left, top, bottom);
+		long answer = round + 1;
+
+		if (DEBUG) {
+			System.out.printf("Right=%s, Left=%s, Top=%s, Bottom=%s%n", right, left, top, bottom);
+		}
 		System.out.printf("Grid Area = %s, Elves count = %s, Empty Tiles = %s, Number of Rounds = %s%n",
-				gridArea, elfLocations.size(), emptyTiles, round+1);
+				gridArea, elfLocations.size(), emptyTiles, answer);
+
+		long expected = 1116;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 
 	private static Coordinates getLocation(Coordinates coordinates, Direction proposedDirection) {

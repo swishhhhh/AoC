@@ -83,6 +83,8 @@ public class Day17Part2 {
 	private static final int numGridRows = numRowsToTriggerGC + minRowsToKeep;
 	private static final int startSampleAt = 3000;
 
+	private static final boolean DEBUG = false;
+
 	public static void main(String[] args) throws Exception {
 		long startTime = System.currentTimeMillis();
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day17_input.txt");
@@ -137,7 +139,10 @@ public class Day17Part2 {
 				sampleSignature =
 						getStateSignature(shiftIndex, shapeIndex, topOfTower, grid, minRowsToKeep - 10,
 								rockCtr, cumulativeTopOfTower);
-				System.out.printf("Sample State Signature: %s%n", sampleSignature);
+
+				if (DEBUG) {
+					System.out.printf("Sample State Signature: %s%n", sampleSignature);
+				}
 				sampleTaken = true;
 			}
 
@@ -150,7 +155,9 @@ public class Day17Part2 {
 
 				//when match found, skip ahead (both rocks and towerIncrements) n cycles to just before the limit (numOfRocks)
 				if (checkSignature.getSignature().equals(sampleSignature.getSignature())) {
-					System.out.printf("Matching State Signature Found: %s%n", checkSignature);
+					if (DEBUG) {
+						System.out.printf("Matching State Signature Found: %s%n", checkSignature);
+					}
 					sampleMatched = true;
 
 					//skip ahead
@@ -259,15 +266,25 @@ public class Day17Part2 {
 			maxNumberOfDownMovesForAnyRock = Math.max(maxNumberOfDownMovesForAnyRock, downMovesForThisRockCtr);
 		}
 
-		printBottomOfGrid(grid,topOfTower + 3, 30);
+		if (DEBUG) {
+			printBottomOfGrid(grid, topOfTower + 3, 30);
+		}
 		cumulativeTopOfTower = cumulativeNumRowsPurged + topOfTower;
-		System.out.printf("Tower Height = %s%n", cumulativeTopOfTower + 1);
-		System.out.printf("Max down moves for any rock = %s%n", maxNumberOfDownMovesForAnyRock);
-		if (maxNumberOfDownMovesForAnyRock + 10 > minRowsToKeep) {
-			System.err.println("Not enough rows kept!!");
+		long answer = cumulativeTopOfTower + 1;
+		System.out.printf("Tower Height = %s%n", answer);
+
+		long expected = 1591860465110L;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
 		}
 
-		printRuntime(startTime);
+		if (DEBUG) {
+			System.out.printf("Max down moves for any rock = %s%n", maxNumberOfDownMovesForAnyRock);
+			if (maxNumberOfDownMovesForAnyRock + 10 > minRowsToKeep) {
+				System.err.println("Not enough rows kept!!");
+			}
+			printRuntime(startTime);
+		}
 	}
 
 	private static StateSignature getStateSignature(int shiftIndex, int shapeIndex, int topOfTower, char[][] grid,

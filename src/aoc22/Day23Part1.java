@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import static aoc22.datastructs.Direction.*;
+import static utils.GridUtils.*;
 
 /**
  * <a href="https://adventofcode.com/2022/day/23">Advent of Code 2022 Day 23</a>
@@ -22,12 +23,15 @@ public class Day23Part1 {
 	static LinkedList<List<Direction>> dirQ = new LinkedList<>();
 	static Map<Integer, Coordinates> elfLocations = new HashMap<>();
 
+	private static final boolean DEBUG = false;
+
 	public static void main(String[] args) throws Exception {
 		List<String> lines = ResourceLoader.readStrings("aoc22/Day23_input.txt");
 
 		//setup grid and elf locations
 		grid = new char[lines.size() + (2*PAD_MARGIN)][lines.get(0).length() + (2*PAD_MARGIN)];
 		Helper.fillCharArray2D(grid, '.');
+
 
 		int elfCtr = 0;
 		int row = -1;
@@ -47,7 +51,10 @@ public class Day23Part1 {
 				}
 			}
 		}
-		Helper.printArray2D(grid);
+
+		if (DEBUG) {
+			printGrid(grid);
+		}
 
 		//setup directions Q
 		dirQ.add(List.of(NORTH, NE, NW));
@@ -107,7 +114,9 @@ public class Day23Part1 {
 			//rotate front of queue to back..
 			dirQ.add(dirQ.remove(0));
 
-			System.out.printf("End of round %s, number of elves moved = %s%n", round+1, numMoves);
+			if (DEBUG) {
+				System.out.printf("End of round %s, number of elves moved = %s%n", round + 1, numMoves);
+			}
 
 			if (numMoves == 0) {
 				System.out.println("No elves moved this round, ending early");
@@ -115,7 +124,9 @@ public class Day23Part1 {
 			}
 		}
 
-		Helper.printArray2D(grid);
+		if (DEBUG) {
+			printGrid(grid);
+		}
 
 		//find leftmost, rightmost, topmost and bottommost elves to calculate the dimensions of the final grid
 		int left = Integer.MAX_VALUE, right = 0, top = Integer.MAX_VALUE, bottom = 0;
@@ -133,9 +144,19 @@ public class Day23Part1 {
 		int gridArea = ((right - left) + 1) * ((bottom - top) + 1);
 		int emptyTiles = gridArea - elfLocations.size();
 
-		System.out.printf("Right=%s, Left=%s, Top=%s, Bottom=%s%n", right, left, top, bottom);
+		if (DEBUG) {
+			System.out.printf("Right=%s, Left=%s, Top=%s, Bottom=%s%n", right, left, top, bottom);
+		}
+
 		System.out.printf("Grid Area = %s, Elves count = %s, Empty Tiles = %s%n",
 				gridArea, elfLocations.size(), emptyTiles);
+
+		long answer = emptyTiles;
+
+		long expected = 3882;
+		if (answer != expected) {
+			throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+		}
 	}
 
 	private static Coordinates getLocation(Coordinates coordinates, Direction proposedDirection) {
