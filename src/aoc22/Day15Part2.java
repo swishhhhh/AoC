@@ -1,7 +1,7 @@
 package aoc22;
 
-import aoc22.datastructs.Coordinates;
-import aoc22.datastructs.Diamond;
+import datastructs.Coordinates;
+import datastructs.Diamond;
 import utils.Helper;
 import utils.ResourceLoader;
 

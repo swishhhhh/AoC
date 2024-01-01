@@ -1,6 +1,6 @@
 package aoc22;
 
-import aoc22.datastructs.Equation;
+import datastructs.Equation;
 import utils.ResourceLoader;
 
 import java.util.HashMap;

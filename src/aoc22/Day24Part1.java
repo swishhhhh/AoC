@@ -1,7 +1,7 @@
 package aoc22;
 
-import aoc22.datastructs.Coordinates;
-import aoc22.datastructs.Direction;
+import datastructs.Coordinates;
+import datastructs.Direction;
 import utils.ResourceLoader;
 
 import java.util.*;
@@ -9,7 +9,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static aoc22.datastructs.Direction.*;
+import static datastructs.Direction.*;
 import static utils.GridUtils.printGrid;
 
 /**

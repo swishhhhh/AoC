@@ -1,4 +1,4 @@
-package aoc22.datastructs;
+package datastructs;
 
 public class TetrisShape {
     public enum Type {

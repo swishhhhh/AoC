@@ -1,12 +1,12 @@
 package aoc22;
 
-import aoc22.datastructs.Coordinates;
-import aoc22.datastructs.TetrisShape;
+import datastructs.Coordinates;
+import datastructs.TetrisShape;
 import utils.ResourceLoader;
 
 import java.util.List;
 
-import static aoc22.datastructs.TetrisShape.*;
+import static datastructs.TetrisShape.*;
 
 /**
  *  <a href="https://adventofcode.com/2022/day/17">Advent of Code 2022 Day 17</a>

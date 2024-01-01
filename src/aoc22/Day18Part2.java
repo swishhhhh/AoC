@@ -1,6 +1,6 @@
 package aoc22;
 
-import aoc22.datastructs.Coordinates3D;
+import datastructs.Coordinates3D;
 import utils.Helper;
 import utils.ResourceLoader;
 
@@ -101,12 +101,12 @@ public class Day18Part2 {
 			}
 
 			//if cell is a block (mainGrid[x][y][z]==true), continue
-			if (mainGrid[cell.getX()][cell.getY()][cell.getZ()]) {
+			if (mainGrid[cell.x()][cell.y()][cell.z()]) {
 				continue;
 			}
 
 			//term condition 3: if reachableGrid[x][y][z]==true, break true
-			if (reachableGrid[cell.getX()][cell.getY()][cell.getZ()]) {
+			if (reachableGrid[cell.x()][cell.y()][cell.z()]) {
 				reachable = true;
 				break;
 			}
@@ -118,8 +118,8 @@ public class Day18Part2 {
 				if (isCellOutOfBounds(neighbor)) {
 					queue.add(neighbor);
 
-				} else if (!visitedGrid[neighbor.getX()][neighbor.getY()][neighbor.getZ()]) {
-					visitedGrid[neighbor.getX()][neighbor.getY()][neighbor.getZ()] = true;
+				} else if (!visitedGrid[neighbor.x()][neighbor.y()][neighbor.z()]) {
+					visitedGrid[neighbor.x()][neighbor.y()][neighbor.z()] = true;
 					queue.add(neighbor);
 				}
 			}
@@ -143,9 +143,9 @@ public class Day18Part2 {
 	}
 
 	private static List<Coordinates3D> getNeighborsIncludingOutOfBounds(Coordinates3D cell) {
-		int x = cell.getX();
-		int y = cell.getY();
-		int z = cell.getZ();
+		int x = cell.x();
+		int y = cell.y();
+		int z = cell.z();
 
 		return List.of(
 				new Coordinates3D(x-1, y, z),
@@ -157,9 +157,9 @@ public class Day18Part2 {
 	}
 
 	private static boolean isCellOutOfBounds(Coordinates3D cell) {
-		return cell.getX() < 0 || cell.getX() >= GRID_SIZE ||
-				cell.getY() < 0 || cell.getY() >= GRID_SIZE ||
-				cell.getZ() < 0 || cell.getZ() >= GRID_SIZE;
+		return cell.x() < 0 || cell.x() >= GRID_SIZE ||
+				cell.y() < 0 || cell.y() >= GRID_SIZE ||
+				cell.z() < 0 || cell.z() >= GRID_SIZE;
 	}
 
 	private static boolean[][][] newGrid() {

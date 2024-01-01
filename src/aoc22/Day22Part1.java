@@ -1,14 +1,14 @@
 package aoc22;
 
-import aoc22.datastructs.Coordinates;
-import aoc22.datastructs.Direction;
+import datastructs.Coordinates;
+import datastructs.Direction;
 import utils.Helper;
 import utils.ResourceLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static aoc22.datastructs.Direction.*;
+import static datastructs.Direction.*;
 
 /**
  * <a href="https://adventofcode.com/2022/day/22">Advent of Code 2022 Day 22</a>

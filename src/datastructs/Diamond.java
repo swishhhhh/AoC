@@ -1,4 +1,4 @@
-package aoc22.datastructs;
+package datastructs;
 
 /**
  *   Shown below is a diamond with a radius of 5 and a center coordinate at 4,4

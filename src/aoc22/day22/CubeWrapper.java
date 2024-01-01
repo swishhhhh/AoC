@@ -1,7 +1,7 @@
 package aoc22.day22;
 
-import aoc22.datastructs.Coordinates;
-import aoc22.datastructs.Direction;
+import datastructs.Coordinates;
+import datastructs.Direction;
 
 public abstract class CubeWrapper {
     private Coordinates cursor;

@@ -1,8 +1,9 @@
 package aoc22.day22;
 
-import static aoc22.datastructs.Direction.*;
-import aoc22.datastructs.Coordinates;
-import aoc22.datastructs.Direction;
+import datastructs.Coordinates;
+import datastructs.Direction;
+
+import static datastructs.Direction.*;
 
 /**
  * Pattern:

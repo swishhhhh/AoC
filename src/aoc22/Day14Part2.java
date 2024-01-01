@@ -1,6 +1,6 @@
 package aoc22;
 
-import aoc22.datastructs.Coordinates;
+import datastructs.Coordinates;
 import utils.Helper;
 import utils.ResourceLoader;
 

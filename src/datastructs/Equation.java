@@ -1,4 +1,4 @@
-package aoc22.datastructs;
+package datastructs;
 
 import java.util.HashMap;
 import java.util.Map;
