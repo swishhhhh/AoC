@@ -30,25 +30,25 @@ public class Day07Part2 {
         }
 
         //step 3: for i = min to max, calculate diff to i for each position, sum total, save if shortest to date
-        int answer = -1;
+        int target = 0;
         long leastFuel = Long.MAX_VALUE;
 
-        for (int target = min; target <= max; target++) {
+        for (int i = min; i <= max; i++) {
             long cumulativeFuel = 0;
             for (Integer pos: nums) {
-                cumulativeFuel+= triangularNums[Math.abs(target - pos)];
+                cumulativeFuel+= triangularNums[Math.abs(i - pos)];
             }
             if (cumulativeFuel < leastFuel) {
+                target = i;
                 leastFuel = cumulativeFuel;
-                answer = target;
             }
         }
 
-        System.out.printf("Target position requiring least fuel (%s): %s%n", leastFuel, answer);
+        System.out.printf("Target position requiring least fuel (%s): %s%n", leastFuel, target);
 
-        long expected = 499;
-        if (answer != expected) {
-            throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
+        long expected = 98368490;
+        if (leastFuel != expected) {
+            throw new RuntimeException(String.format("Answer %s doesn't match expected %s", leastFuel, expected));
         }
     }
 }
