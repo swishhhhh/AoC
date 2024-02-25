@@ -32,7 +32,7 @@ public class RegressionSuite {
                 .filter(c -> !excludedClasses.contains(c.getName()))
                 .sorted((Comparator.comparing(Class::getName)))
                 .toList()
-            .forEach(RegressionSuite::runDayAndPart);
+                .forEach(RegressionSuite::runDayAndPart);
 
         System.out.printf("Suite completed in %s millis..%n", System.currentTimeMillis() - startSuiteMillis);
     }
