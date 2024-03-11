@@ -3,16 +3,22 @@ package utils;
 import datastructs.Coordinates;
 import datastructs.Direction;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class GridUtils {
 
     public static void printGrid(char[][] grid) {
+        printGrid(grid, true);
+    }
+    public static void printGrid(char[][] grid, boolean withLineNumbers) {
         for (int i = 0; i < grid.length; i++) {
-            System.out.printf("%03d", i);
+            if (withLineNumbers) {
+                System.out.printf("%03d", i);
+            }
             for (int j = 0; j < grid[0].length; j++) {
                 System.out.print(grid[i][j]);
             }
@@ -31,11 +37,30 @@ public class GridUtils {
     }
 
     public static List<Coordinates> getNeighboringCells(char[][] grid, Coordinates cursor) {
-        return Stream.of(
-                        new Coordinates(cursor.x(), cursor.y()-1), //North
-                        new Coordinates(cursor.x(), cursor.y()+1), //South
-                        new Coordinates(cursor.x()+1, cursor.y()), //East
-                        new Coordinates(cursor.x()-1, cursor.y())) //West
+        return getNeighboringCells(grid, cursor, false);
+    }
+
+    public static List<Coordinates> getNeighboringCells(char[][] grid, Coordinates cursor, boolean includeDiagonal) {
+        Collection<Coordinates> neighbors = new ArrayList<>(
+                List.of(
+                    new Coordinates(cursor.x(), cursor.y()-1), //North
+                    new Coordinates(cursor.x(), cursor.y()+1), //South
+                    new Coordinates(cursor.x()+1, cursor.y()), //East
+                    new Coordinates(cursor.x()-1, cursor.y())) //West
+        );
+
+        if (includeDiagonal) {
+            neighbors.addAll(
+                List.of(
+                    new Coordinates(cursor.x()+1, cursor.y()-1), //NE
+                    new Coordinates(cursor.x()+1, cursor.y()+1), //SE
+                    new Coordinates(cursor.x()-1, cursor.y()+1), //SW
+                    new Coordinates(cursor.x()-1, cursor.y()-1)) //NW
+            );
+        }
+
+        return neighbors
+                .stream()
                 .filter(coord -> coord.y() >= 0 && coord.y() < grid.length) //avoid out-of-bounds
                 .filter(coord -> coord.x() >= 0 && coord.x() < grid[0].length) // ditto
                 .collect(Collectors.toList());
