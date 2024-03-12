@@ -58,19 +58,15 @@ public class Day12Part2 {
             if (DEBUG) {
                 System.out.printf("Path #%s: %s%n", count, currentPath);
             }
-            currentPath.remove(currentPath.size() - 1);
-            return count;
-        }
 
-        for (Node n : node.connectedNodes) {
-            if (n.id.equals("start")) {
-                continue;
-            }
-            if (visitedSmallCaves.contains(n.id) && smallCaveVisitedTwice != null) {
-                continue;
-            }
+        } else {
+            for (Node n : node.connectedNodes) {
+                if (n.id.equals("start") || (visitedSmallCaves.contains(n.id) && smallCaveVisitedTwice != null)) {
+                    continue;
+                }
 
-            count = countPathsDfs(count, n, currentPath, visitedSmallCaves, smallCaveVisitedTwice);
+                count = countPathsDfs(count, n, currentPath, visitedSmallCaves, smallCaveVisitedTwice);
+            }
         }
 
         currentPath.remove(currentPath.size() - 1);
