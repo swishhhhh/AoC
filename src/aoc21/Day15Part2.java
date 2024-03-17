@@ -52,6 +52,9 @@ public class Day15Part2 {
         GridUtils.fillGrid(lowestCostsGrid, Long.MAX_VALUE);
         lowestCostsGrid[0][0] = 0;
 
+        /*
+           Dijkstra's algorithm
+         */
         Set<Coordinates> visited = new HashSet<>();
         Queue<CoordinateAndCost> queue = new PriorityQueue<>(Comparator.comparingLong(CoordinateAndCost::getCost));
         queue.add(new CoordinateAndCost(new Coordinates(0, 0), 0L));
