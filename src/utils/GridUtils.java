@@ -32,6 +32,12 @@ public class GridUtils {
         }
     }
 
+    public static void fillGrid(long[][] grid, long fillWith) {
+        for (long[] row : grid) {
+            Arrays.fill(row, fillWith);
+        }
+    }
+
     public static boolean isCellOutOfBounds(char[][] grid, int x, int y) {
         return x < 0 || x >= grid[0].length || y < 0 || y >= grid.length;
     }
@@ -93,5 +99,14 @@ public class GridUtils {
         }
 
         return new Coordinates(x, y);
+    }
+
+    public static char[][] loadGrid(List<String> lines) {
+        char[][] grid = new char[lines.size()][lines.get(0).length()];
+        for (int row = 0; row < grid.length; row++) {
+            grid[row] = lines.get(row).toCharArray();
+        }
+
+        return grid;
     }
 }
