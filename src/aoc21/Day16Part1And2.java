@@ -108,7 +108,7 @@ public class Day16Part1And2 {
             p.endAt = idx;
         }
 
-        //length type id (only for non-literal (type == 4) packets
+        //length type id (only for non-literal (type == 4) packets)
         if (p.typeId != 4) {
             p.lenTypeId = input.substring(idx, idx + 1);
             idx += 1;
@@ -170,6 +170,7 @@ public class Day16Part1And2 {
                 p.subPackets.forEach(child -> p.packetValue = Math.max(p.packetValue, child.packetValue));
             }
             case 4 -> {
+                //literal value
                 p.packetValue = p.literalValue;
             }
             case 5 -> {
