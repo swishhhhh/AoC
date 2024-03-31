@@ -4,6 +4,8 @@ import utils.ResourceLoader;
 
 import java.util.List;
 
+import static utils.Helper.isDigit;
+
 /**
  * <a href="https://adventofcode.com/2023/day/3">Advent of Code 2023 Day 3</a>
  */
@@ -65,10 +67,6 @@ public class Day03Part1 {
 		}
 	}
 
-	private static boolean isDigit(char c) {
-		return c >= '0' && c <= '9';
-	}
-
 	private static boolean isAdjacentToSymbol(char[][] grid, int row, int startCol, int endCol) {
 		//check above
 		if (row > 0) {
@@ -101,9 +99,7 @@ public class Day03Part1 {
 		//check right
 		if (endCol < grid[row].length - 1) {
 			char cell = grid[row][endCol + 1];
-			if (cell != '.' && !isDigit(cell)) {
-				return true;
-			}
+			return cell != '.' && !isDigit(cell);
 		}
 
 		return false;

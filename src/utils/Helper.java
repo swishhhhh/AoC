@@ -163,4 +163,8 @@ public class Helper {
     public static int countChars(String input, char charToCount) {
         return input.length() - input.replaceAll("[" + charToCount + "]", "").length();
     }
+
+    public static boolean isDigit(char c) {
+        return c >= '0' && c <= '9';
+    }
 }

@@ -5,6 +5,8 @@ import utils.ResourceLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static utils.Helper.isDigit;
+
 /**
  * <a href="https://adventofcode.com/2023/day/3">Advent of Code 2023 Day 3</a>
  */
@@ -25,8 +27,7 @@ public class Day03Part2 {
 				if (grid[row][col] == '*') {
 					List<Integer> adjNumbers = getAdjacentNumbers(grid, row, col);
 					if (adjNumbers.size() == 2) {
-						sum += (adjNumbers.get(0) * adjNumbers.get(1));
-//						System.out.printf("Gear found [%s, %s], adjNumbers = %s%n", row, col, adjNumbers);
+						sum += ((long) adjNumbers.get(0) * adjNumbers.get(1));
 					}
 				}
 			}
@@ -121,9 +122,5 @@ public class Day03Part2 {
 		}
 
 		return Integer.parseInt(sb.toString());
-	}
-
-	private static boolean isDigit(char c) {
-		return c >= '0' && c <= '9';
 	}
 }
