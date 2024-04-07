@@ -43,13 +43,10 @@ public class Day20Part2 {
             GridUtils.printGrid(grid);
         }
 
-        return countLitPixels(grid, BUFFER);
+        return countLitPixels(grid, BUFFER - CYCLES);
     }
 
     private static char[][] enhanceImage(char[][] grid, String enhancementAlgoLine) {
-        //start by expanding grid by 1
-        grid = GridUtils.addPerimeter(grid, 1, '.');
-
         //figure out which pixels to flip (but hold off on actually doing so until after entire grid has been evaluated)
         List<Coordinates> pixelsToFlip = new ArrayList<>();
         for (int row = 1; row < grid.length - 1; row++) {
