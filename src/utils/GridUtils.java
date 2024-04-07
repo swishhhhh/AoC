@@ -89,6 +89,33 @@ public class GridUtils {
         return newGrid;
     }
 
+    public static char[][] addPerimeter(char[][] gridIn, int perimSize, char fillPerimWith) {
+        char[][] gridOut = new char[gridIn.length + (2 * perimSize)][gridIn[0].length + (2 * perimSize)];
+
+        //copy main part of grid
+        for (int row = 0; row < gridIn.length; row++) {
+            System.arraycopy(gridIn[row], 0, gridOut[row + perimSize], perimSize, gridIn[0].length);
+        }
+
+        //fill in perimeter for first and last rows
+        for (int col = 0; col < gridOut.length; col++) {
+            for (int i = 0; i < perimSize; i++) {
+                gridOut[i][col] = fillPerimWith; //first row
+                gridOut[gridOut.length - 1 - i][col] = fillPerimWith; //last row
+            }
+        }
+
+        //fill in perim for first and last cols
+        for (int row = 0; row < gridOut[0].length; row++) {
+            for (int i = 0; i < perimSize; i++) {
+                gridOut[row][i] = fillPerimWith; //first col
+                gridOut[row][gridOut.length - 1 - i] = fillPerimWith; //last col
+            }
+        }
+
+        return gridOut;
+    }
+
     public static Coordinates getNextCoord(Coordinates coord, Direction direction) {
         int x = coord.x(), y = coord.y();
         switch (direction) {
