@@ -81,7 +81,7 @@ public class Day22Part2 {
 
             To help visualize - imagine a standard 3x3 Rubik's Cube. The 6 sides can be labeled {Right, Left, Bottom, Top
             Front, Back}. From an orientation perspective, we'll say the x-axis runs from left to right, the y-axis from
-            bottom/down to top/up, and the z axis from front to back. We can categorize each cell into 1 of 3 categories:
+            bottom/down to top/up, and the z-axis from front to back. We can categorize each cell into 1 of 3 categories:
               - corner  -> cells with 3 sides exposed
               - edge    -> cells with 2 sides exposed
               - regular -> cells with 0 or 1 sides exposed
