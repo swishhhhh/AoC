@@ -15,40 +15,32 @@ public class Day23Part2 {
 
     private static class State {
         /*
-          grid is 27 chars:
+          id is 27 chars long:
            - 0..10 represent the corridor
            - 11-14 the 1st row of the 4 chambers
            - 15-18 the 2nd row of the chambers
            - 19-22 the 3rd row
            - 23-26 the 4th row
          */
-        char[] grid;
-        String fingerprint;
-        long cost;
+        private final String id;
+        private final char[] grid; //for caching purposes (to avoid repeated ".toCharArray()" calls)
+        private long cost;
         List<String> path;
 
-        public State(char[] grid) {
-            this.grid = grid;
-            fingerprint(grid);
+        public State(String id) {
+            this.id = id;
+            this.grid = id.toCharArray();
             if (DEBUG) {
                 path = new ArrayList<>();
             }
         }
 
-        static State fromFingerprint(String fingerprint) {
-            return new State(fingerprint.toCharArray());
-        }
-
-        private void fingerprint(char[] grid) {
-            this.fingerprint = String.valueOf(grid);
+        public String getId() {
+            return id;
         }
 
         public char[] getGrid() {
             return grid;
-        }
-
-        public String getFingerprint() {
-            return fingerprint;
         }
 
         public long getCost() {
@@ -60,18 +52,19 @@ public class Day23Part2 {
         }
 
         public String asPrintedGrid() {
+            char[] chars = this.getGrid();
             StringBuilder sb = new StringBuilder();
             sb.append("#############\n");   //line 1
             sb.append("#");                 //line 2
             for (int i = 0; i < 11; i++) {
-                sb.append(this.grid[i]);
+                sb.append(chars[i]);
             }
             sb.append("#\n");
 
             for (int i = 0; i < 4; i++) {
                 sb.append(i == 0 ? "###" : "  #");  //line 3 through 6
                 for (int j = 11 + (i * 4); j < 15 + (i * 4); j++) {
-                    sb.append(this.grid[j]).append("#");
+                    sb.append(chars[j]).append("#");
                 }
                 sb.append(i == 0 ? "##\n" : "  \n");
             }
@@ -84,9 +77,8 @@ public class Day23Part2 {
         @Override
         public String toString() {
             return "State{" +
-                    "grid=" + Arrays.toString(grid) +
-                    ", fingerprint=" + fingerprint +
-                    ", cost=" + cost +
+                    ", id=" + this.id +
+                    ", cost=" + this.cost +
                     '}';
         }
 
@@ -95,12 +87,12 @@ public class Day23Part2 {
             if (this == o) return true;
             if (!(o instanceof State state)) return false;
 
-            return fingerprint.equals(state.fingerprint);
+            return id.equals(state.id);
         }
 
         @Override
         public int hashCode() {
-            return fingerprint.hashCode();
+            return id.hashCode();
         }
     }
 
@@ -118,7 +110,7 @@ public class Day23Part2 {
 
     private long execute(List<String> lines) {
         State source = parseSourceState(lines);
-        State target = new State("...........ABCDABCDABCDABCD".toCharArray());
+        State target = new State("...........ABCDABCDABCDABCD");
 
         /*
            Dijkstra's algorithm
@@ -139,28 +131,28 @@ public class Day23Part2 {
                 if (DEBUG) {
                     System.out.printf("Found target: loop=%s, cost=%s%n", loopCtr, s.getCost());
                     System.out.printf("=============%n%nPath:%n");
-                    for (String fp : s.path) {
-                        System.out.printf("%s", State.fromFingerprint(fp).asPrintedGrid());
+                    for (String id : s.path) {
+                        System.out.printf("%s", new State(id).asPrintedGrid());
                     }
                 }
                 return s.getCost();
             }
 
             for (State s2 : getAllMovesFrom(s)) {
-                String fp = s2.getFingerprint();
+                String id = s2.getId();
                 long newCost = s2.getCost();
 
-                if (visited.contains(fp)) {
+                if (visited.contains(id)) {
                     continue;
                 }
 
-                if (!costsMap.containsKey(fp) || newCost < costsMap.get(fp)) {
-                    costsMap.put(fp, s2.getCost());
+                if (!costsMap.containsKey(id) || newCost < costsMap.get(id)) {
+                    costsMap.put(id, s2.getCost());
                     queue.add(s2);
                 }
             }
 
-            visited.add(s.getFingerprint());
+            visited.add(s.getId());
         }
 
         throw new RuntimeException("Unable to find a solution.");
@@ -177,7 +169,7 @@ public class Day23Part2 {
         l = lines.get(3);
         sb.append(l.charAt(3)).append(l.charAt(5)).append(l.charAt(7)).append(l.charAt(9));
 
-        return new State(sb.toString().toCharArray());
+        return new State(sb.toString());
     }
 
     private List<State> getAllMovesFrom(State state) {
@@ -287,11 +279,11 @@ public class Day23Part2 {
         System.arraycopy(srcGrid, 0, newGrid, 0, newGrid.length);
         newGrid[srcPos] = '.';
         newGrid[targetPos] = piece;
-        State newState = new State(newGrid);
+        State newState = new State(String.valueOf(newGrid));
         newState.setCost(srcState.getCost() + (long) steps * getCostPerStep(piece));
         if (DEBUG) {
             newState.path.addAll(srcState.path);
-            newState.path.add(srcState.getFingerprint());
+            newState.path.add(srcState.getId());
         }
 
         return newState;
@@ -399,11 +391,11 @@ public class Day23Part2 {
             System.arraycopy(srcGrid, 0, newGrid, 0, newGrid.length);
             newGrid[srcPos] = '.';
             newGrid[targetPos] = srcGrid[srcPos];
-            State newState = new State(newGrid);
+            State newState = new State(String.valueOf(newGrid));
             newState.setCost(state.getCost() + (long) steps * getCostPerStep(piece));
             if (DEBUG) {
                 newState.path.addAll(state.path);
-                newState.path.add(state.getFingerprint());
+                newState.path.add(state.getId());
             }
             moves.add(newState);
         }
