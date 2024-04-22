@@ -40,8 +40,8 @@ public class Day24Part1And2 {
               the other 7 will not (those with instruction #5 = "div z 1").
            2. Every frame will conditionally push a base-26 number onto z with a combination of instruction #13 =
               "mul z y" (this creates the new slot on the stack) AND instructions # 16-18 (adds a number between 0-25).
-              The condition on whether the frame pushes or not depends on whether y = 1 or 26. The number pushed onto
-              the z-stack is composed of the input number (1-9) provided for the frame + a variable number contained in
+              The condition of whether the frame pushes or not depends on if y = 1 or 26. The number pushed onto the
+              z-stack is composed of the input number (1-9) provided for the frame + a variable number contained in
               instructions #16 of each frame which we'll refer to as the "yIncrement" (i.e. "add y <yIncrement>").
            3. For z to be 0 at the end of the program, we need to ensure that exactly 7 of the 14 frames will push in
               step 2 above. That condition is controlled by instruction #6 "add x <variable number>" in each frame. We'll
@@ -50,14 +50,13 @@ public class Day24Part1And2 {
               instruction #5 (i.e. "div z 1") have an x value > 9 which means they will always satisfy the condition and
               push. Which in turn means that we have to ensure that the other 7 (with instruction #5 = "div z 26") never
               satisfy the condition.
-           4. The key to the condition not being satisfied is in instruction #16 "add y <variable number>". We'll refer
-              to this variable number as the "yIncrement". The condition is unsatisfied when this frame's input number
-              is equal to the input value of the frame popped off the z-stack + the xIncrement (from instructions #6) of
-              this frame + yIncrement (from instructions #6) of the popped off frame.
-              I.e. equation "inputThisFrame == inputFromPoppedFrame + xIncrement + yIncrementPopped" must be true for
-              the 7 frames with instruction #5 = "div z 26". There can be multiple values that satisfy this equation,
-              and we can maximize and minimize the values as long as the equation is true and input number range of 1-9
-              in adhered to.
+           4. The key to the condition not being satisfied is in instruction #16 "add y <yIncrement>". The condition is
+              unsatisfied when this frame's input number is equal to the input value of the last frame popped off the
+              z-stack + the xIncrement (from instructions #6) of this frame + yIncrement (from instructions #6) of the
+              popped off frame. I.e. equation "inputThisFrame == inputFromPoppedFrame + xIncrement + yIncrementPopped"
+              must be true for the 7 frames with instruction #5 = "div z 26". There can be multiple values that satisfy
+              this equation, and we can maximize and minimize the values as long as the equation is true and the input
+              number range of 1-9 in adhered to.
               E.g. if xIncrement = -4 and yIncrementPopped = 8, we can:
                 - maximize with "9 (inputThisFrame) == 5 (inputFromPoppedFrame) - 4 (xIncrement) + 8 (yIncrementPopped)"
                 - minimize with "5 (inputThisFrame) == 1 (inputFromPoppedFrame) - 4 (xIncrement) + 8 (yIncrementPopped)"
