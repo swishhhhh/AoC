@@ -52,7 +52,7 @@ public class Day24Part1And2 {
               satisfy the condition.
            4. The key to the condition not being satisfied is in instruction #16 "add y <yIncrement>". The condition is
               unsatisfied when this frame's input number is equal to the input value of the last frame popped off the
-              z-stack + the xIncrement (from instructions #6) of this frame + yIncrement (from instructions #6) of the
+              z-stack + the xIncrement (from instructions #6) of this frame + yIncrement (from instructions #16) of the
               popped off frame. I.e. equation "inputThisFrame == inputFromPoppedFrame + xIncrement + yIncrementPopped"
               must be true for the 7 frames with instruction #5 = "div z 26". There can be multiple values that satisfy
               this equation, and we can maximize and minimize the values as long as the equation is true and the input
