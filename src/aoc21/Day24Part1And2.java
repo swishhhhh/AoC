@@ -96,8 +96,8 @@ public class Day24Part1And2 {
             } else {
                 //combinedIncrements is negative, this frame gets smaller one
                 minInputs[frameCnt - 1] = 1;
-                minInputs[poppedFrameNum - 1] = 1 - combinedIncrements; //note the double negative (since combinedIncrements is negative) here == addition
-                maxInputs[frameCnt - 1] = 9 + combinedIncrements; //double negative...
+                minInputs[poppedFrameNum - 1] = 1 - combinedIncrements; //note the double negative (since combinedIncrements is negative), so we're actually adding
+                maxInputs[frameCnt - 1] = 9 + combinedIncrements; //again combinedIncrements is negative so we're actually subtracting...
                 maxInputs[poppedFrameNum - 1] = 9;
             }
         }
