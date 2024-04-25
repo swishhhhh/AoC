@@ -86,7 +86,7 @@ public class Day22Part2 {
               - edge    -> cells with 2 sides exposed
               - regular -> cells with 0 or 1 sides exposed
 
-            Let's then say we want to extract the core cell (at x,y,z coordinates [1,1,1]) from the rest of the 3x2 cube
+            Let's then say we want to extract the core cell (at x,y,z coordinates [1,1,1]) from the rest of the 3x3 cube
             by cutting away the 6 sides. The minimum number of cuts is 6 but the pieces cut away will be of different
             sizes because of the "edge" and "corner" pieces that shouldn't be double counted.
               - Our first 2 cuts will cut away the left and right sides respectively. The size of these 2 pieces
@@ -97,7 +97,7 @@ public class Day22Part2 {
                 edges and corners have already been accounted for (cut away) with the first 2 cuts, so we don't include
                 them again here.
               - Our final 2 cuts will cut away a single cube each in the front (x=1, y=1, z=0) and back (x=1, y=1, z=2)
-                respectively. All other edges and corners are already accounted for by the first 4 cuts.
+                respectively. All other edges and corners were already accounted for by the first 4 cuts.
 
              In the example above, the 3x3 cube/oid is c2, and c1 is the core cell left after cutting away the 6 sides.
              This algo also works for different sizes of overlapping c1/c2 cuboids including partial overlaps where
