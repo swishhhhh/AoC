@@ -41,7 +41,7 @@ public class Day25Part1 {
         for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[row].length; col++) {
                 if (grid[row][col] == '>') {
-                    int nextCol = col >= grid[row].length -1 ? 0 : col + 1; //wrap around to beginning of row if needed
+                    int nextCol = (col + 1) % grid[row].length; //wrap around to beginning of row if needed
                     if (grid[row][nextCol] == '.') {
                         grid[row][col] = '-'; //mark cell
                         anyMoves = true;
@@ -54,7 +54,7 @@ public class Day25Part1 {
         for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[row].length; col++) {
                 if (grid[row][col] == '-') {
-                    int nextCol = col >= grid[row].length -1 ? 0 : col + 1; //wrap around to beginning of row if needed
+                    int nextCol = (col + 1) % grid[row].length;
                     grid[row][nextCol] = '>';
                     grid[row][col] = '.';
                 }
@@ -65,7 +65,7 @@ public class Day25Part1 {
         for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[row].length; col++) {
                 if (grid[row][col] == 'v') {
-                    int nextRow = row >= grid.length -1 ? 0 : row + 1; //wrap around to beginning of col if needed
+                    int nextRow = (row + 1) % grid.length;
                     if (grid[nextRow][col] == '.') {
                         grid[row][col] = '|'; //mark cell
                         anyMoves = true;
@@ -78,7 +78,7 @@ public class Day25Part1 {
         for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[row].length; col++) {
                 if (grid[row][col] == '|') {
-                    int nextRow = row >= grid.length -1 ? 0 : row + 1; //wrap around to beginning of col if needed
+                    int nextRow = (row + 1) % grid.length;
                     grid[nextRow][col] = 'v';
                     grid[row][col] = '.';
                 }
