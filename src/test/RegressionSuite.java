@@ -18,6 +18,7 @@ public class RegressionSuite {
     public void run() {
         long startSuiteMillis = System.currentTimeMillis();
         Set<Class> testClasses = new HashSet<>();
+        testClasses.addAll(findAllClassesUsingClassLoader("aoc20"));
         testClasses.addAll(findAllClassesUsingClassLoader("aoc21"));
         testClasses.addAll(findAllClassesUsingClassLoader("aoc22"));
         testClasses.addAll(findAllClassesUsingClassLoader("aoc23"));
