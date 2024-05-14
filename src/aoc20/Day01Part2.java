@@ -2,10 +2,7 @@ package aoc20;
 
 import utils.ResourceLoader;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -26,25 +23,20 @@ public class Day01Part2 {
     }
 
     private long execute(List<String> lines) {
-        Set<Long> singles =
-                lines.stream().map(Long::parseLong).filter(l -> l <= 2020).collect(Collectors.toSet());
+        List<Long> nums = lines
+                .stream().map(Long::parseLong)
+                .filter(l -> l <= 2020) //remove potential out of bound numbers
+                .collect(Collectors.toSet()) //eliminate potential duplicates
+                .stream().toList(); //convert to list so we can access elements with ".get(n)"
 
-        //collect all permutations of pairs that don't exceed 2020
-        Map<Long, Long[]> pairs = new HashMap<>();
-        for (long n1 : singles) {
-            for (long n2 : singles) {
-                long sum = n1 + n2;
-                if (n1 != n2 && sum <= 2020) {
-                    pairs.put(sum, new Long[]{n1, n2});
+        for (int i = 0; i < nums.size(); i++) {
+            for (int j = i + 1; j < nums.size(); j++) {
+                for (int k = j + 1; k < nums.size(); k++) {
+                    long sum = nums.get(i) + nums.get(j) + nums.get(k);
+                    if (sum == 2020) {
+                        return nums.get(i) * nums.get(j) * nums.get(k);
+                    }
                 }
-            }
-        }
-
-        for (long n3 : singles) {
-            long n1n2 = 2020 - n3;
-            if (pairs.containsKey(n1n2)) {
-                Long[] pair = pairs.get(n1n2);
-                return pair[0] * pair[1] * n3;
             }
         }
 
