@@ -39,6 +39,7 @@ public class Day02Part2 {
         String text = line.split(":")[1].trim();
         List<Integer> nums = Helper.extractIntsFromText(line);
 
-        return text.charAt(nums.get(0) - 1) == searchChar ^ text.charAt(nums.get(1) - 1) == searchChar;
+        return text.charAt(nums.get(0) - 1) == searchChar ^ //xor
+               text.charAt(nums.get(1) - 1) == searchChar;
     }
 }
