@@ -167,4 +167,8 @@ public class Helper {
     public static boolean isDigit(char c) {
         return c >= '0' && c <= '9';
     }
+
+    public static boolean isBetween(int from, int value, int to) {
+        return from <= value && value <= to;
+    }
 }
