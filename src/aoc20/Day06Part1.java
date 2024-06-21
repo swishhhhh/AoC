@@ -40,13 +40,8 @@ public class Day06Part1 {
             }
         }
 
-        groups.add(group);
+        groups.add(group); //last group
 
-        long sum = 0;
-        for (Set<Character> g : groups) {
-            sum += g.size();
-        }
-
-        return sum;
+        return groups.stream().mapToLong(Set::size).sum();
     }
 }
