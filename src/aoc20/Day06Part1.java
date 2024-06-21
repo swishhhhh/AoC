@@ -1,5 +1,6 @@
 package aoc20;
 
+import utils.Helper;
 import utils.ResourceLoader;
 
 import java.util.ArrayList;
@@ -35,9 +36,7 @@ public class Day06Part1 {
                 continue;
             }
 
-            for (char c : line.toCharArray()) {
-                group.add(c);
-            }
+            group.addAll(Helper.charArrayToList(line.toCharArray()));
         }
 
         groups.add(group); //last group
