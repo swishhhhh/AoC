@@ -57,7 +57,7 @@ public class Day07Part1 {
         return getAncestors(allNodes.get("shiny gold")).size();
     }
 
-    private Map<String, Node> buildGraph(List<String> lines) {
+    static Map<String, Node> buildGraph(List<String> lines) {
         Map<String, Node> nodes = new HashMap<>();
         for (String line : lines) {
             String[] ary = line.split(" contain ");
