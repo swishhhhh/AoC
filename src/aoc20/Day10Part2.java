@@ -21,15 +21,13 @@ public class Day10Part2 {
     }
 
     private long execute(List<String> lines) {
-        List<Long> nums = new ArrayList<>(lines.stream().map(Long::parseLong).toList().stream().sorted().toList());
+        List<Long> nums = new ArrayList<>(lines.stream().map(Long::parseLong).sorted().toList());
         nums.add(nums.get(nums.size() - 1) + 3); //add last node (always 3 greater than the greatest adapter)
 
         Map<LinkedList<Long>, Long> combosMap = new HashMap<>();
         combosMap.put(new LinkedList<>(List.of(0L)), 1L); //initial node
 
-        for (int i = 0; i < nums.size() - 1; i++) {
-            long num = nums.get(i);
-
+        for (long num : nums) {
             Map<LinkedList<Long>, Long> newCombosMap = new HashMap<>();
             for (Map.Entry<LinkedList<Long>, Long> entry: combosMap.entrySet()) {
                 LinkedList<Long> combo = entry.getKey();
@@ -49,13 +47,8 @@ public class Day10Part2 {
              i.e. if combo consists of a,b,c and x is the num then we try a,b,c,x (trimming a), then
              a,b,x
          */
-        int iterations = 0;
-        for (int i = combo.size() - 1; i >= 0; i--) {
-            iterations++;
-            if (iterations > 2) { //max iterations is 2
-                break;
-            }
-
+        int iterations = 1;
+        for (int i = combo.size() - 1; i >= 0 && iterations <= 2; i--) {
             LinkedList<Long> newCombo = new LinkedList<>(List.of(num));
 
             for (int j = i; j >= 0; j--) {
@@ -68,12 +61,9 @@ public class Day10Part2 {
                 return;
             }
 
-            if (newCombosMap.containsKey(newCombo)) {
-                newCombosMap.put(newCombo, newCombosMap.get(newCombo) + count);
-            } else {
-                newCombosMap.put(newCombo, count);
-            }
-        }
+            newCombosMap.merge(newCombo, count, Long::sum);
 
+            iterations++;
+        }
     }
 }
