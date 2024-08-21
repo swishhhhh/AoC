@@ -50,7 +50,7 @@ public class Day11Part2 {
             for (int row = 0; row < grid.length; row++) {
                 for (int col = 0; col < grid[row].length; col++) {
                     Coordinates cursor = new Coordinates(col, row);
-                    List<Coordinates> occupiedNeighbors = getClosestOccupiedSeatInEachDirection(grid, cursor);
+                    List<Coordinates> occupiedNeighbors = getClosestSeatIfOccupiedInEachDirection(grid, cursor);
                     if (grid[row][col] == 'L' && occupiedNeighbors.isEmpty()) {
                         cellsToFlip.add(cursor);
                     } else if (grid[row][col] == '#' && occupiedNeighbors.size() >= 5) {
@@ -82,7 +82,7 @@ public class Day11Part2 {
         return count;
     }
 
-    public static List<Coordinates> getClosestOccupiedSeatInEachDirection(char[][] grid, Coordinates cursor) {
+    public static List<Coordinates> getClosestSeatIfOccupiedInEachDirection(char[][] grid, Coordinates cursor) {
         List<Coordinates> neighbors = new ArrayList<>();
 
         for (Pair<Integer, Integer> dir : DIRECTIONS) {
