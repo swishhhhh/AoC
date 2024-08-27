@@ -87,7 +87,7 @@ public class Day11Part2 {
 
         for (Pair<Integer, Integer> dir : DIRECTIONS) {
             int step = 0;
-            while(true) {
+            while (true) {
                 step++;
                 Coordinates next =
                         new Coordinates(cursor.x() + (step * dir.getFirst()), cursor.y() + (step * dir.getSecond()));
