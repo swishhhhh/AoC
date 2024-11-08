@@ -36,7 +36,7 @@ public class Day14Part2 {
             List<Long> nums = Helper.extractLongsFromText(line);
             long address = nums.get(0);
             String addressInBinary = Helper.padLeft(Long.toBinaryString(address), '0', 36);
-            List<String> addressesToUpdate = applyMask(addressInBinary, mask);
+            List<String> addressesToUpdate = applyMaskToAddress(addressInBinary, mask);
 
             long value = nums.get(1);
             addressesToUpdate.forEach(a -> memory.put(Long.parseLong(a, 2), value));
@@ -45,7 +45,7 @@ public class Day14Part2 {
         return memory.values().stream().mapToLong(Long::longValue).sum();
     }
 
-    private List<String> applyMask(String inputAddress, String mask) {
+    private List<String> applyMaskToAddress(String inputAddress, String mask) {
         List<String> addresses = new ArrayList<>();
         addresses.add(inputAddress);
 

@@ -35,15 +35,15 @@ public class Day14Part1 {
             List<Long> nums = Helper.extractLongsFromText(line);
             long address = nums.get(0);
             long decimalNum = nums.get(1);
-            String output = Helper.padLeft(Long.toBinaryString(decimalNum), '0', 36); //convert to 36 bit binary string
-            output = applyMask(output, mask); //apply mask
-            memory.put(address, Long.parseLong(output, 2)); //convert binary (output) to decimal and update memory
+            String value = Helper.padLeft(Long.toBinaryString(decimalNum), '0', 36); //convert to 36 bit binary string
+            value = applyMaskToValue(value, mask); //apply mask
+            memory.put(address, Long.parseLong(value, 2)); //convert binary (output) to decimal and update memory
         }
 
         return memory.values().stream().mapToLong(Long::longValue).sum();
     }
 
-    private String applyMask(String input, String mask) {
+    private String applyMaskToValue(String input, String mask) {
         char[] output = input.toCharArray();
 
         for (int i = 0; i < mask.length(); i++) {
