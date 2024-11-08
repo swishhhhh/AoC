@@ -60,7 +60,7 @@ public class Day14Part2 {
                         chars[i] = '1';  //set the bit to 1
                         newAddresses.add(new String(chars));
                     }
-                    case 'X' -> {  //senerate both possibilities (0 and 1)
+                    case 'X' -> {  //generate both possibilities (0 and 1)
                         chars[i] = '0';
                         newAddresses.add(new String(chars));
                         chars[i] = '1';
