@@ -171,4 +171,12 @@ public class Helper {
     public static boolean isBetween(int from, int value, int to) {
         return from <= value && value <= to;
     }
+
+    public static String padLeft(String input, char c, int len) {
+        return len <= 0 ? input : String.format("%1$" + len + "s", input).replace(' ', c);
+    }
+
+    public static String padRight(String input, char c, int len) {
+        return len <= 0 ? input : String.format("%1$-" + len + "s", input).replace(' ', c);
+    }
 }

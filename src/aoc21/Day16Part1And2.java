@@ -1,5 +1,6 @@
 package aoc21;
 
+import utils.Helper;
 import utils.ResourceLoader;
 
 import java.util.ArrayList;
@@ -199,9 +200,7 @@ public class Day16Part1And2 {
     private static String hexToBinary(String hex) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < hex.length(); i++) {
-            sb.append(
-                    String.format("%1$4s", Integer.toBinaryString(Integer.parseInt(hex.substring(i, i + 1), 16)))
-                            .replace(' ', '0'));
+            sb.append(Helper.padLeft(Integer.toBinaryString(Integer.parseInt(hex.substring(i, i + 1), 16)), '0', 4));
         }
         return sb.toString();
     }
