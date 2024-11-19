@@ -24,8 +24,16 @@ public class Day15Part2 {
     }
 
     private long execute(List<String> lines, int iterations) {
-        // Fixed-size array to store the last two occurrences of each number
-        int[] history = new int[iterations]; //index of the array signifies the num spoken, the value of each array element is the turn that num was last spoken in (or -1 if the num was never spoken)
+        /*
+           We use a fixed-size array to store the last turn number each number was spoken.
+           Each number spoken is guaranteed to be between 0 and iterations (30mm in this case)
+           which is why this fixed array solution (rather than a map) works and provides the
+           constant O(1) access time optimization (vs (log n) access time a map provides).
+           The index of each array element signifies the number spoken and the value of each
+           array element is the turn that num was last spoken in (or -1 if the num was never
+           spoken). E.g. if the num spoken on turn 6 is 17 we denote it with: history[17] = 6
+         */
+        int[] history = new int[iterations];
         Arrays.fill(history, -1); // Initialize with -1 for unspoken numbers
 
         List<Long> initialNums = Helper.extractLongsFromText(lines.get(0));
