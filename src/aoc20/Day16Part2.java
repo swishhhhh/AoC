@@ -37,16 +37,11 @@ public class Day16Part2 {
         tickets.removeIf(ticket -> !validate(ticket, rules));
 
         //pre-calculate all possible matches to avoid repeated calculations
-        Set<Integer> remainingFields = new HashSet<>();
+        Map<Integer, Set<String>> fieldToPossibleMatchingRules = new HashMap<>();
         Queue<Integer> queue = new ArrayBlockingQueue<>(rules.size());
         for (int i = 0; i < rules.size(); i++) {
-            remainingFields.add(i);
+            fieldToPossibleMatchingRules.put(i, new HashSet<>(getMatchingRulesForFieldIdx(i, tickets, rules)));
             queue.add(i);
-        }
-        Map<Integer, Set<String>> fieldToPossibleMatchingRules = new HashMap<>();
-        for (int fieldIdx : remainingFields) {
-            fieldToPossibleMatchingRules.put(fieldIdx,
-                    new HashSet<>(getMatchingRulesForFieldIdx(fieldIdx, tickets, rules)));
         }
 
         Map<String, Integer> matchedRulesToFieldsIdxMap = new HashMap<>();
