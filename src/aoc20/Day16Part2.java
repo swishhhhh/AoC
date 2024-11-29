@@ -70,7 +70,7 @@ public class Day16Part2 {
                 loopsSinceLastFieldMatch = 0;
             } else {
                 if (DEBUG) {
-                    System.out.printf("Field %s matches %s rules (%s) %n", fieldIdx, possibleRules.size(), possibleRules);
+                    System.out.printf("Field %s matches %s rule (%s) %n", fieldIdx, possibleRules.size(), possibleRules);
                 }
 
                 queue.add(fieldIdx);
