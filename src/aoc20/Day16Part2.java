@@ -43,9 +43,9 @@ public class Day16Part2 {
             remainingFields.add(i);
             queue.add(i);
         }
-        Map<Integer, Set<String>> fieldToMatchingRules = new HashMap<>();
+        Map<Integer, Set<String>> fieldToPossibleMatchingRules = new HashMap<>();
         for (int fieldIdx : remainingFields) {
-            fieldToMatchingRules.put(fieldIdx,
+            fieldToPossibleMatchingRules.put(fieldIdx,
                     new HashSet<>(getMatchingRulesForFieldIdx(fieldIdx, tickets, rules)));
         }
 
@@ -62,7 +62,7 @@ public class Day16Part2 {
             }
 
             int fieldIdx = queue.poll();
-            List<String> possibleRules = new ArrayList<>(fieldToMatchingRules.get(fieldIdx));
+            List<String> possibleRules = new ArrayList<>(fieldToPossibleMatchingRules.get(fieldIdx));
             possibleRules.removeAll(matchedRulesToFieldsIdxMap.keySet()); //remove already matched rules
 
             if (possibleRules.size() == 1) {
