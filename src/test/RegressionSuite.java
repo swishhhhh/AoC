@@ -22,6 +22,7 @@ public class RegressionSuite {
         testClasses.addAll(findAllClassesUsingClassLoader("aoc21"));
         testClasses.addAll(findAllClassesUsingClassLoader("aoc22"));
         testClasses.addAll(findAllClassesUsingClassLoader("aoc23"));
+        testClasses.addAll(findAllClassesUsingClassLoader("aoc24"));
 
         final Set<String> excludedClasses = Set.of("aoc22.Day16Part2"); //takes too long to run
 
