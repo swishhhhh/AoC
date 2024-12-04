@@ -27,31 +27,33 @@ public class Day04Part2 {
 
         for (int row = 1; row < grid.length - 1; row++) {
             for (int col = 1; col < grid[0].length - 1; col++) {
-                if (grid[row][col] == 'A') {
-                    char nw = grid[row - 1][col - 1];
-                    char ne = grid[row - 1][col + 1];
-                    char sw = grid[row + 1][col - 1];
-                    char se = grid[row + 1][col + 1];
+                if (grid[row][col] != 'A') {
+                    continue;
+                }
 
-                    if (nw == 'M' && ne == 'S' &&
-                        sw == 'M' && se == 'S') {
-                        cnt++;
-                        continue;
-                    }
-                    if (nw == 'M' && ne == 'M' &&
-                        sw == 'S' && se == 'S') {
-                        cnt++;
-                        continue;
-                    }
-                    if (nw == 'S' && ne == 'S' &&
-                        sw == 'M' && se == 'M') {
-                        cnt++;
-                        continue;
-                    }
-                    if (nw == 'S' && ne == 'M' &&
-                        sw == 'S' && se == 'M') {
-                        cnt++;
-                    }
+                char nw = grid[row - 1][col - 1];
+                char ne = grid[row - 1][col + 1];
+                char sw = grid[row + 1][col - 1];
+                char se = grid[row + 1][col + 1];
+
+                if (nw == 'M' && ne == 'S' &&
+                    sw == 'M' && se == 'S') {
+                    cnt++;
+                    continue;
+                }
+                if (nw == 'M' && ne == 'M' &&
+                    sw == 'S' && se == 'S') {
+                    cnt++;
+                    continue;
+                }
+                if (nw == 'S' && ne == 'S' &&
+                    sw == 'M' && se == 'M') {
+                    cnt++;
+                    continue;
+                }
+                if (nw == 'S' && ne == 'M' &&
+                    sw == 'S' && se == 'M') {
+                    cnt++;
                 }
             }
         }
