@@ -1,17 +1,18 @@
 package datastructs;
 
-public record Coordinates3D(int x, int y, int z) {
+public record Coordinates4D(int x, int y, int z, int w) {
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Coordinates3D that = (Coordinates3D) o;
+        Coordinates4D that = (Coordinates4D) o;
 
         if (x != that.x) return false;
         if (y != that.y) return false;
-        return z == that.z;
+        if (z != that.z) return false;
+        return w == that.w;
     }
 
     @Override
@@ -19,6 +20,7 @@ public record Coordinates3D(int x, int y, int z) {
         int result = x;
         result = 31 * result + y;
         result = 31 * result + z;
+        result = 31 * result + w;
         return result;
     }
 
@@ -28,6 +30,7 @@ public record Coordinates3D(int x, int y, int z) {
                 "x=" + x +
                 ", y=" + y +
                 ", z=" + z +
+                ", w=" + w +
                 '}';
     }
 }
