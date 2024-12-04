@@ -20,7 +20,7 @@ public class Day17Part2 {
         long answer = new Day17Part2().execute(lines);
         System.out.printf("Answer = %s%n", answer);
 
-        long expected = 848;
+        long expected = 2280;
         if (answer != expected) {
             throw new RuntimeException(String.format("Answer %s doesn't match expected %s", answer, expected));
         }
