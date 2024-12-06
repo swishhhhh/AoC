@@ -136,4 +136,12 @@ public class GridUtils {
 
         return grid;
     }
+
+    public static char[][] deepCopyGrid(char[][] original) {
+        char[][] copy = new char[original.length][];
+        for (int i = 0; i < original.length; i++) {
+            copy[i] = original[i].clone();
+        }
+        return copy;
+    }
 }
