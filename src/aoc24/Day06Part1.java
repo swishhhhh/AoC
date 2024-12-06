@@ -65,18 +65,14 @@ public class Day06Part1 {
     }
 
     private static Coordinates getStartingCursor(char[][] grid) {
-        Coordinates cursor = null;
         for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[0].length; col++) {
                 if (grid[row][col] == '^') {
-                    cursor = new Coordinates(col, row);
-                    break;
+                    return new Coordinates(col, row);
                 }
             }
-            if (cursor != null) {
-                break;
-            }
         }
-        return cursor;
+
+        throw new RuntimeException("Starting cursor not found");
     }
 }
