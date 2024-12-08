@@ -38,7 +38,7 @@ public class Day08Part2 {
             }
         }
 
-        //for each char in charsMap, return all pair permutations of coordinates
+        //for each char in charsMap, process all permutations of pair coordinates
         Set<Coordinates> antinodesCords = new HashSet<>();
         for (char c : charsMap.keySet()) {
             List<Coordinates> coords = charsMap.get(c);

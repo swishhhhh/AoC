@@ -22,11 +22,11 @@ public class Day07Part1 {
     }
 
     private long execute(List<String> lines) {
-        long validSums = 0;
+        long sumOfValidLines = 0;
         for (String line: lines) {
-            validSums += processLine(line);
+            sumOfValidLines += processLine(line);
         }
-        return validSums;
+        return sumOfValidLines;
     }
 
     private long processLine(String line) {
@@ -49,7 +49,7 @@ public class Day07Part1 {
 
         //addition first
         long nextResult = runningResult + nextNum;
-        if (nextResult <= targetResult) {  // Optimization: only proceed if sum is still possible
+        if (nextResult <= targetResult) {
             long result = recurseEvaluate(nums, targetResult, nextResult, nextLevel);
             if (result > 0) {
                 return result;
@@ -58,7 +58,7 @@ public class Day07Part1 {
 
         //multiplication next
         nextResult = runningResult * nextNum;
-        if (nextResult <= targetResult) {  // Optimization: only proceed if product is still possible
+        if (nextResult <= targetResult) {
             long result = recurseEvaluate(nums, targetResult, nextResult, nextLevel);
             if (result > 0) {
                 return result;

@@ -22,11 +22,11 @@ public class Day07Part2 {
     }
 
     private long execute(List<String> lines) {
-        long validSums = 0;
+        long sumOfValidLines = 0;
         for (String line: lines) {
-            validSums += processLine(line);
+            sumOfValidLines += processLine(line);
         }
-        return validSums;
+        return sumOfValidLines;
     }
 
     private long processLine(String line) {
