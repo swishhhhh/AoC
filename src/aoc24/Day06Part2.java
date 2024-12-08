@@ -2,6 +2,7 @@ package aoc24;
 
 import datastructs.Coordinates;
 import datastructs.Direction;
+import org.apache.commons.math3.util.Pair;
 import utils.GridUtils;
 import utils.ResourceLoader;
 
@@ -34,10 +35,10 @@ public class Day06Part2 {
         //find cell with ^ indicating starting position of the guard
         final Coordinates cursor = getStartingCursor(grid);
 
-        Set<Coordinates> basePath = getBaseGuardPath(grid, cursor);
+        Set<Pair<Coordinates, Direction>> basePath = getBaseGuardPath(grid, cursor);
 
-        //only add cells adjacent to the basePath to cellsToCheck
-        Set<Coordinates> cellsToCheck = addAdjacentCellsToCheck(grid, basePath);
+        //only check cells that are next steps to any of the cells in the basePath
+        Set<Coordinates> cellsToCheck = addCellsToCheck(grid, basePath);
         cellsToCheck.removeIf(c -> c.x() == cursor.x() && c.y() == cursor.y()); //don't add obstacle to the starting position
         cellsToCheck.removeIf(c -> grid[c.y()][c.x()] == '#'); //don't add where there's already an obstacle
 
@@ -74,12 +75,14 @@ public class Day06Part2 {
         throw new RuntimeException("Starting cursor not found");
     }
 
-    private Set<Coordinates> getBaseGuardPath(char[][] grid, Coordinates cursor) {
-        Set<Coordinates> path = new HashSet<>();
+    private Set<Pair<Coordinates, Direction>> getBaseGuardPath(char[][] grid, Coordinates cursor) {
+        Set<Pair<Coordinates, Direction>> path = new HashSet<>();
 
         Direction direction = Direction.NORTH;
 
         while (true) {
+            path.add(new Pair<>(cursor, direction));
+
             Coordinates next = GridUtils.getNextCoord(cursor, direction);
             if (GridUtils.isCellOutOfBounds(grid, next.x(), next.y())) {
                 break;
@@ -97,20 +100,20 @@ public class Day06Part2 {
                 continue;
             }
 
-            if (nextChar == '.') {
-                path.add(next);
-            }
-
             cursor = next;
         }
 
         return path;
     }
 
-    private Set<Coordinates> addAdjacentCellsToCheck(char[][] grid, Set<Coordinates> basePath) {
+    private Set<Coordinates> addCellsToCheck(char[][] grid, Set<Pair<Coordinates, Direction>> basePath) {
+        //add cells that are "next" steps to any of the cells in the path
         Set<Coordinates> cellsToCheck = new HashSet<>();
-        for (Coordinates coord : basePath) {
-            cellsToCheck.addAll(GridUtils.getNeighboringCells(grid, coord));
+        for (Pair<Coordinates, Direction> pathElement : basePath) {
+            Coordinates next = GridUtils.getNextCoord(pathElement.getFirst(), pathElement.getSecond());
+            if (!GridUtils.isCellOutOfBounds(grid, next.x(), next.y())) {
+                cellsToCheck.add(next);
+            }
         }
         return cellsToCheck;
     }
