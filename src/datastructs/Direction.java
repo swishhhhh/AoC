@@ -39,6 +39,19 @@ public enum Direction {
         return answer;
     }
 
+    public Direction turn180() {
+        return switch (this) {
+            case NORTH -> SOUTH;
+            case SOUTH -> NORTH;
+            case EAST -> WEST;
+            case WEST -> EAST;
+            case NE -> SW;
+            case SW -> NE;
+            case NW -> SE;
+            case SE -> NW;
+        };
+    }
+
     @Override
     public String toString() {
         return "Direction{" +

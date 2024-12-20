@@ -123,6 +123,22 @@ public class GridUtils {
             case SOUTH -> y = y + 1;
             case WEST  -> x = x - 1;
             case EAST  -> x = x + 1;
+            case NE -> {
+                y = y - 1;
+                x = x + 1;
+            }
+            case NW -> {
+                y = y - 1;
+                x = x - 1;
+            }
+            case SE -> {
+                y = y + 1;
+                x = x + 1;
+            }
+            case SW -> {
+                y = y + 1;
+                x = x - 1;
+            }
         }
 
         return new Coordinates(x, y);
