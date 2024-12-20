@@ -86,6 +86,8 @@ public class Day12Part2 {
     }
 
     private long getRegionSides(List<Coordinates> region, char[][] grid) {
+        Direction[] sidesToCheck = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
+        Direction[] dedupeSidesToCheck = {Direction.WEST, Direction.NORTH, Direction.WEST, Direction.NORTH};
         Map<Direction, Set<Coordinates>> visited = Map.of(
                 Direction.NORTH, new HashSet<>(),
                 Direction.EAST, new HashSet<>(),
@@ -95,9 +97,6 @@ public class Day12Part2 {
 
         long sides = 0;
         for (Coordinates cell : region) {
-            Direction[] sidesToCheck = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
-            Direction[] dedupeSidesToCheck = {Direction.WEST, Direction.NORTH, Direction.WEST, Direction.NORTH};
-
             //check each of the 4 sides
             for (int i = 0; i < sidesToCheck.length; i++) {
                 Coordinates n1 = GridUtils.getNextCoord(cell, sidesToCheck[i]);
