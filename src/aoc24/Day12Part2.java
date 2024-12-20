@@ -6,6 +6,8 @@ import utils.GridUtils;
 import utils.ResourceLoader;
 
 import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * <a href="https://adventofcode.com/2024/day/12">Advent of Code 2024 Day 12</a>
@@ -88,12 +90,8 @@ public class Day12Part2 {
     private long getRegionSides(List<Coordinates> region, char[][] grid) {
         Direction[] sidesToCheck = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
         Direction[] dedupeSidesToCheck = {Direction.WEST, Direction.NORTH, Direction.WEST, Direction.NORTH};
-        Map<Direction, Set<Coordinates>> visited = Map.of(
-                Direction.NORTH, new HashSet<>(),
-                Direction.EAST, new HashSet<>(),
-                Direction.SOUTH, new HashSet<>(),
-                Direction.WEST, new HashSet<>()
-        );
+        Map<Direction, Set<Coordinates>> visited = new HashMap<>();
+        Arrays.stream(sidesToCheck).forEach(dir -> visited.put(dir, new HashSet<>()));
 
         long sides = 0;
         for (Coordinates cell : region) {
