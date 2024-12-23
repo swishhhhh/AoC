@@ -11,7 +11,7 @@ import java.util.List;
  * <a href="https://adventofcode.com/2024/day/14">Advent of Code 2024 Day 14</a>
  */
 public class Day14Part2 {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private static final int GRID_WIDTH = 101;
     private static final int GRID_HEIGHT = 103;
 
@@ -33,9 +33,8 @@ public class Day14Part2 {
 
         for (int i = 0; i < lines.size(); i++) {
             List<Integer> nums = Helper.extractIntsFromText(lines.get(i), true);
-            int px = nums.get(0), py = nums.get(1), vx = nums.get(2), vy = nums.get(3);
-            startingPositions[i] = new Coordinates(px, py);
-            velocities[i] = new Coordinates(vx, vy);
+            startingPositions[i] = new Coordinates(nums.get(0), nums.get(1));
+            velocities[i] = new Coordinates(nums.get(2), nums.get(3));
 
         }
 
