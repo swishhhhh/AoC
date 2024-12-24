@@ -58,7 +58,9 @@ public class Day15Part2 {
         Coordinates cursor = findCursor(grid);
 
         for (int i = 0; i < instructions.length; i++) {
-            cursor = move(grid, cursor, instructions[i]);
+            if (canMove(grid, cursor, instructions[i])) {
+                cursor = move(grid, cursor, instructions[i]);
+            }
 
             if (DEBUG) {
                 System.out.printf("After move %s (%s):%n", i, instructions[i]);
@@ -151,10 +153,6 @@ public class Day15Part2 {
     }
 
     private Coordinates move(char[][] grid, Coordinates cursor, char instruction) {
-        if (!canMove(grid, cursor, instruction)) {
-            return cursor;
-        }
-
         Direction direction = DIRECTIONS.get(instruction);
         Coordinates next = GridUtils.getNextCoord(cursor, direction);
         char nextCellValue = grid[next.y()][next.x()];
