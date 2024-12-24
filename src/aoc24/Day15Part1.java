@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
  * <a href="https://adventofcode.com/2024/day/15">Advent of Code 2024 Day 15</a>
  */
 public class Day15Part1 {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private static final Map<Character, Direction> DIRECTIONS = Map.of(
             '^', Direction.NORTH,
             'v', Direction.SOUTH,
