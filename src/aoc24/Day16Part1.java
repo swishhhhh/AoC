@@ -139,12 +139,9 @@ public class Day16Part1 {
                 }
 
                 Coordinates nextCoord = getNextCoord(item.coords, nextDir);
+                int nx = nextCoord.x(), ny = nextCoord.y();
 
-                if (GridUtils.isCellOutOfBounds(grid, nextCoord.x(), nextCoord.y())) {
-                    continue;
-                }
-
-                if (grid[nextCoord.y()][nextCoord.x()] == '#') {
+                if (GridUtils.isCellOutOfBounds(grid, nx, ny) || grid[ny][nx] == '#') {
                     continue;
                 }
 

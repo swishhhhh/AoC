@@ -124,8 +124,7 @@ public class Day16Part2 {
 
         while (!queue.isEmpty()) {
             QueueItem item = queue.poll();
-            List<Coordinates> path = new ArrayList<>(item.path);
-            State state = new State(item.coords, item.direction, path);
+            State state = new State(item.coords, item.direction, new ArrayList<>(item.path));
 
             Long lowestCostToThisStateSoFar = statesToCostMap.get(state);
             if (lowestCostToThisStateSoFar != null && lowestCostToThisStateSoFar < item.cost) {
@@ -139,13 +138,16 @@ public class Day16Part2 {
             }
 
             //check if end tile was reached and if so whether this is the shortest path (for all states in the end tile) so far
-            if (item.coords.equals(end) && item.cost <= shortestPathToTarget) {
+            if (item.coords.equals(end)) {
                 if (item.cost < shortestPathToTarget) {
                     shortestPathToTarget = item.cost;
                     bestTilesToTarget = new HashSet<>(item.path);
-                } else { //item.cost == shortestPathToTarget
+                } else if (item.cost == shortestPathToTarget) {
                     bestTilesToTarget.addAll(item.path);
                 }
+
+                //end reached, no need to continue
+                continue;
             }
 
             for (Direction nextDir : directions) {
