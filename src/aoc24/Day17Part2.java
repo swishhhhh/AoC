@@ -25,13 +25,12 @@ public class Day17Part2 {
 
     private long execute(List<String> lines) {
         String lastLine = lines.get(lines.size() - 1);
-        lastLine = lastLine.substring(lastLine.indexOf(':') + 1).trim();
-        int[] expectedOutput = Helper.extractIntsFromText(lastLine).stream().mapToInt(Integer::intValue).toArray();
-        solve(expectedOutput.length - 1, 0, expectedOutput);
+        int[] instructionsAndExpectedOutput = Helper.extractIntsFromText(lastLine).stream().mapToInt(Integer::intValue).toArray();
+        solve(instructionsAndExpectedOutput.length - 1, 0, instructionsAndExpectedOutput);
         return result;
     }
 
-    private boolean solve(int position, long currentValue, int[] instructions) {
+    private boolean solve(int position, long currentValue, int[] instructionsAndExpectedOutput) {
         if (position < 0) {
             result = currentValue;
             return true;
@@ -44,9 +43,9 @@ public class Day17Part2 {
             int instructionPtr = 0;
             int output = 0;
 
-            while (instructionPtr < instructions.length) {
-                int opcode = instructions[instructionPtr];
-                int operandLiteralValue = instructions[instructionPtr + 1];
+            while (instructionPtr < instructionsAndExpectedOutput.length) {
+                int opcode = instructionsAndExpectedOutput[instructionPtr];
+                int operandLiteralValue = instructionsAndExpectedOutput[instructionPtr + 1];
                 long operandComboValue = getComboOperandValue(operandLiteralValue, registerA, registerB, registerC);
                 output = 0;
 
@@ -81,7 +80,7 @@ public class Day17Part2 {
                     case 5:
                         //The out instruction (opcode 5) calculates the value of its combo operand modulo 8, then outputs that value.
                         output = (int)(operandComboValue % 8);
-                        instructionPtr += instructions.length; //forces out of the outer while loop
+                        instructionPtr += instructionsAndExpectedOutput.length; //forces out of the outer while loop
                         break;
                     case 6:
                         //The bdv instruction (opcode 6) works exactly like the adv instruction (opcode 0) except that the result is
@@ -102,10 +101,9 @@ public class Day17Part2 {
                 }
             }
 
-            if (output == instructions[position] && //remember that expectedOutput == instructions
-                    solve(position - 1, (currentValue << 3) | digit, instructions)) { //moves on to next 3 bit segment by
-                                                                                // shifting left 3 bits (multiplying by 8)
-                                                                                // and adding the prior segments matched digit
+            if (output == instructionsAndExpectedOutput[position] &&
+                    solve(position - 1, (currentValue << 3) | digit, instructionsAndExpectedOutput)) { // <- recursively moves
+                //on to next segment by shifting left 3 bits (multiplying by 8) and adding the current segment's matched digit
                 return true;
             }
         }
