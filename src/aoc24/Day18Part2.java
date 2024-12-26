@@ -4,10 +4,8 @@ import datastructs.Coordinates;
 import utils.GridUtils;
 import utils.ResourceLoader;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Queue;
-import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -82,7 +80,6 @@ public class Day18Part2 {
         Coordinates end =  new Coordinates(grid[0].length - 1, grid.length - 1);
 
         //find the shortest path from start to end moving only north, south, east, west and avoiding cells with '#'
-        Set<Coordinates> visited = new HashSet<>();
         Queue<Coordinates> queue = new LinkedBlockingQueue<>();
         queue.add(start);
         cost[start.y()][start.x()] = 0;
@@ -90,14 +87,13 @@ public class Day18Part2 {
         //Dijkstra's algorithm
         while (!queue.isEmpty()) {
             Coordinates coord = queue.poll();
-            visited.add(coord);
 
             if (coord.equals(end)) {
                 break;
             }
 
             for (Coordinates n : GridUtils.getNeighboringCells(grid, coord)) {
-                if (visited.contains(n) || grid[n.y()][n.x()] == '#') {
+                if (grid[n.y()][n.x()] == '#') {
                     continue;
                 }
 
