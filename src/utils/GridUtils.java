@@ -39,7 +39,11 @@ public class GridUtils {
     }
 
     public static boolean isCellOutOfBounds(char[][] grid, int x, int y) {
-        return x < 0 || x >= grid[0].length || y < 0 || y >= grid.length;
+        return isCellOutOfBounds(grid.length, grid[0].length, x, y);
+    }
+
+    public static boolean isCellOutOfBounds(int gridHeight, int gridWidth, int x, int y) {
+        return x < 0 || x >= gridWidth || y < 0 || y >= gridHeight;
     }
 
     public static List<Coordinates> getNeighboringCells(char[][] grid, Coordinates cursor) {
@@ -159,5 +163,49 @@ public class GridUtils {
             copy[i] = original[i].clone();
         }
         return copy;
+    }
+
+    public static Coordinates getFirstCoordinateWithValue(char[][] grid, char s) {
+        //return first coordinate in grid with value s
+        for (int row = 0; row < grid.length; row++) {
+            for (int col = 0; col < grid[row].length; col++) {
+                if (grid[row][col] == s) {
+                    return new Coordinates(col, row);
+                }
+            }
+        }
+        throw new RuntimeException("No coordinate found with value " + s);
+    }
+
+    public static int getManhattanDistanceBetweenCells(Coordinates source, Coordinates target) {
+        return Math.abs(source.x() - target.x()) + Math.abs(source.y() - target.y());
+    }
+
+    public static List<Coordinates> getNeighborsWithinManhattanDistance(Coordinates coord, int maxDistance, int gridHeight, int gridWidth) {
+        List<Coordinates> neighbors = new ArrayList<>();
+
+        //check all possible points within the Manhattan distance
+        for (int dy = -maxDistance; dy <= maxDistance; dy++) {
+            for (int dx = -maxDistance; dx <= maxDistance; dx++) {
+                //skip the current coordinate itself
+                if (dx == 0 && dy == 0) continue;
+
+                int newX = coord.x() + dx;
+                int newY = coord.y() + dy;
+
+                //check if the new coordinates are within grid bounds
+                if (!isCellOutOfBounds(gridHeight, gridWidth, newX, newY)) {
+                    //calculate Manhattan distance: |x1-x2| + |y1-y2|
+                    int manhattanDist = Math.abs(dx) + Math.abs(dy);
+
+                    //only add if within the specified Manhattan distance
+                    if (manhattanDist <= maxDistance) {
+                        neighbors.add(new Coordinates(newX, newY));
+                    }
+                }
+            }
+        }
+
+        return neighbors;
     }
 }

@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static datastructs.Direction.*;
-import static utils.GridUtils.getNextCoord;
+import static utils.GridUtils.*;
 
 /**
  * <a href="https://adventofcode.com/2024/day/16">Advent of Code 2024 Day 16</a>
@@ -179,18 +179,6 @@ public class Day16Part1 {
 
     private static Coordinates getEndCoord(char[][] grid) {
         return getFirstCoordinateWithValue(grid,  'E');
-    }
-
-    private static Coordinates getFirstCoordinateWithValue(char[][] grid, char s) {
-        //return first coordinate in grid with value s
-        for (int row = 0; row < grid.length; row++) {
-            for (int col = 0; col < grid[row].length; col++) {
-                if (grid[row][col] == s) {
-                    return new Coordinates(col, row);
-                }
-            }
-        }
-        throw new RuntimeException("No coordinate found with value " + s);
     }
 
     private static void printPath(char[][] originalGrid, State state) {
