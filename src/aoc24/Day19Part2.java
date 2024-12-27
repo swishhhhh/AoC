@@ -8,7 +8,8 @@ import java.util.*;
  * <a href="https://adventofcode.com/2024/day/19">Advent of Code 2024 Day 19</a>
  */
 public class Day19Part2 {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
+    private static long cacheHits = 0, cacheMisses = 0;
 
     public static void main(String... args) throws Exception {
         List<String> lines = ResourceLoader.readStrings("aoc24/Day19_input.txt");
@@ -32,11 +33,16 @@ public class Day19Part2 {
         long cnt = 0;
 
         for (String design : designs) {
-            long n = getNumberOfVariations(design, 0, patterns, 0, new HashMap<>());
+            HashMap<String, Long> cachedTotals = new HashMap<>();
+            long n = getNumberOfVariations(design, 0, patterns, 0, cachedTotals);
             if (DEBUG) {
-               System.out.printf("%s variations for design%s%n", n, design);
+               System.out.printf("%s variations (and %s cached) for design%s%n", n, cachedTotals.size(), design);
             }
             cnt += n;
+        }
+
+        if (DEBUG) {
+            System.out.printf("Total cache hits: %s, cache misses: %s%n", cacheHits, cacheMisses);
         }
 
         return cnt;
@@ -48,14 +54,17 @@ public class Day19Part2 {
         }
 
         if (cachedTotals.containsKey(design.substring(idx))) {
+            cacheHits++;
             return incomingTotal + cachedTotals.get(design.substring(idx));
         }
+
+        cacheMisses++;
 
         long total = incomingTotal;
         for (String pattern : patterns) {
             if (design.startsWith(pattern, idx)) {
                 long newTotal = getNumberOfVariations(design, idx + pattern.length(), patterns, total, cachedTotals);
-                    cachedTotals.put(design.substring(idx + pattern.length()), newTotal - total);
+                cachedTotals.put(design.substring(idx + pattern.length()), newTotal - total);
                 total = newTotal;
             }
         }

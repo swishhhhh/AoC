@@ -32,15 +32,12 @@ public class Day19Part1 {
         long validDesigns = 0;
 
         for (String design : designs) {
-            if (validDesign(design, 0, patterns, new HashSet<>())) {
+            boolean valid = validDesign(design, 0, patterns, new HashSet<>());
+            if (valid) {
                 validDesigns++;
-                if (DEBUG) {
-                    System.out.printf("Design %s is valid%n", design);
-                }
-            } else {
-                if (DEBUG) {
-                    System.out.printf("Design %s is NOT valid%n", design);
-                }
+            }
+            if (DEBUG) {
+                System.out.printf("Design %s is %s%n", design, valid ? "valid" : "NOT valid");
             }
         }
 
