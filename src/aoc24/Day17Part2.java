@@ -36,7 +36,7 @@ public class Day17Part2 {
             return true;
         }
 
-        //for each 3 bit segment, try every combination of 8 values (0-7) until a match is found for that sgement's expected digit
+        //for each 3 bit segment, try every combination of 8 values (0-7) until a match is found for that segment's expected digit
         for (int digit = 0; digit < 8; digit++) {
             long registerA = (currentValue << 3) | digit;  //shifts value by 3 bits (i.e. multiplies by 8) and then adds digit [values 0-7]
             long registerB = 0, registerC = 0;

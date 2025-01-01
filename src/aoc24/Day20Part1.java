@@ -113,7 +113,7 @@ public class Day20Part1 {
     }
 
     /*
-     * unused method, too many steps (almost 10k) on the path so this DFS method isn't stack friendly
+     * unused method, too many steps (almost 10k) on the path so this recursive method isn't stack friendly
      */
     private boolean findPathDfs(char[][] grid, Coordinates cursor, Coordinates target, Map<Coordinates, Integer> path) {
         //there's only one path, so simple dfs search should suffice
