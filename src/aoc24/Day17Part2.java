@@ -38,7 +38,8 @@ public class Day17Part2 {
 
         //for each 3 bit segment, try every combination of 8 values (0-7) until a match is found for that segment's expected digit
         for (int digit = 0; digit < 8; digit++) {
-            long registerA = (currentValue << 3) | digit;  //shifts value by 3 bits (i.e. multiplies by 8) and then adds digit [values 0-7]
+            long candidate = (currentValue << 3) | digit;
+            long registerA = candidate;  //shifts value by 3 bits (i.e. multiplies by 8) and then adds digit [values 0-7]
             long registerB = 0, registerC = 0;
             int instructionPtr = 0;
             int output = 0;
@@ -102,8 +103,8 @@ public class Day17Part2 {
             }
 
             if (output == instructionsAndExpectedOutput[position] &&
-                    solve(position - 1, (currentValue << 3) | digit, instructionsAndExpectedOutput)) { // <- recursively moves
-                //on to next segment by shifting left 3 bits (multiplying by 8) and adding the current segment's matched digit
+                    solve(position - 1, candidate, instructionsAndExpectedOutput)) { // <- recursively moves on to next
+                    //segment (which was shifted left 3 bits (multiplying by 8) + the current segment's matched digit)
                 return true;
             }
         }
