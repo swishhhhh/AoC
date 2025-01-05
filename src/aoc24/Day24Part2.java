@@ -72,20 +72,17 @@ public class Day24Part2 {
     }
 
     private String execute(List<String> lines) {
-        Map<String, Boolean> solvedVariables = new HashMap<>();
         List<BooleanGate> gates = new ArrayList<>();
-
-        loadInput(lines, solvedVariables, gates);
+        loadInput(lines, gates);
 
         Map<String, String> originalVarNames = new HashMap<>();
         List<String> swappedVars = new ArrayList<>();
-        Pair<String, String> swap;
         while (true) {
             List<BooleanGate> copyOfGates = deepCopy(gates); //preserve the original gates and only work off the copy
             aliasVariablesPhase1(copyOfGates, originalVarNames);
             aliasVariablesPhase2(copyOfGates, originalVarNames);
-            sortGates(copyOfGates);
-            swap = validateAndSwapPhase3(copyOfGates, originalVarNames);
+            sortGatesPhase3(copyOfGates);
+            Pair<String, String> swap = validateAndSwapPhase4(copyOfGates, originalVarNames);
             if (swap == null) {
                 break;
             }
@@ -96,7 +93,7 @@ public class Day24Part2 {
                 System.out.printf("Swapping %s with %s%n", swap.getFirst(), swap.getSecond());
             }
 
-            //unlike the rest of the operations (renames, swaps) done on the copy, this final step is done on the original gates
+            //unlike the rest of the operations (renames, swaps) done on the copy of the gates, this final step is done on the original ones
             swapOutputVarNamesAcrossAllGatesPhase4(gates, swap.getFirst(), swap.getSecond());
         }
 
@@ -108,25 +105,20 @@ public class Day24Part2 {
         return swappedVars.stream().sorted().collect(Collectors.joining(","));
     }
 
-    private void loadInput(List<String> lines, Map<String, Boolean> solvedVariables, List<BooleanGate> gates) {
+    private void loadInput(List<String> lines, List<BooleanGate> gates) {
         //read in solved variables (first part of input) and boolean-gates (2nd part of input)
         lines.stream()
             .filter(line -> !line.startsWith("#"))
+            .filter(line -> line.contains("->"))
             .forEach(line -> {
-                if (line.contains(":")) { //solved variables (1st part)
-                    String[] parts = line.split(":");
-                    solvedVariables.put(parts[0], parts[1].trim().equals("1"));
-
-                } else if (line.contains("->")) { //boolean gates (2nd part)
-                    Matcher matcher = GATE_PATTERN.matcher(line);
-                    if (matcher.matches()) {
-                        String var1 = matcher.group(1);
-                        String operatorName = matcher.group(2);
-                        String var2 = matcher.group(3);
-                        String resultVar = matcher.group(4);
-                        gates.add(new BooleanGate(resultVar, var1, var2,
-                                BooleanGate.fromSymbol(operatorName)));
-                    }
+                Matcher matcher = GATE_PATTERN.matcher(line);
+                if (matcher.matches()) {
+                    String var1 = matcher.group(1);
+                    String operatorName = matcher.group(2);
+                    String var2 = matcher.group(3);
+                    String resultVar = matcher.group(4);
+                    gates.add(new BooleanGate(resultVar, var1, var2,
+                            BooleanGate.fromSymbol(operatorName)));
                 }
             });
     }
@@ -247,7 +239,7 @@ public class Day24Part2 {
         return result;
     }
 
-    private Pair<String, String> validateAndSwapPhase3(List<BooleanGate> gates, Map<String, String> originalVarNames) {
+    private Pair<String, String> validateAndSwapPhase4(List<BooleanGate> gates, Map<String, String> originalVarNames) {
         /*
            The gates should come in groups of 5 (excluding the first 00 gate group which is a group of only 2).
            So starting from gates.get(2), each group of 5 gates should have the following pattern (albeit not
@@ -424,14 +416,14 @@ public class Day24Part2 {
         System.out.println("==== Gates ====");
         List<BooleanGate> list = new ArrayList<>(gates);
 
-        sortGates(list);
+        sortGatesPhase3(list);
 
         for (BooleanGate gate: list) {
             System.out.println(gate);
         }
     }
 
-    private static void sortGates(List<BooleanGate> list) {
+    private static void sortGatesPhase3(List<BooleanGate> list) {
         for (BooleanGate gate : list) {
             String operand1 = gate.getOperandVariable1();
             String operand2 = gate.getOperandVariable2();
