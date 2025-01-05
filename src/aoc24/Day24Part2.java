@@ -94,7 +94,7 @@ public class Day24Part2 {
             }
 
             //unlike the rest of the operations (renames, swaps) done on the copy of the gates, this final step is done on the original ones
-            swapOutputVarNamesAcrossAllGatesPhase4(gates, swap.getFirst(), swap.getSecond());
+            swapOutputVarNamesAcrossAllGatesPhase5(gates, swap.getFirst(), swap.getSecond());
         }
 
         if (DEBUG) {
@@ -361,7 +361,7 @@ public class Day24Part2 {
         return null;
     }
 
-    private void swapOutputVarNamesAcrossAllGatesPhase4(List<BooleanGate> gates, String var1, String var2) {
+    private void swapOutputVarNamesAcrossAllGatesPhase5(List<BooleanGate> gates, String var1, String var2) {
         gates.forEach(gate -> {
             String resultVar = gate.getResultVarName();
             if (resultVar.equals(var1)) {
