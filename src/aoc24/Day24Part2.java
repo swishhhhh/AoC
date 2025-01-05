@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static utils.Helper.isNumeric;
+import static aoc24.day24.BooleanGate.Operator.*;
 
 /**
  * <a href="https://adventofcode.com/2024/day/24">Advent of Code 2024 Day 24</a>
@@ -19,21 +20,32 @@ import static utils.Helper.isNumeric;
  * Pre-req reading/understanding:
  *      <a href="https://www.sciencedirect.com/topics/computer-science/ripple-carry-adder">Ripple Carry Adder</a>
  * <P>
- * The input represents a 45 bit ripple carry adder represented by an initial group of 2 gates and a subsequent 44 groups
- *  of 5 gates each. The trick here is to identify the gates, sort them in correct order, and then spot the defects
- *  (crossed output wires) and swap them. Each adder has 2 inputs (x & y), a main/sum output (z), a carry-in, and a
- *  carry-out. The carry-out is the input to the next adder. The carry-in is the output of the previous adder.
- *  With the addition of an intermediate gate, we have the following 5 gates in each groups:
+ * The input represents a 45 bit ripple carry adder represented by an initial group of 2 gates (a half-adder) and a
+ *  subsequent 44 groups of 5 gates each (full adders). The trick here is to identify the gates, sort them in correct
+ *  order, and then spot the defects (crossed output wires) and swap them.
+ * <P>
+ * Each adder has 2 inputs (x & y), a main/sum output (z), and a carry output. Full adders also have an additional (3rd)
+ *  carry-in input. Each adder's/group's carry-out is the input to the next one. The first group's half adder is
+ *  represented by 2 gates:
+ *  <PRE>
+ *      1. X(0) XOR Y(0) -> _XOR(0)
+ *      2. X(0) AND Y(0) -> _CARRY(0)
+ *  </PRE>
+ *  The subsequent adders/groups are represented by 5 gates each to accommodate the additional intermediate operations
+ *  needed to take into account the carry-in from the previous group:
+ *  <PRE>
  *      1. X(N) XOR Y(N) -> _XOR(N)
  *      2. X(N) AND Y(N) -> _AND(N)
- *      3. XOR(N) XOR CARRY(N-1) -> Z(N)
- *      4. XOR(N) AND CARRY(N-1) -> CARRY_INTERMEDIATE(N)
- *      5. AND(N) OR CARRY_INTERMEDIATE(N-1) -> CARRY(N)
- *  <P>
+ *      3. _XOR(N) XOR _CARRY(N-1) -> Z(N)
+ *      4. _XOR(N) AND _CARRY(N-1) -> _CARRY_INTERMEDIATE(N)
+ *      5. _AND(N) OR  _CARRY_INTERMEDIATE(N-1) -> _CARRY(N)
+ *  </PRE>
  *  Once you understand this pattern, you just have to iteratively (starting from group 1..44) inspect gates 3,4,5 of
- *  each group (gates 1 & 2 are always correct) and once you spot the bad output for any of the gates, you swap it with
- *  the correct output (which we can always predict based on the pattern above (N, N+1, N+2), etc. Since gates have
- *  random meaningless names, before we can validate them we first rename them to match the patterns above.
+ *  each group (gates 1 & 2 are always correct) and spot the bad output for any of the gates starting from the first.
+ *  When you hit your first bad output, you swap it with the correct output (which we can always predict based on the
+ *  pattern above (N, N+1, N+2), etc) and restart the process from the top. Keep doing this until you get to the end
+ *  (last gate). Since gates have random meaningless names, before we can validate them we first rename them to match
+ *  the patterns above. This (renaming of the gate variables) is done iteratively over a few phases (see code for details).
  */
 public class Day24Part2 {
     private static final boolean DEBUG = false;
@@ -44,6 +56,8 @@ public class Day24Part2 {
     private static final String FORMAT_AND = "_AND%02d";
     private static final String FORMAT_CARRY_INTERMEDIATE = "_CARRY_INTERMEDIATE%02d";
     private static final String FORMAT_Z = "z%02d";
+
+    private record GateGroup(BooleanGate gate3, BooleanGate gate4, BooleanGate gate5) {}
 
     public static void main(String... args) throws Exception {
         List<String> lines = ResourceLoader.readStrings("aoc24/Day24_input.txt");
@@ -67,11 +81,11 @@ public class Day24Part2 {
         List<String> swappedVars = new ArrayList<>();
         Pair<String, String> swap;
         while (true) {
-            List<BooleanGate> backupGates = deepCopy(gates);
-            aliasVariablesPhase1(gates, originalVarNames);
-            aliasVariablesPhase2(gates, originalVarNames);
-            sortGates(gates);
-            swap = swapIfNeeded(gates, originalVarNames);
+            List<BooleanGate> copyOfGates = deepCopy(gates); //preserve the original gates and only work off the copy
+            aliasVariablesPhase1(copyOfGates, originalVarNames);
+            aliasVariablesPhase2(copyOfGates, originalVarNames);
+            sortGates(copyOfGates);
+            swap = validateAndSwapPhase3(copyOfGates, originalVarNames);
             if (swap == null) {
                 break;
             }
@@ -82,8 +96,8 @@ public class Day24Part2 {
                 System.out.printf("Swapping %s with %s%n", swap.getFirst(), swap.getSecond());
             }
 
-            swapOutputVarNamesAcrossAllGates(backupGates, swap.getFirst(), swap.getSecond());
-            gates = backupGates;
+            //unlike the rest of the operations (renames, swaps) done on the copy, this final step is done on the original gates
+            swapOutputVarNamesAcrossAllGatesPhase4(gates, swap.getFirst(), swap.getSecond());
         }
 
         if (DEBUG) {
@@ -196,7 +210,7 @@ public class Day24Part2 {
         String xorVarName = String.format(FORMAT_XOR, gateIdx);
         String carryIntermediateVarName = String.format(FORMAT_CARRY_INTERMEDIATE, gateIdx);
 
-        BooleanGate gate = findGate(gates, carryVarName, xorVarName, BooleanGate.Operator.AND);
+        BooleanGate gate = findGate(gates, carryVarName, xorVarName, AND);
         if (gate == null) {
             return false;
         }
@@ -210,7 +224,7 @@ public class Day24Part2 {
         String andVarName = String.format(FORMAT_AND, gateIdx);
         String newCarryVarName = String.format(FORMAT_CARRY, gateIdx);
 
-        BooleanGate gate = findGate(gates, carryIntermediateVarName, andVarName, BooleanGate.Operator.OR);
+        BooleanGate gate = findGate(gates, carryIntermediateVarName, andVarName, OR);
         if (gate == null) {
             return false;
         }
@@ -233,7 +247,7 @@ public class Day24Part2 {
         return result;
     }
 
-    private Pair<String, String> swapIfNeeded(List<BooleanGate> gates, Map<String, String> originalVarNames) {
+    private Pair<String, String> validateAndSwapPhase3(List<BooleanGate> gates, Map<String, String> originalVarNames) {
         /*
            The gates should come in groups of 5 (excluding the first 00 gate group which is a group of only 2).
            So starting from gates.get(2), each group of 5 gates should have the following pattern (albeit not
@@ -283,8 +297,6 @@ public class Day24Part2 {
         return null;
     }
 
-    private record GateGroup(BooleanGate gate3, BooleanGate gate4, BooleanGate gate5) {}
-
     private GateGroup findGatesInGroup(List<BooleanGate> gates, int group) {
         BooleanGate gate3 = null, gate4 = null, gate5 = null;
         String carryPrev = FORMAT_CARRY.formatted(group - 1);
@@ -310,19 +322,17 @@ public class Day24Part2 {
 
     private boolean isGate3(BooleanGate gate, String carryPrev) {
         //identify gate #3 by looking for _CARRY(N-1) in the 2nd variable name and "XOR" for the operation
-        return gate.getOperandVariable2().equals(carryPrev) &&
-                gate.getOperator().equals(BooleanGate.Operator.XOR);
+        return gate.getOperandVariable2().equals(carryPrev) && gate.getOperator().equals(XOR);
     }
 
     private boolean isGate4(BooleanGate gate, String carryPrev) {
         //identify gate #4 by looking for _CARRY(N-1) in the 2nd variable name and "AND" for the operation
-        return gate.getOperandVariable2().equals(carryPrev) &&
-                gate.getOperator().equals(BooleanGate.Operator.AND);
+        return gate.getOperandVariable2().equals(carryPrev) && gate.getOperator().equals(AND);
     }
 
     private boolean isGate5(BooleanGate gate) {
         //identify gate #5 by looking for "OR" for the operation
-        return gate.getOperator().equals(BooleanGate.Operator.OR);
+        return gate.getOperator().equals(OR);
     }
 
     private Pair<String, String> checkGate3Pattern(BooleanGate gate, int group) {
@@ -359,7 +369,7 @@ public class Day24Part2 {
         return null;
     }
 
-    private void swapOutputVarNamesAcrossAllGates(List<BooleanGate> gates, String var1, String var2) {
+    private void swapOutputVarNamesAcrossAllGatesPhase4(List<BooleanGate> gates, String var1, String var2) {
         gates.forEach(gate -> {
             String resultVar = gate.getResultVarName();
             if (resultVar.equals(var1)) {
