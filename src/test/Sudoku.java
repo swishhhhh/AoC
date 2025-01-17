@@ -26,7 +26,7 @@ public class Sudoku {
             copy.grid = GridUtils.deepCopyGrid(grid);
             copy.possibilities = GridUtils.deepCopyGrid(possibilities);
             copy.solvedCellCount = solvedCellCount;
-            copy.recursionLevel  = recursionLevel + 1;
+            copy.recursionLevel = recursionLevel + 1;
             return copy;
         }
     }
@@ -184,7 +184,7 @@ public class Sudoku {
         }
 
         //if we get here, iterate through all unsolved cells, and for each one, all its possibilities, and recursively "solve".
-        // Clone the state first so  off a copy (in case that recursion branch doesn't work out)
+        // Clone the state first so you work off a copy (in case that recursion branch doesn't work out)
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
                 if (state.grid[row][col] != '.') {
