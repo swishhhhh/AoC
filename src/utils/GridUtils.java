@@ -165,6 +165,14 @@ public class GridUtils {
         return copy;
     }
 
+    public static char[][][] deepCopyGrid(char[][] []original) {
+        char[][][] copy = new char[original.length][][];
+        for (int i = 0; i < original.length; i++) {
+            copy[i] = deepCopyGrid(original[i]);
+        }
+        return copy;
+    }
+
     public static Coordinates getFirstCoordinateWithValue(char[][] grid, char s) {
         //return first coordinate in grid with value s
         for (int row = 0; row < grid.length; row++) {
