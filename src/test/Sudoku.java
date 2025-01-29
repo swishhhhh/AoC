@@ -221,9 +221,6 @@ public class Sudoku {
 
         for (int i : possibilities) {
             char p = Character.forDigit(i, 10);
-            if (p == '.') {
-                continue;
-            }
 
             State copy = state.deepCopy();
             copy.grid[row][col] = p;
