@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
 public class Sudoku {
     private static final int DEBUG_LEVEL = 0; //{0 = off, 1 = brief, 2 = verbose}
     private static final int MAX_RECURSION_DEBUG_LEVEL = 10;
-    private static final boolean RANDOMIZE = false;
+    private static final boolean RANDOMIZE = false; //for puzzles with multiple answers, randomize=false will ensure same solution every time
 
     private static class State {
         static long instancesCtr = 1;
