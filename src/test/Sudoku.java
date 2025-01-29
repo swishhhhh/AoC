@@ -10,10 +10,12 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Sudoku {
-    private static final boolean DEBUG = true;
+    private static final int DEBUG_LEVEL = 0; //{0 = off, 1 = brief, 2 = verbose}
+    private static final int MAX_RECURSION_DEBUG_LEVEL = 10;
+    private static final boolean RANDOMIZE = false;
 
     private static class State {
-        static int instancesCtr = 1;
+        static long instancesCtr = 1;
 
         char[][] grid;
         char[][][] possibilities;
@@ -36,6 +38,7 @@ public class Sudoku {
     }
 
     private void execute() throws Exception {
+        long startMillis = System.currentTimeMillis();
         State state = new State();
         state.grid = loadInput();
         initPossibilities(state);
@@ -45,12 +48,17 @@ public class Sudoku {
         System.out.println("------------------");
         GridUtils.printGrid(state.grid, false);
 
-        System.out.printf("Solved = %s, states counter = %s%n", solved, State.instancesCtr);
+        System.out.printf("Solved = %s, states counter = %s, runtime (in millis) %s%n",
+                solved, State.instancesCtr, (System.currentTimeMillis() - startMillis));
     }
 
     private char[][] loadInput() throws Exception {
         List<String> lines = ResourceLoader.readStrings("test/sudoku.txt");
-        char[][] grid = new char[9][9];
+        if (lines.size() < 9) {
+            throw new RuntimeException("Invalid input (< 9 lines)");
+        }
+
+        char[][] grid = new char[9][];
 
         for (int i = 0; i < 9; i++) {
             grid[i] = lines.get(i).toCharArray();
@@ -69,25 +77,40 @@ public class Sudoku {
         }
 
         //validate each row
+        int rowCtr = 0;
         for (char[] row : grid) {
+            rowCtr++;
             if (row.length != 9) {
                 return false;
             }
 
             Set<Character> rowSet = new HashSet<>();
             for (char c : row) {
-                if (Helper.isDigit(c) && !rowSet.add(c)) {
+                if (c == '.'){
+                    continue;
+                }
+
+                if (!Helper.isDigit(c)) {
+                    System.err.printf("Found invalid char '%s' on row %s %n", c, rowCtr);
+                    return false;
+                }
+
+                if (!rowSet.add(c)) {
+                    System.err.printf("Found duplicate digit '%s' on row %s%n", c, rowCtr);
                     return false;
                 }
             }
         }
 
         //validate each column
+        int colCtr = 0;
         for (int col = 0; col < grid[0].length; col++) {
+            colCtr++;
             Set<Character> colSet = new HashSet<>();
             for (char[] row : grid) {
                 char c = row[col];
                 if (Helper.isDigit(c) && !colSet.add(c)) {
+                    System.err.printf("Found duplicate digit '%s' on col %s%n", c, colCtr);
                     return false;
                 }
             }
@@ -101,6 +124,7 @@ public class Sudoku {
                     for (int j = col; j < col + 3; j++) {
                         char c = grid[i][j];
                         if (Helper.isDigit(c) && !boxSet.add(c)) {
+                            System.err.printf("Found duplicate digit '%s' in box (%s,%s)%n", c, (row + 1), (col + 1));
                             return false;
                         }
                     }
@@ -183,41 +207,57 @@ public class Sudoku {
             return true;
         }
 
-        //if we get here, iterate through all unsolved cells, and for each one, all its possibilities, and recursively "solve".
-        // Clone the state first so you work off a copy (in case that recursion branch doesn't work out)
-        for (int row = 0; row < 9; row++) {
-            for (int col = 0; col < 9; col++) {
-                if (state.grid[row][col] != '.') {
-                    continue;
-                }
+        //if we get here, get first unsolved cell and get all its possibilities, and recursively "solve".
+        // Clone the state first, so you work off a copy (in case that recursion branch doesn't work out)
+        Coordinates coord = getFirstEmptyCell(state);
+        assert coord != null;
+        int row = coord.y();
+        int col = coord.x();
 
-                for (char p : state.possibilities[row][col]) {
-                    if (p == '.') {
-                        continue;
-                    }
+        List<Integer> possibilities = possibilitiesToList(state.possibilities[row][col]);
+        if (RANDOMIZE) {
+            Collections.shuffle(possibilities);
+        }
 
-                    State copy = state.deepCopy();
-                    copy.grid[row][col] = p;
-                    updatePossibilities(copy.grid, row, col, copy.possibilities);
-                    copy.solvedCellCount++;
+        for (int i : possibilities) {
+            char p = Character.forDigit(i, 10);
+            if (p == '.') {
+                continue;
+            }
 
-                    if (DEBUG) {
-                        System.out.printf("------ recursion count=%s, level=%s, trying %s for cell %s,%s ------------%n",
-                                State.instancesCtr, state.recursionLevel, p, row, col);
-                        GridUtils.printGrid(copy.grid, false);
-                    }
+            State copy = state.deepCopy();
+            copy.grid[row][col] = p;
+            updatePossibilities(copy.grid, row, col, copy.possibilities);
+            copy.solvedCellCount++;
 
-                    if (solve(copy)) {
-                        state.grid = copy.grid;
-                        state.possibilities = copy.possibilities;
-                        state.solvedCellCount = copy.solvedCellCount;
-                        return true;
-                    }
-                }
+            if (DEBUG_LEVEL >= 1 && state.recursionLevel <= MAX_RECURSION_DEBUG_LEVEL) {
+                System.out.printf("------ states count=%s, level=%s, trying %s for cell %s,%s ------------%n",
+                        State.instancesCtr, state.recursionLevel, p, row, col);
+            }
+            if (DEBUG_LEVEL >= 2) {
+                GridUtils.printGrid(copy.grid, false);
+            }
+
+            if (solve(copy)) {
+                state.grid = copy.grid;
+                state.possibilities = copy.possibilities;
+                state.solvedCellCount = copy.solvedCellCount;
+                return true;
             }
         }
 
         return false;
+    }
+
+    private static Coordinates getFirstEmptyCell(State state) {
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                if (state.grid[row][col] == '.') {
+                    return new Coordinates(col, row);
+                }
+            }
+        }
+        return null;
     }
 
     private boolean solveSingles(State state) {
@@ -246,7 +286,7 @@ public class Sudoku {
                     grid[row][col] = Character.forDigit(cellPossibilities.get(0), 10);
                     updatePossibilities(grid, row, col, possibilities);
                     state.solvedCellCount++;
-                    if (DEBUG) {
+                    if (DEBUG_LEVEL >= 2) {
                         System.out.printf("Solved cell {%s,%s} to %s, # solved = %s%n", row, col,
                                 cellPossibilities.get(0), state.solvedCellCount);
                     }
@@ -317,18 +357,7 @@ public class Sudoku {
                     }
 
                     //if it is, then remove the rest of the possibilities from this cell
-                    List<Integer> removals = possibilitiesToList(possibilitiesThisCell);
-                    removals.remove(Integer.valueOf(pVal));
-
-                    if (DEBUG) {
-                        System.out.printf("Rows: removing %s from (%s, %s)%n", removals, row, col);
-                    }
-
-                    for (int r : removals) {
-                        possibilities[row][col][r - 1] = '.';
-                    }
-
-                    if (solveSingles(state)) {
+                    if (removePossibilitiesAndAttemptSolveSingle(state, possibilitiesThisCell, pVal, row, col, possibilities)) {
                         return true;
                     }
                 }
@@ -374,18 +403,7 @@ public class Sudoku {
                     }
 
                     //if it is, then remove the rest of the possibilities from this cell
-                    List<Integer> removals = possibilitiesToList(possibilitiesThisCell);
-                    removals.remove(Integer.valueOf(pVal));
-
-                    if (DEBUG) {
-                        System.out.printf("Cols: removing %s from (%s, %s)%n", removals, row, col);
-                    }
-
-                    for (int r : removals) {
-                        possibilities[row][col][r - 1] = '.';
-                    }
-
-                    if (solveSingles(state)) {
+                    if (removePossibilitiesAndAttemptSolveSingle(state, possibilitiesThisCell, pVal, row, col, possibilities)) {
                         return true;
                     }
                 }
@@ -435,18 +453,7 @@ public class Sudoku {
                             }
 
                             //if it is, then remove the rest of the possibilities from this cell
-                            List<Integer> removals = possibilitiesToList(possibilitiesThisCell);
-                            removals.remove(Integer.valueOf(pVal));
-
-                            if (DEBUG) {
-                                System.out.printf("Boxes: removing %s from (%s, %s)%n", removals, row, col);
-                            }
-
-                            for (int r : removals) {
-                                possibilities[row][col][r - 1] = '.';
-                            }
-
-                            if (solveSingles(state)) {
+                            if (removePossibilitiesAndAttemptSolveSingle(state, possibilitiesThisCell, pVal, row, col, possibilities)) {
                                 return true;
                             }
                         }
@@ -455,5 +462,20 @@ public class Sudoku {
             }
         }
         return false;
+    }
+
+    private boolean removePossibilitiesAndAttemptSolveSingle(State state, char[] possibilitiesThisCell, int pVal, int row, int col, char[][][] possibilities) {
+        List<Integer> removals = possibilitiesToList(possibilitiesThisCell);
+        removals.remove(Integer.valueOf(pVal));
+
+        if (DEBUG_LEVEL >= 2) {
+            System.out.printf("Rows: removing %s from (%s, %s)%n", removals, row, col);
+        }
+
+        for (int r : removals) {
+            possibilities[row][col][r - 1] = '.';
+        }
+
+        return solveSingles(state);
     }
 }
