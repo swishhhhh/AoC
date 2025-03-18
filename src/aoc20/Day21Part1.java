@@ -69,7 +69,6 @@ public class Day21Part1 {
                  if list-of-possible-ingredients has only 1 ingredient
                      add to ingredientToAllergenMap
                      remove ingredient from all other lists-of-possible-ingredients (values in allergenToPossibleIngredientsMap)
-                     singleFound = true
             */
             String singleIngredient = allergenToPossibleIngredientsMap.entrySet().stream()
                     .filter(entry -> entry.getValue().size() == 1)
@@ -87,7 +86,7 @@ public class Day21Part1 {
 
             // Remove the found ingredient from all possible ingredients sets
             allergenToPossibleIngredientsMap.values()
-                    .forEach(set -> set.remove(singleIngredient));
+                    .forEach(possible -> possible.remove(singleIngredient));
         }
     }
 

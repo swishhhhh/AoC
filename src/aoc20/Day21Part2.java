@@ -85,7 +85,7 @@ public class Day21Part2 {
 
             // Remove the found ingredient from all possible ingredients sets
             allergenToPossibleIngredientsMap.values()
-                    .forEach(set -> set.remove(singleIngredient));
+                    .forEach(possible -> possible.remove(singleIngredient));
         }
     }
 
