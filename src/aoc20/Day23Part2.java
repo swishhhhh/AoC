@@ -8,35 +8,6 @@ import java.util.*;
  * <a href="https://adventofcode.com/2020/day/23">Advent of Code 2020 Day 23</a>
  */
 public class Day23Part2 {
-    private static class Cup {
-        int label;
-        Cup next;
-        Cup prev;
-
-        public Cup(int label) {
-            this.label = label;
-        }
-
-        @Override
-        public final boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof Cup cup)) return false;
-
-            return label == cup.label;
-        }
-
-        @Override
-        public int hashCode() {
-            return label;
-        }
-
-        @Override
-        public String toString() {
-            return "Cup{" +
-                    "label=" + label +
-                    '}';
-        }
-    }
 
     public static void main(String... args) throws Exception {
         List<String> lines = ResourceLoader.readStrings("aoc20/Day23_input.txt");
@@ -51,108 +22,69 @@ public class Day23Part2 {
     }
 
     private long execute(List<String> lines) {
-        Map<Integer, Cup> cups = loadCups(lines.get(0));
-        Cup currentCup = cups.values().stream().findFirst().orElse(null);
+        int[] cups = loadCups(lines.get(0));
+        /*
+          Each element in the cups array represents an edge between 2 cups. The source/left cup is represented by the
+          index, and the destination/right cup is represented by the value at that index.
+          For example, if cups[3] = 8 -> then cup 3 is pointing to cup 8.
+         */
+
+        //initialize to first cup
+        int currentCup = Character.getNumericValue(lines.get(0).charAt(0));
 
         for (int i = 1; i <= 10_000_000; i++) {
             currentCup = playRound(cups, currentCup);
         }
 
         //get the 2 cups immediately following the cup labeled 1 and return the product of their labels
-        Cup firstCup = cups.get(1).next;
-        Cup secondCup = firstCup.next;
-        return (long) firstCup.label * secondCup.label;
+        int firstCup = cups[1];
+        int secondCup = cups[firstCup];
+        return (long) firstCup * secondCup;
     }
 
-    private Map<Integer, Cup> loadCups(String input) {
-        Map<Integer, Cup> cups = new LinkedHashMap<>();
-        // Initialize first cup separately to avoid null checks in loop
-        int firstLabel = Character.getNumericValue(input.charAt(0));
-        Cup firstCup = new Cup(firstLabel);
-        cups.put(firstLabel, firstCup);
-        Cup previousCup = firstCup;
+    private int[] loadCups(String input) {
+        int[] cups = new int[1_000_001];
 
+        int firstCup = Character.getNumericValue(input.charAt(0));
+
+        int source, target = 0;
         // Process initial input string
-        for (int i = 1; i < input.length(); i++) {
-            int label = Character.getNumericValue(input.charAt(i));
-            Cup newCup = new Cup(label);
-            previousCup.next = newCup;
-            newCup.prev = previousCup;
-            cups.put(label, newCup);
-            previousCup = newCup;
+        for (int i = 0; i < input.length() - 1; i++) {
+            source = Character.getNumericValue(input.charAt(i));
+            target = Character.getNumericValue(input.charAt(i + 1));
+            cups[source] = target;
         }
 
-        for (int i = input.length() + 1; i <= 1_000_000; i++) {
-            Cup newCup = new Cup(i);
-            previousCup.next = newCup;
-            newCup.prev = previousCup;
-            cups.put(newCup.label, newCup);
-            previousCup = newCup;
+        //link last cup of initial input to first cup of the rest of the input
+        cups[target] = input.length() + 1;
+
+        //rest of the cups...
+        int endValue = 1_000_000;
+        for (int i = input.length() + 1; i < endValue; i++) {
+            cups[i] = i + 1;
         }
 
         //link last cup back around to first cup to complete the circle
-        previousCup.next = firstCup;
-        firstCup.prev = previousCup;
+        cups[endValue] = firstCup;
 
         return cups;
     }
 
-    private Cup playRound(Map<Integer, Cup> cups, Cup currentCup) {
-        //pick up the three cups that are immediately clockwise of the current cup
-        List<Cup> selected3 = selectNext3Cups(currentCup);
+    private int playRound(int[] cups, int currentCup) {
+        int cupA = cups[currentCup];
+        int cupB = cups[cupA];
+        int cupC = cups[cupB];
 
-        //remove the 3 selected cups from the main list
-        for (Cup cup : selected3) {
-            removeCup(cup, cups);
-        }
+        int destinationCup = currentCup;
+        do {
+            destinationCup = (destinationCup > 1) ? destinationCup - 1 : 1_000_000;
+        } while (destinationCup == cupA || destinationCup == cupB || destinationCup == cupC);
 
-        //place the selected 3 cups immediately after the destination cup. Keep the same order they were picked up in.
-        Cup destinationCup = getDestinationCup(cups, currentCup);
-        for (Cup cup : selected3) {
-            cup.prev = destinationCup;
-            cup.next = destinationCup.next;
-            destinationCup.next.prev = cup;
-            destinationCup.next = cup;
-            cups.put(cup.label, cup);
-            destinationCup = cup;
-        }
+        // Rearrange cups with minimal operations
+        cups[currentCup] = cups[cupC];     //connect current cup to the one after C
+        cups[cupC] = cups[destinationCup]; //connect cup C to what was after the destination cup
+        cups[destinationCup] = cupA;       //connect the destination cup to cup A
 
-        //select a new current cup: the cup which is immediately after the current cup.
-        return currentCup.next;
-    }
-
-    private void removeCup(Cup cup, Map<Integer, Cup> cups) {
-        cup.prev.next = cup.next;
-        cup.next.prev = cup.prev;
-        cup.next = null;
-        cup.prev = null;
-        cups.remove(cup.label);
-    }
-
-    private List<Cup> selectNext3Cups(Cup currentCup) {
-        List<Cup> selected = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            currentCup = currentCup.next;
-            selected.add(currentCup);
-        }
-
-        return selected;
-    }
-
-    private static Cup getDestinationCup(Map<Integer, Cup> cups, Cup currentCup) {
-        /*
-           Select a destination cup: the cup with a label equal to the current cup's label minus one.
-            If this results in a number/label that isn't present in the cups maps, keep subtracting 1 until you find a
-            label that is present in the map. If at any point in this process the value goes below 1, wrap around to
-            the highest number/label (1_000_000).
-         */
-        int destinationCupLabel = currentCup.label - 1;
-        while (!cups.containsKey(destinationCupLabel)) {
-            destinationCupLabel--;
-            if (destinationCupLabel < 1) {
-                destinationCupLabel = 1_000_000;
-            }
-        }
-        return cups.get(destinationCupLabel);
+        return cups[currentCup]; //next cup
     }
 }
