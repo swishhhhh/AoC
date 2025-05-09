@@ -9,6 +9,7 @@ import java.util.*;
  */
 public class Day23Part2 {
     private static final int NUMBER_OF_CUPS = 1_000_000;
+    private static final int ROUNDS = 10 * NUMBER_OF_CUPS;
 
     public static void main(String... args) throws Exception {
         List<String> lines = ResourceLoader.readStrings("aoc20/Day23_input.txt");
@@ -33,7 +34,7 @@ public class Day23Part2 {
         //initialize to first cup
         int currentCup = Character.getNumericValue(lines.get(0).charAt(0));
 
-        for (int i = 1; i <= 10 * NUMBER_OF_CUPS; i++) {
+        for (int i = 1; i <= ROUNDS; i++) {
             currentCup = playRound(cups, currentCup);
         }
 
@@ -80,7 +81,7 @@ public class Day23Part2 {
             destinationCup = (destinationCup > 1) ? destinationCup - 1 : NUMBER_OF_CUPS;
         } while (destinationCup == cupA || destinationCup == cupB || destinationCup == cupC);
 
-        // Rearrange cups with minimal operations
+        //rearrange the cups by moving a->b->c from after current cup to after destination cup
         cups[currentCup] = cups[cupC];     //connect current cup to the one after C
         cups[cupC] = cups[destinationCup]; //connect cup C to what was after the destination cup
         cups[destinationCup] = cupA;       //connect the destination cup to cup A
