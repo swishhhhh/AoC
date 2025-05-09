@@ -8,6 +8,7 @@ import java.util.*;
  * <a href="https://adventofcode.com/2020/day/23">Advent of Code 2020 Day 23</a>
  */
 public class Day23Part2 {
+    private static final int NUMBER_OF_CUPS = 1_000_000;
 
     public static void main(String... args) throws Exception {
         List<String> lines = ResourceLoader.readStrings("aoc20/Day23_input.txt");
@@ -32,7 +33,7 @@ public class Day23Part2 {
         //initialize to first cup
         int currentCup = Character.getNumericValue(lines.get(0).charAt(0));
 
-        for (int i = 1; i <= 10_000_000; i++) {
+        for (int i = 1; i <= 10 * NUMBER_OF_CUPS; i++) {
             currentCup = playRound(cups, currentCup);
         }
 
@@ -43,7 +44,7 @@ public class Day23Part2 {
     }
 
     private int[] loadCups(String input) {
-        int[] cups = new int[1_000_001];
+        int[] cups = new int[NUMBER_OF_CUPS + 1];
 
         int firstCup = Character.getNumericValue(input.charAt(0));
 
@@ -59,13 +60,12 @@ public class Day23Part2 {
         cups[target] = input.length() + 1;
 
         //rest of the cups...
-        int endValue = 1_000_000;
-        for (int i = input.length() + 1; i < endValue; i++) {
+        for (int i = input.length() + 1; i < NUMBER_OF_CUPS; i++) {
             cups[i] = i + 1;
         }
 
         //link last cup back around to first cup to complete the circle
-        cups[endValue] = firstCup;
+        cups[NUMBER_OF_CUPS] = firstCup;
 
         return cups;
     }
@@ -77,7 +77,7 @@ public class Day23Part2 {
 
         int destinationCup = currentCup;
         do {
-            destinationCup = (destinationCup > 1) ? destinationCup - 1 : 1_000_000;
+            destinationCup = (destinationCup > 1) ? destinationCup - 1 : NUMBER_OF_CUPS;
         } while (destinationCup == cupA || destinationCup == cupB || destinationCup == cupC);
 
         // Rearrange cups with minimal operations
